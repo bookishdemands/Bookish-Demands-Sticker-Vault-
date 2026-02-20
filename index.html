@@ -229,6 +229,12 @@
       line-height:1.5;
     }
     .footerNote b{color: var(--text)}
+    .multiHint{
+      color: var(--muted);
+      font-size: 11.5px;
+      margin-top: 6px;
+      line-height: 1.35;
+    }
   </style>
 </head>
 
@@ -238,14 +244,14 @@
       <div class="title">
         <h1>Urban Fiction Sticker Prompt Generator</h1>
         <div class="subtitle">
-          Pick your vibe, icon, accents, palette, and quote — then generate a consistent, sticker-ready prompt
-          (thick outline, warm luxe colors, clean clipart finish). No drawing required. 🖤🏙💋
+          Pick your vibe, icon, accents, palette, quote — and now also choose <b>product-style stickers</b> (medical, candy, energy, seasonings, hot sauce, honey).
+          Generates Ideogram-ready prompts with <b>clear legible typography</b>. 🖤🏙💋
         </div>
       </div>
       <div class="badgeRow">
         <div class="badge"><b>Outputs:</b> Prompt + Negative + Export Notes</div>
         <div class="badge"><b>Format:</b> One-file webpage</div>
-        <div class="badge"><b>Use:</b> ImageFX / Designer / MJ / etc.</div>
+        <div class="badge"><b>Use:</b> Ideogram (optimized)</div>
       </div>
     </header>
 
@@ -254,9 +260,38 @@
       <section class="card">
         <div class="cardHead">
           <h2>Inputs</h2>
-          <span class="mini" id="seedLabel">House Style: Locked ✅</span>
+          <span class="mini" id="seedLabel">Ideogram Text Rules: Locked ✅</span>
         </div>
         <div class="cardBody">
+
+          <!-- NEW: Genre + Prompt Count -->
+          <div class="row">
+            <div>
+              <label for="genre">Genre / Tone</label>
+              <select id="genre">
+                <option value="urban_fiction">🔥 Urban Fiction</option>
+                <option value="dark_romance">🖤 Dark Romance</option>
+                <option value="black_paranormal">🌑 Black Paranormal</option>
+                <option value="black_romance">👑 Black Romance</option>
+                <option value="thriller">🔪 Thriller</option>
+                <option value="fantasy">🐉 Fantasy</option>
+                <option value="after_dark">🌶🌶🌶🌶 After Dark (implied)</option>
+                <option value="uncensored">🌶🌶🌶🌶🌶 Uncensored (implied)</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="count">Generate How Many (1–5)</label>
+              <select id="count">
+                <option>1</option>
+                <option>2</option>
+                <option selected>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+          </div>
+
           <div class="row">
             <div>
               <label for="vibe">Vibe</label>
@@ -279,9 +314,30 @@
             </div>
           </div>
 
+          <!-- NEW: Product Types (mix/match) -->
           <div class="row">
             <div>
-              <label for="object">Main Object</label>
+              <label for="products">Product Types (mix & match)</label>
+              <select id="products" multiple size="8">
+                <option value="iv_bag">IV Bag</option>
+                <option value="pill_bottle">Pill Bottle</option>
+                <option value="prescription_pad">Prescription Pad</option>
+                <option value="heart_monitor">Heart Monitor</option>
+                <option value="toe_tag">Toe Tag</option>
+
+                <option value="juice_bottle">Juice Bottle</option>
+                <option value="energy_can">Energy Drink Can</option>
+                <option value="candy_wrapper">Candy Wrapper</option>
+
+                <option value="seasoning_bottle">Seasoning Bottle</option>
+                <option value="hot_sauce">Hot Sauce Bottle</option>
+                <option value="honey_jar">Honey Jar</option>
+              </select>
+              <div class="multiHint">Tip: Hold Ctrl (Windows) / Cmd (Mac) to pick multiple. Leave empty to use the Icon Object list below.</div>
+            </div>
+
+            <div>
+              <label for="object">Main Object (Icon mode)</label>
               <select id="object">
                 <option>stack of books with a gold heart charm</option>
                 <option>Kindle e-reader with sparkles</option>
@@ -300,7 +356,9 @@
                 <option>open book with subtle flames</option>
               </select>
             </div>
+          </div>
 
+          <div class="row">
             <div>
               <label for="accents">Accent Set</label>
               <select id="accents">
@@ -311,9 +369,7 @@
                 <option>gold shine accents + glitter dots</option>
               </select>
             </div>
-          </div>
 
-          <div class="row">
             <div>
               <label for="palette">Palette</label>
               <select id="palette">
@@ -321,6 +377,17 @@
                 <option>Burgundy + Chocolate + Gold</option>
                 <option>Blush + Cocoa + Cream</option>
                 <option>Midnight + Neon + Gold</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- NEW: Outline toggle + Typography toggle -->
+          <div class="row">
+            <div>
+              <label for="outline">Sticker Outline</label>
+              <select id="outline">
+                <option>Thick black outline (recommended)</option>
+                <option>No outline</option>
               </select>
             </div>
 
@@ -335,24 +402,30 @@
 
           <div class="quoteBox">
             <div>
-              <label for="quote">Quote (optional if random is ON)</label>
-              <input id="quote" type="text" placeholder='Example: "He Don’t Play About Me."' maxlength="120" />
+              <label for="quote">Label/Quote Text (optional if random is ON)</label>
+              <input id="quote" type="text" placeholder='Example: "Obsession Infusion" or "He Don’t Play About Me."' maxlength="120" />
             </div>
 
             <label class="toggle">
               <input id="useRandom" type="checkbox" checked />
-              Use random quote (spicy vibe, not explicit)
+              Use random text (mature vibe, not explicit)
+            </label>
+
+            <label class="toggle">
+              <input id="enhancedType" type="checkbox" checked />
+              Enhanced Typography Mode (Ideogram-safe)
             </label>
           </div>
 
           <div class="buttons">
-            <button id="generateBtn">Generate Prompt</button>
+            <button id="generateBtn">Generate Prompt(s)</button>
             <button class="secondary" id="copyBtn">Copy Prompt</button>
             <button class="ghost" id="randomBtn">Randomize All</button>
+            <button class="ghost" id="clearBtn">Clear</button>
           </div>
 
           <div class="hint">
-            Tip: Start with <b>Icon + Quote</b> for Etsy sticker packs. Use <b>Icon Only</b> for clipart bundles.
+            Tip: Select product types for <b>packaging-style stickers</b> (labels + subtitles). Leave product types blank to use your <b>Icon + Quote</b> workflow.
           </div>
         </div>
       </section>
@@ -441,11 +514,114 @@
       "I’m The Prize, Period."
     ];
 
-    // ---- Fixed "house style" lock ----
-    function houseStyle(borderChoice){
+    // ---- Ideogram Typography Standard (your requirement) ----
+    function typographyBlock(enhanced){
+      return enhanced
+        ? "centered composition, bold high-contrast text, clear legible typography, perfectly spelled words, no distorted letters, no warped text"
+        : "centered composition, bold high-contrast text, clear legible typography, no distorted letters";
+    }
+
+    // ---- Product Templates (all the stuff you asked across the chat) ----
+    const PRODUCT_TEMPLATES = {
+      iv_bag: {
+        subject: "a medical IV drip bag",
+        extras: "subtle glossy shine highlights, modern bold typography, clean flat shading"
+      },
+      pill_bottle: {
+        subject: "a prescription pill bottle",
+        extras: "glossy highlight on plastic, clean label panel, subtle barcode detail, minimal flat shading"
+      },
+      prescription_pad: {
+        subject: "a prescription pad sheet",
+        extras: "paper texture detail, clean header area, subtle barcode detail, crisp vector lines"
+      },
+      heart_monitor: {
+        subject: "a heart monitor screen",
+        extras: "ECG line detail, subtle screen glow, clean display layout, minimal flat shading"
+      },
+      toe_tag: {
+        subject: "a toe tag",
+        extras: "barcode detail, clean tag hole, minimal flat shading, bold centered typography"
+      },
+      juice_bottle: {
+        subject: "a plastic juice bottle with bold rectangular label panel",
+        extras: "glossy plastic bottle highlights, clean commercial label layout, crisp edges"
+      },
+      energy_can: {
+        subject: "a tall slim aluminum energy drink can",
+        extras: "metallic can texture effect, glossy highlights, bold label panel, crisp edges"
+      },
+      candy_wrapper: {
+        subject: "a rectangular hard candy wrapper with twisted ends",
+        extras: "cellophane wrapper shine effect, bold flavor panel, clean commercial candy layout"
+      },
+      seasoning_bottle: {
+        subject: "a premium spice seasoning bottle",
+        extras: "glossy plastic lid detail, bold flavor label, clean gourmet packaging aesthetic"
+      },
+      hot_sauce: {
+        subject: "a glass hot sauce bottle with visible sauce inside",
+        extras: "glossy glass highlights, bold rectangular label, clean gourmet packaging layout"
+      },
+      honey_jar: {
+        subject: "a clear glass honey jar with gold lid and dripping honey detail",
+        extras: "glossy glass highlights, warm golden honey color, clean artisan label layout"
+      }
+    };
+
+    const GENRE_DEFAULTS = {
+      urban_fiction: [
+        ["Ride or Die Heat", "Flavor: Loyalty & Chaos"],
+        ["Street Romance Supply", "Rated R for Real"],
+        ["Hood Honey", "Sweet but Not Safe"]
+      ],
+      dark_romance: [
+        ["Obsession Infusion", "Side Effects: Possessive Behavior"],
+        ["Villain Era Blend", "No Redemption Arc"],
+        ["Fatal Attraction", "Highly Addictive"]
+      ],
+      black_paranormal: [
+        ["Shadow King Serum", "Immortal Bond Activated"],
+        ["Ancestral Power", "Bloodline Magic Inside"],
+        ["Marked", "Cursed & Claimed"]
+      ],
+      black_romance: [
+        ["Soft Life Transfusion", "Luxury Love Only"],
+        ["Golden Hour Glow", "Affection Guaranteed"],
+        ["Fine & Faithful", "Love, But Premium"]
+      ],
+      thriller: [
+        ["Plot Twist Drip", "Warning: Unstable Ending"],
+        ["Adrenaline Dose", "Do Not Read Alone"],
+        ["Unstable", "Expect the Unexpected"]
+      ],
+      fantasy: [
+        ["Dragon Bond Elixir", "Fire-Bound Forever"],
+        ["Blood Oath Blend", "Soulbound Contract"],
+        ["Enchanted", "Fate Activated"]
+      ],
+      after_dark: [
+        ["After Dark", "After Midnight Only"],
+        ["Private Suite", "Do Not Disturb"],
+        ["Restricted Access", "Mature Readers Only"]
+      ],
+      uncensored: [
+        ["Unfiltered", "Adults Only"],
+        ["High Risk", "Handle With Care"],
+        ["Marked", "No Turning Back"]
+      ]
+    };
+
+    // ---- Fixed "house style" lock (now includes outline toggle + ideogram typography) ----
+    function houseStyle(borderChoice, outlineChoice, enhancedType){
       const border = (borderChoice.startsWith("White")) ? "add a clean white sticker border/offset outline" : "no border";
+      const outline = (outlineChoice.startsWith("Thick"))
+        ? "thick bold black outline"
+        : "no outline";
+
       return [
-        "thick bold black outline",
+        outline,
+        typographyBlock(enhancedType),
         "clean doodle clipart illustration",
         "rounded cute shapes",
         "minimal flat shading",
@@ -474,30 +650,87 @@
 
     function getRandom(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
 
-    function buildPrompt(){
+    function getSelectedValues(selectEl){
+      return Array.from(selectEl.selectedOptions).map(o => o.value);
+    }
+
+    // ---- Build ONE prompt (Icon flow OR Product/Packaging flow) ----
+    function buildSinglePrompt({ genre, vibe, type, object, accents, palette, border, outline, useRandom, enhancedType, selectedProducts, index }){
+      const locked = houseStyle(border, outline, enhancedType);
+
+      // choose label/quote text
+      let text = document.getElementById("quote").value.trim();
+      if(useRandom || !text){
+        // if product types selected, prefer genre defaults (label+subtitle); else use quotes
+        if(selectedProducts.length){
+          const pick = getRandom(GENRE_DEFAULTS[genre] || GENRE_DEFAULTS.urban_fiction);
+          return buildPackagingPrompt({
+            locked,
+            palette,
+            accents,
+            productKey: selectedProducts[index % selectedProducts.length],
+            title: pick[0],
+            subtitle: pick[1]
+          });
+        } else {
+          text = getRandom(QUOTES);
+        }
+      }
+
+      // If product types selected AND user typed custom text:
+      // Use that as MAIN TITLE and generate a genre subtitle automatically.
+      if(selectedProducts.length){
+        const pick = getRandom(GENRE_DEFAULTS[genre] || GENRE_DEFAULTS.urban_fiction);
+        return buildPackagingPrompt({
+          locked,
+          palette,
+          accents,
+          productKey: selectedProducts[index % selectedProducts.length],
+          title: text,
+          subtitle: pick[1]
+        });
+      }
+
+      // Otherwise: original icon workflow (with improved typography baked in via locked)
+      if(type === "Icon + Quote"){
+        return `Urban fiction inspired sticker design (${vibe}), ${locked}, rich warm palette: ${paletteText(palette)}, main icon: ${object}, add accents: ${accents}, add caption text: “${text}” in bold modern typography, commercial clipart style, no realism, no brand logos, no watermark.`;
+      } else if(type === "Icon Only"){
+        return `Urban fiction inspired sticker icon (${vibe}), ${locked}, rich warm palette: ${paletteText(palette)}, main icon: ${object}, add accents: ${accents}, commercial clipart style, no text, no realism, no brand logos, no watermark.`;
+      } else {
+        return `Urban fiction quote sticker (${vibe}), ${locked}, rich warm palette: ${paletteText(palette)}, caption text only: “${text}” in bold modern typography, add small accent marks: ${accents}, commercial clipart style, no realism, no brand logos, no watermark.`;
+      }
+    }
+
+    function buildPackagingPrompt({ locked, palette, accents, productKey, title, subtitle }){
+      const t = PRODUCT_TEMPLATES[productKey];
+      // Packaging-style prompts are purpose-built for Ideogram stickers:
+      return `Cute flat vector clipart sticker illustration of ${t.subject} labeled “${title}” subtitle “${subtitle}”, ${locked}, rich warm palette: ${paletteText(palette)}, add accents: ${accents}, ${t.extras}, clean commercial packaging aesthetic, crisp vector clarity, no realism, no brand logos, no watermark.`;
+    }
+
+    // ---- Build prompt(s) output (1–5) ----
+    function buildPromptBundle(){
+      const genre = document.getElementById("genre").value;
       const vibe = document.getElementById("vibe").value;
       const type = document.getElementById("type").value;
       const object = document.getElementById("object").value;
       const accents = document.getElementById("accents").value;
       const palette = document.getElementById("palette").value;
       const border = document.getElementById("border").value;
+      const outline = document.getElementById("outline").value;
+
       const useRandom = document.getElementById("useRandom").checked;
+      const enhancedType = document.getElementById("enhancedType").checked;
 
-      let quote = document.getElementById("quote").value.trim();
-      if(useRandom || !quote){
-        quote = getRandom(QUOTES);
-      }
+      const count = parseInt(document.getElementById("count").value, 10);
+      const selectedProducts = getSelectedValues(document.getElementById("products"));
 
-      const locked = houseStyle(border);
-
-      // Type-specific templates
-      let body = "";
-      if(type === "Icon + Quote"){
-        body = `Urban fiction inspired sticker design (${vibe}), ${locked}, rich warm palette: ${paletteText(palette)}, main icon: ${object}, add accents: ${accents}, add caption text: “${quote}” in bold modern hand-lettered typography, commercial clipart style, no realism, no brand logos, no watermark.`;
-      } else if(type === "Icon Only"){
-        body = `Urban fiction inspired sticker icon (${vibe}), ${locked}, rich warm palette: ${paletteText(palette)}, main icon: ${object}, add accents: ${accents}, commercial clipart style, no text, no realism, no brand logos, no watermark.`;
-      } else {
-        body = `Urban fiction quote sticker (${vibe}), ${locked}, rich warm palette: ${paletteText(palette)}, caption text only: “${quote}” in bold hand-lettered typography, add small accent marks: ${accents}, commercial clipart style, no realism, no brand logos, no watermark.`;
+      const prompts = [];
+      for(let i=0; i<count; i++){
+        const p = buildSinglePrompt({
+          genre, vibe, type, object, accents, palette, border, outline,
+          useRandom, enhancedType, selectedProducts, index: i
+        });
+        prompts.push(`Prompt ${i+1}:\n${p}`);
       }
 
       const negative =
@@ -509,6 +742,10 @@
 - Background: Transparent
 - Size: 2000–3000px (crisp for stickers)
 
+Ideogram text tip:
+- If letters distort, re-run once.
+- Keep titles short (2–4 words) for best clarity.
+
 If the output has a background:
 1) Remove background (remove.bg / Canva BG remover)
 2) Add white sticker outline (Canva: Edit Image → Shadows → Glow; set color white, blur 0, size up)
@@ -516,7 +753,7 @@ If the output has a background:
 Packaging tip:
 - Sell 40–60 PNGs per pack + include a preview sheet + 1–2 mockups.`;
 
-      return { body, negative, notes };
+      return { body: prompts.join("\n\n"), negative, notes };
     }
 
     function showToast(msg){
@@ -532,7 +769,7 @@ Packaging tip:
     }
 
     function generate(){
-      const { body, negative, notes } = buildPrompt();
+      const { body, negative, notes } = buildPromptBundle();
       document.getElementById("promptOut").value = body;
       document.getElementById("negOut").value = negative;
       document.getElementById("notesOut").value = notes;
@@ -550,7 +787,6 @@ Packaging tip:
         await navigator.clipboard.writeText(prompt);
         showToast("Prompt copied");
       } catch(e){
-        // fallback
         const ta = document.getElementById("promptOut");
         ta.focus(); ta.select();
         document.execCommand("copy");
@@ -559,30 +795,74 @@ Packaging tip:
     }
 
     function randomizeAll(){
+      const genre = document.getElementById("genre");
       const vibe = document.getElementById("vibe");
       const type = document.getElementById("type");
       const object = document.getElementById("object");
       const accents = document.getElementById("accents");
       const palette = document.getElementById("palette");
       const border = document.getElementById("border");
+      const outline = document.getElementById("outline");
       const useRandom = document.getElementById("useRandom");
+      const enhancedType = document.getElementById("enhancedType");
 
+      genre.selectedIndex = Math.floor(Math.random() * genre.options.length);
       vibe.selectedIndex = Math.floor(Math.random() * vibe.options.length);
       type.selectedIndex = Math.floor(Math.random() * type.options.length);
       object.selectedIndex = Math.floor(Math.random() * object.options.length);
       accents.selectedIndex = Math.floor(Math.random() * accents.options.length);
       palette.selectedIndex = Math.floor(Math.random() * palette.options.length);
-      border.selectedIndex = 0; // default to white border for best sticker results
+      border.selectedIndex = 0; // white border default
+      outline.selectedIndex = 0; // thick outline default
       useRandom.checked = true;
+      enhancedType.checked = true;
       document.getElementById("quote").value = "";
+
+      // Randomly select 0–3 product types sometimes
+      const products = document.getElementById("products");
+      Array.from(products.options).forEach(o => o.selected = false);
+      const pickCount = Math.floor(Math.random() * 4); // 0-3
+      for(let i=0; i<pickCount; i++){
+        const opt = products.options[Math.floor(Math.random() * products.options.length)];
+        opt.selected = true;
+      }
 
       generate();
       showToast("Randomized");
     }
 
+    function clearAll(){
+      // reset selects/inputs to friendly defaults
+      document.getElementById("genre").value = "urban_fiction";
+      document.getElementById("count").value = "3";
+      document.getElementById("vibe").selectedIndex = 0;
+      document.getElementById("type").selectedIndex = 0;
+      document.getElementById("object").selectedIndex = 0;
+      document.getElementById("accents").selectedIndex = 0;
+      document.getElementById("palette").selectedIndex = 0;
+      document.getElementById("border").selectedIndex = 0;
+      document.getElementById("outline").selectedIndex = 0;
+
+      document.getElementById("useRandom").checked = true;
+      document.getElementById("enhancedType").checked = true;
+      document.getElementById("quote").value = "";
+
+      // clear product multiselect
+      const products = document.getElementById("products");
+      Array.from(products.options).forEach(o => o.selected = false);
+
+      // clear outputs
+      document.getElementById("promptOut").value = "";
+      document.getElementById("negOut").value = "";
+      document.getElementById("notesOut").value = "";
+      setStatus("Ready");
+      showToast("Cleared");
+    }
+
     document.getElementById("generateBtn").addEventListener("click", generate);
     document.getElementById("copyBtn").addEventListener("click", copyPrompt);
     document.getElementById("randomBtn").addEventListener("click", randomizeAll);
+    document.getElementById("clearBtn").addEventListener("click", clearAll);
 
     // Auto-generate on load for instant usefulness
     window.addEventListener("load", generate);
