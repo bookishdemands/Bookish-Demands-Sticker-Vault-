@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Urban Fiction Sticker Prompt Generator</title>
+  <style>
+    :root{
+      --bg:#0f0f14;
+      --card:#171723;
+      --muted:#a9a9b7;
+      --text:#f3f3f7;
+      --accent:#ff4fa3;
+      --accent2:#20e3b2;
+      --line:#2a2a3a;
+      --chip:#222235;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(255,79,163,.18), transparent 55%),
+        radial-gradient(900px 500px at 90% 10%, rgba(32,227,178,.14), transparent 55%),
+        radial-gradient(900px 500px at 40% 110%, rgba(255,205,115,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit}
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 26px 16px 60px;
+    }
+    header{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(22px, 3.2vw, 34px);
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      color: var(--muted);
+      line-height:1.35;
+      max-width: 66ch;
+    }
+    .badgeRow{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .badge{
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .badge b{color:var(--text); font-weight:600}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+    @media (max-width: 920px){
+      .grid{grid-template-columns: 1fr}
+      .badgeRow{justify-content:flex-start}
+    }
+    .card{
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardHead{
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .cardHead h2{
+      margin:0;
+      font-size: 14px;
+      letter-spacing:.6px;
+      text-transform: uppercase;
+      color: rgba(243,243,247,.9);
+    }
+    .cardBody{padding: 14px 16px 16px}
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 520px){
+      .row{grid-template-columns: 1fr}
+    }
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    select, input[type="text"], textarea{
+      width:100%;
+      padding: 10px 11px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.25);
+      color: var(--text);
+      outline:none;
+    }
+    textarea{
+      min-height: 122px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.35;
+      resize: vertical;
+    }
+    .quoteBox{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .toggle{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 11px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      user-select:none;
+    }
+    .toggle input{width:18px; height:18px}
+    .buttons{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      margin-top: 8px;
+    }
+    button{
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 14px;
+      font-weight: 650;
+      letter-spacing:.15px;
+      cursor:pointer;
+      color: #0f0f14;
+      background: linear-gradient(135deg, var(--accent), #ffcc73);
+      box-shadow: 0 10px 25px rgba(255,79,163,.18);
+    }
+    button.secondary{
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow:none;
+    }
+    button.ghost{
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow:none;
+    }
+    button:active{transform: translateY(1px)}
+    .hint{
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 10px;
+      line-height:1.4;
+    }
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(20,20,30,.92);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity .18s ease;
+      box-shadow: var(--shadow);
+      max-width: calc(100vw - 24px);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+    .toast.show{opacity: 1}
+    .mini{
+      font-family: var(--mono);
+      font-size: 11.5px;
+      color: rgba(243,243,247,.85);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+    .footerNote{
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height:1.5;
+    }
+    .footerNote b{color: var(--text)}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Urban Fiction Sticker Prompt Generator</h1>
+        <div class="subtitle">
+          Pick your vibe, icon, accents, palette, and quote — then generate a consistent, sticker-ready prompt
+          (thick outline, warm luxe colors, clean clipart finish). No drawing required. 🖤🏙💋
+        </div>
+      </div>
+      <div class="badgeRow">
+        <div class="badge"><b>Outputs:</b> Prompt + Negative + Export Notes</div>
+        <div class="badge"><b>Format:</b> One-file webpage</div>
+        <div class="badge"><b>Use:</b> ImageFX / Designer / MJ / etc.</div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Controls -->
+      <section class="card">
+        <div class="cardHead">
+          <h2>Inputs</h2>
+          <span class="mini" id="seedLabel">House Style: Locked ✅</span>
+        </div>
+        <div class="cardBody">
+          <div class="row">
+            <div>
+              <label for="vibe">Vibe</label>
+              <select id="vibe">
+                <option>Street Luxe</option>
+                <option>Ride-or-Die Romance</option>
+                <option>Spicy Reader</option>
+                <option>Hustle & Heart</option>
+                <option>Midnight City Love</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="type">Sticker Type</label>
+              <select id="type">
+                <option>Icon + Quote</option>
+                <option>Icon Only</option>
+                <option>Quote Only</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="object">Main Object</label>
+              <select id="object">
+                <option>stack of books with a gold heart charm</option>
+                <option>Kindle e-reader with sparkles</option>
+                <option>glossy lips with a tiny crown</option>
+                <option>fresh sneakers with shine highlights</option>
+                <option>city skyline silhouette with a heart</option>
+                <option>gold chain shaped like a heart</option>
+                <option>rose wrapped in barbed-wire ribbon</option>
+                <option>coffee cup with “late night reads” vibe</option>
+                <option>manicure nails + ring sparkle icon</option>
+                <option>queen crown with diamond shine</option>
+                <option>money stack tied with a satin bow</option>
+                <option>perfume bottle with glam aura</option>
+                <option>hand holding car keys with sparkle</option>
+                <option>hoodie + crown emblem</option>
+                <option>open book with subtle flames</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="accents">Accent Set</label>
+              <select id="accents">
+                <option>tiny sparkles + dots</option>
+                <option>soft neon glow accents</option>
+                <option>small hearts + shine highlights</option>
+                <option>light smoke wisps + sparkles</option>
+                <option>gold shine accents + glitter dots</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="palette">Palette</label>
+              <select id="palette">
+                <option>Caramel + Gold + Black</option>
+                <option>Burgundy + Chocolate + Gold</option>
+                <option>Blush + Cocoa + Cream</option>
+                <option>Midnight + Neon + Gold</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="border">Sticker Border</label>
+              <select id="border">
+                <option>White border (recommended)</option>
+                <option>No border</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="quoteBox">
+            <div>
+              <label for="quote">Quote (optional if random is ON)</label>
+              <input id="quote" type="text" placeholder='Example: "He Don’t Play About Me."' maxlength="120" />
+            </div>
+
+            <label class="toggle">
+              <input id="useRandom" type="checkbox" checked />
+              Use random quote (spicy vibe, not explicit)
+            </label>
+          </div>
+
+          <div class="buttons">
+            <button id="generateBtn">Generate Prompt</button>
+            <button class="secondary" id="copyBtn">Copy Prompt</button>
+            <button class="ghost" id="randomBtn">Randomize All</button>
+          </div>
+
+          <div class="hint">
+            Tip: Start with <b>Icon + Quote</b> for Etsy sticker packs. Use <b>Icon Only</b> for clipart bundles.
+          </div>
+        </div>
+      </section>
+
+      <!-- Outputs -->
+      <section class="card">
+        <div class="cardHead">
+          <h2>Outputs</h2>
+          <span class="mini" id="statusPill">Ready</span>
+        </div>
+        <div class="cardBody">
+          <div style="margin-bottom:12px;">
+            <label for="promptOut">Prompt</label>
+            <textarea id="promptOut" readonly></textarea>
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <label for="negOut">Negative Prompt</label>
+            <textarea id="negOut" readonly></textarea>
+          </div>
+
+          <div>
+            <label for="notesOut">Export Notes</label>
+            <textarea id="notesOut" readonly></textarea>
+          </div>
+
+          <div class="footerNote">
+            <b>Commercial safety:</b> keep it original — avoid brand names, real book titles, celebrity likeness, and copyrighted characters.
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script>
+    // ---- Quote bank: Urban-fiction-safe (mature vibe, not explicit) ----
+    const QUOTES = [
+      "He Don’t Play About Me.",
+      "Soft For You. Savage For Them.",
+      "Love Me Loud.",
+      "I Like My Love A Little Dangerous.",
+      "Chosen, Not Chased.",
+      "Pressure Makes Diamonds.",
+      "Hood Love. Real Love.",
+      "Built Different. Loved Hard.",
+      "Say Less. Love More.",
+      "Keep It Cute, Or Keep It Moving.",
+      "Main Character, No Apologies.",
+      "He’s Trouble & I Like It.",
+      "Certified Heart Snatcher.",
+      "Loyalty Looks Good On Me.",
+      "I’m The Plot Twist.",
+      "We Outside… But Make It Luxury.",
+      "Don’t Test My Peace.",
+      "Pretty With A Backbone.",
+      "Crowned In Confidence.",
+      "I Came To Win.",
+      "Hands Off—That’s Mine.",
+      "Bad Decisions, Great Chemistry.",
+      "Too Fly To Beg.",
+      "Love With A Side Of Chaos.",
+      "Catch Feelings, Not Attitudes.",
+      "He Got Me In My Soft Era.",
+      "Energy Expensive.",
+      "Mind On Money, Heart On You.",
+      "City Lights, Late Nights.",
+      "Booked & Busy.",
+      "Read Now, Cry Later.",
+      "Spicy Chapter Energy.",
+      "Good Girl? Depends.",
+      "I Don’t Compete—I Collect.",
+      "Love That Talks Back.",
+      "Make Him Earn It.",
+      "Protective Energy Only.",
+      "Don’t Play In My Face.",
+      "I Like My Stories Unhinged.",
+      "Fine Print: I’m Him.",
+      "Act Right, Get Loved Right.",
+      "Respectfully… Try Again.",
+      "Heaven Sent, Hood Raised.",
+      "If It’s Not Real, I Don’t Want It.",
+      "Built On Trust, Not Talk.",
+      "Talk Nice To Me.",
+      "I’m The Prize, Period."
+    ];
+
+    // ---- Fixed "house style" lock ----
+    function houseStyle(borderChoice){
+      const border = (borderChoice.startsWith("White")) ? "add a clean white sticker border/offset outline" : "no border";
+      return [
+        "thick bold black outline",
+        "clean doodle clipart illustration",
+        "rounded cute shapes",
+        "minimal flat shading",
+        "subtle grain texture",
+        "crisp edges, vector-like clarity",
+        border,
+        "transparent background",
+        "high resolution"
+      ].join(", ");
+    }
+
+    function paletteText(p){
+      switch(p){
+        case "Caramel + Gold + Black":
+          return "warm caramel browns, gold highlights, deep black accents";
+        case "Burgundy + Chocolate + Gold":
+          return "deep burgundy, rich chocolate browns, gold highlights";
+        case "Blush + Cocoa + Cream":
+          return "soft blush pink, cocoa browns, creamy off-white highlights";
+        case "Midnight + Neon + Gold":
+          return "midnight black, subtle neon accents, gold highlights";
+        default:
+          return p;
+      }
+    }
+
+    function getRandom(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function buildPrompt(){
+      const vibe = document.getElementById("vibe").value;
+      const type = document.getElementById("type").value;
+      const object = document.getElementById("object").value;
+      const accents = document.getElementById("accents").value;
+      const palette = document.getElementById("palette").value;
+      const border = document.getElementById("border").value;
+      const useRandom = document.getElementById("useRandom").checked;
+
+      let quote = document.getElementById("quote").value.trim();
+      if(useRandom || !quote){
+        quote = getRandom(QUOTES);
+      }
+
+      const locked = houseStyle(border);
+
+      // Type-specific templates
+      let body = "";
+      if(type === "Icon + Quote"){
+        body = `Urban fiction inspired sticker design (${vibe}), ${locked}, rich warm palette: ${paletteText(palette)}, main icon: ${object}, add accents: ${accents}, add caption text: “${quote}” in bold modern hand-lettered typography, commercial clipart style, no realism, no brand logos, no watermark.`;
+      } else if(type === "Icon Only"){
+        body = `Urban fiction inspired sticker icon (${vibe}), ${locked}, rich warm palette: ${paletteText(palette)}, main icon: ${object}, add accents: ${accents}, commercial clipart style, no text, no realism, no brand logos, no watermark.`;
+      } else {
+        body = `Urban fiction quote sticker (${vibe}), ${locked}, rich warm palette: ${paletteText(palette)}, caption text only: “${quote}” in bold hand-lettered typography, add small accent marks: ${accents}, commercial clipart style, no realism, no brand logos, no watermark.`;
+      }
+
+      const negative =
+        "photorealistic, blurry, low-res, messy outline, uneven line weight, distorted anatomy, extra fingers, bad hands, watermark, signature, brand logos, copyrighted characters, celebrity likeness, random words, tiny unreadable text blocks, background scene, busy gradients, harsh shadows, poster design, UI elements";
+
+      const notes =
+`Export settings:
+- Format: PNG
+- Background: Transparent
+- Size: 2000–3000px (crisp for stickers)
+
+If the output has a background:
+1) Remove background (remove.bg / Canva BG remover)
+2) Add white sticker outline (Canva: Edit Image → Shadows → Glow; set color white, blur 0, size up)
+
+Packaging tip:
+- Sell 40–60 PNGs per pack + include a preview sheet + 1–2 mockups.`;
+
+      return { body, negative, notes };
+    }
+
+    function showToast(msg){
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(()=> t.classList.remove("show"), 1100);
+    }
+
+    function setStatus(text){
+      const pill = document.getElementById("statusPill");
+      pill.textContent = text;
+    }
+
+    function generate(){
+      const { body, negative, notes } = buildPrompt();
+      document.getElementById("promptOut").value = body;
+      document.getElementById("negOut").value = negative;
+      document.getElementById("notesOut").value = notes;
+      setStatus("Generated ✅");
+      setTimeout(()=>setStatus("Ready"), 900);
+    }
+
+    async function copyPrompt(){
+      const prompt = document.getElementById("promptOut").value.trim();
+      if(!prompt){
+        showToast("Generate first");
+        return;
+      }
+      try{
+        await navigator.clipboard.writeText(prompt);
+        showToast("Prompt copied");
+      } catch(e){
+        // fallback
+        const ta = document.getElementById("promptOut");
+        ta.focus(); ta.select();
+        document.execCommand("copy");
+        showToast("Copied");
+      }
+    }
+
+    function randomizeAll(){
+      const vibe = document.getElementById("vibe");
+      const type = document.getElementById("type");
+      const object = document.getElementById("object");
+      const accents = document.getElementById("accents");
+      const palette = document.getElementById("palette");
+      const border = document.getElementById("border");
+      const useRandom = document.getElementById("useRandom");
+
+      vibe.selectedIndex = Math.floor(Math.random() * vibe.options.length);
+      type.selectedIndex = Math.floor(Math.random() * type.options.length);
+      object.selectedIndex = Math.floor(Math.random() * object.options.length);
+      accents.selectedIndex = Math.floor(Math.random() * accents.options.length);
+      palette.selectedIndex = Math.floor(Math.random() * palette.options.length);
+      border.selectedIndex = 0; // default to white border for best sticker results
+      useRandom.checked = true;
+      document.getElementById("quote").value = "";
+
+      generate();
+      showToast("Randomized");
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", generate);
+    document.getElementById("copyBtn").addEventListener("click", copyPrompt);
+    document.getElementById("randomBtn").addEventListener("click", randomizeAll);
+
+    // Auto-generate on load for instant usefulness
+    window.addEventListener("load", generate);
+  </script>
+</body>
+</html>
