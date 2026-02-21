@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bookish Demands Sticker Vault</title>
+  <title>Bookish Demands Sticker Vault — Full (Nova/Nyx)</title>
 
   <style>
     :root{
@@ -29,12 +29,12 @@
         radial-gradient(900px 500px at 40% 110%, rgba(255,205,115,.10), transparent 55%),
         var(--bg);
     }
-    .wrap{max-width:1200px;margin:0 auto;padding:24px 16px 60px}
+    .wrap{max-width:1240px;margin:0 auto;padding:24px 16px 60px}
     header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:16px}
     h1{margin:0;font-size:clamp(22px,3.2vw,34px);letter-spacing:.2px}
-    .subtitle{color:var(--muted);line-height:1.35;max-width:92ch;margin-top:6px}
-    .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;margin-top:18px}
-    @media (max-width: 940px){.grid{grid-template-columns:1fr}}
+    .subtitle{color:var(--muted);line-height:1.35;max-width:100ch;margin-top:6px}
+    .grid{display:grid;grid-template-columns:1.08fr .92fr;gap:16px;margin-top:18px}
+    @media (max-width: 980px){.grid{grid-template-columns:1fr}}
     .card{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .cardHead{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;gap:10px}
     .cardHead h2{margin:0;font-size:14px;letter-spacing:.6px;text-transform:uppercase;color:rgba(243,243,247,.9)}
@@ -48,7 +48,7 @@
     }
     .cardBody{padding:14px 16px 16px}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-    @media (max-width:520px){.row{grid-template-columns:1fr}}
+    @media (max-width:560px){.row{grid-template-columns:1fr}}
     label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
     select,input[type="text"],textarea{
       width:100%;padding:10px 11px;border-radius:12px;border:1px solid var(--line);
@@ -79,10 +79,8 @@
     }
     .toast.show{opacity:1}
     .bankGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:720px){.bankGrid{grid-template-columns:1fr}}
-    .bankBox{
-      padding:10px 11px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.16)
-    }
+    @media (max-width:760px){.bankGrid{grid-template-columns:1fr}}
+    .bankBox{padding:10px 11px;border:1px solid var(--line);border-radius:14px;background:rgba(0,0,0,.16)}
     .bankTitle{font-size:12px;color:rgba(243,243,247,.9);font-weight:900;letter-spacing:.5px;margin-bottom:8px}
     .checkRow{display:flex;gap:10px;align-items:flex-start;color:var(--muted);padding:6px 0}
     .checkRow input{width:18px;height:18px;margin-top:2px}
@@ -97,8 +95,8 @@
       <div>
         <h1>Bookish Demands Sticker Vault</h1>
         <div class="subtitle">
-          Ideogram-ready sticker prompt engine for <b>Urban Fiction</b>, <b>Dark Romance</b>, <b>Black Paranormal</b>, <b>Black Romance</b>, <b>Thriller</b>, <b>Fantasy</b>, and <b>Horror</b>.
-          Includes <b>harmony</b>, <b>presets</b>, <b>cut-safe mode</b>, <b>custom inputs</b>, and a big <b>witty urban bookish quote bank</b>.
+          Full sticker prompt engine built around your aesthetic: <b>urban bookish</b>, <b>dark romance (non-graphic)</b>, <b>black romance</b>, <b>black paranormal</b>, <b>thriller</b>, <b>fantasy</b>, <b>horror</b>.
+          Includes <b>new product themes</b>, <b>tropes</b>, <b>mood/IYKYK quotes</b>, <b>hand-drawn preset</b>, <b>horror palette harmony</b>, and <b>strict cut-safe containment for ALL accents</b>.
         </div>
       </div>
       <div class="mini" id="statusPill">Ready</div>
@@ -109,7 +107,7 @@
       <section class="card">
         <div class="cardHead">
           <h2>Inputs</h2>
-          <span class="mini">Random picks 1–2 banks max ✅</span>
+          <span class="mini">Random picks: 1–2 banks max ✅</span>
         </div>
         <div class="cardBody">
 
@@ -117,18 +115,13 @@
             <div>
               <label for="count">How many prompts?</label>
               <select id="count">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3" selected>3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+                <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option>
               </select>
             </div>
-
             <div>
               <label for="stickerType">Sticker Type</label>
               <select id="stickerType">
-                <option value="packaging" selected>Packaging Label Sticker (like reference)</option>
+                <option value="packaging" selected>Packaging Label Sticker</option>
                 <option value="icon_quote">Icon + Quote</option>
                 <option value="icon_only">Icon Only (no text)</option>
                 <option value="quote_only">Quote Only (typography sticker)</option>
@@ -138,11 +131,11 @@
 
           <div class="row">
             <div>
-              <label for="genreTone">Genre Tone (None allowed)</label>
+              <label for="genreTone">Genre Tone</label>
               <select id="genreTone">
                 <option value="">None</option>
                 <option value="urban_fiction">Urban Fiction</option>
-                <option value="dark_romance">Dark Romance</option>
+                <option value="dark_romance">Dark Romance (non-graphic)</option>
                 <option value="black_paranormal">Black Paranormal Romance</option>
                 <option value="black_romance">Black Romance</option>
                 <option value="thriller">Thriller</option>
@@ -152,16 +145,15 @@
                 <option value="bookish_luxe">Bookish Luxe</option>
               </select>
             </div>
-
             <div>
-              <label for="variation">Variation (mood/style/aesthetic)</label>
+              <label for="variation">Variation / Style</label>
               <select id="variation">
                 <option value="">None</option>
+                <option value="booktok_pop">BookTok Pop-Art</option>
                 <option value="bold_vector">Bold Vector Sticker</option>
                 <option value="cute_clipart">Cute Flat Clipart</option>
                 <option value="hand_doodle">Hand-Doodle Charm</option>
                 <option value="hand_drawn">Hand-Drawn (Ink Sketch) ✅</option>
-                <option value="booktok_pop">BookTok Pop-Art</option>
                 <option value="noir_minimal">Noir Minimal</option>
                 <option value="neon_noir">Neon Noir</option>
                 <option value="luxury_editorial">Luxury Editorial</option>
@@ -174,100 +166,93 @@
           <div class="row">
             <label class="toggle" style="grid-column:1/-1;">
               <input id="handDrawnPreset" type="checkbox" />
-              <div><b>Hand-Drawn preset</b> (quick toggle — sets variation to Hand-Drawn + keeps sticker-ready clarity)</div>
+              <div><b>Hand-Drawn preset toggle</b> (forces Hand-Drawn variation + keeps sticker-ready clarity)</div>
             </label>
           </div>
 
           <div class="row">
             <div>
-              <label for="vibe">Vibe (None allowed)</label>
+              <label for="vibe">Vibe / Mood</label>
               <select id="vibe">
                 <option value="">None</option>
                 <option>Street Luxe Romance</option>
-                <option>Midnight Confessions</option>
-                <option>Forbidden Attraction</option>
-                <option>Jealous Enemy Plot</option>
-                <option>Protective Possessive Energy</option>
-                <option>Booktrovert Peace Mode</option>
-                <option>Kindle After Dark</option>
                 <option>Morally Gray Glam</option>
-                <option>Thriller — Cold Case Energy</option>
-                <option>Fantasy — Divine & Dangerous</option>
+                <option>Kindle After Dark</option>
+                <option>Booktrovert Peace Mode</option>
+                <option>Protective Possessive Energy</option>
+                <option>Jealous Enemy Plot</option>
+                <option>Forbidden Attraction</option>
                 <option>Witchy City Glam</option>
                 <option>Coven Chic</option>
                 <option>Luxury Reader Baddie</option>
                 <option>Intellectual Villain Era</option>
                 <option>Soft Life But Savage</option>
+
                 <option>Mood: quotes</option>
                 <option>IYKYK</option>
-                <option>Remaining in Bookland until further notice</option>
-                <option>Audiobook Era</option>
+                <option>Audiobook quotes</option>
                 <option>This book ruined me… 5 stars</option>
+                <option>Remaining in Bookland until further notice</option>
+                <option>Slow burn</option>
                 <option>In my “___” era</option>
                 <option>DBE: ___ … 5 stars</option>
-                <option>Slow Burn Season</option>
-                <option>Ugly Cry Certified</option>
-                <option>STFUATTDLAGG energy</option>
+                <option>Ugly cry</option>
+                <option>STFUATTDLAGG</option>
               </select>
             </div>
-
             <div>
-              <label for="productTheme">Packaging / Product Theme (None allowed)</label>
+              <label for="productTheme">Product Theme (new expanded list)</label>
               <select id="productTheme">
                 <option value="">None</option>
 
-                <!-- Existing -->
+                <!-- Medical / label-core -->
                 <option value="iv_bag">IV Bag</option>
-                <option value="pill_bottle">Pill Bottle (non-IV)</option>
+                <option value="pill_bottle">Prescription Bottle + Warning Label</option>
                 <option value="prescription_pad">Prescription Pad</option>
-                <option value="heart_monitor">Heart Monitor Strip</option>
-                <option value="toe_tag">Toe Tag (thriller-coded)</option>
-                <option value="seasoning">Seasoning Jar</option>
-                <option value="hot_sauce">Hot Sauce Bottle</option>
-                <option value="honey_jar">Honey Jar</option>
-                <option value="juice_bottle">Juice Bottle</option>
-                <option value="energy_drink">Energy Drink Can</option>
-                <option value="candy">Candy Wrapper</option>
+                <option value="heart_monitor">Heartbeat Monitor Screen / Strip</option>
+                <option value="toe_tag">Toe Tag (clean thriller-coded)</option>
+                <option value="specimen_vial">Lab Specimen Vial (sparkly evidence)</option>
+                <option value="evidence_tag">Evidence Tag + Barcode</option>
+                <option value="bp_monitor">Blood Pressure Monitor</option>
 
-                <!-- NEW (your list) -->
-                <option value="door_tag">Door Tag (Do Not Disturb)</option>
-                <option value="name_tag">Name Tag (Hello, I Am…)</option>
+                <!-- Receipts / slips / cards -->
                 <option value="library_card">Library Card / Checkout Slip</option>
                 <option value="guest_check">Guest Check</option>
-                <option value="tbr_receipt">TBR Receipt</option>
-                <option value="spice_meter">Spice Scale Meter</option>
-                <option value="delulu_meter">Delulu Meter</option>
-                <option value="ugly_cry_meter">Ugly Cry Meter</option>
-                <option value="horror_scale">Horror Reader Scale</option>
-                <option value="caution_sign">Caution Sign</option>
-                <option value="phone_dnd">Phone (DND Screen)</option>
+                <option value="tbr_receipt">TBR Receipt (store receipt aesthetic)</option>
+                <option value="book_review_card">Book Review Card (5 stars)</option>
+                <option value="name_tag">Name Tag (Hello, I am…)</option>
+                <option value="door_tag">Door Tag (Do Not Disturb)</option>
+                <option value="confession_note">Confession Note (“Confession: …”)</option>
                 <option value="sticky_memos">Sticky Memos</option>
-                <option value="fortune_cookie">Fortune Cookie</option>
-                <option value="magic_8_ball">Magic 8 Ball</option>
-                <option value="glass_fortune_ball">Glass Fortune Ball</option>
-                <option value="bp_monitor">Blood Pressure Monitor</option>
-                <option value="book_review_card">Book Review Card (5 Stars)</option>
-                <option value="elixir_bottle">Elixir / Potion Bottle</option>
 
-                <option value="wax_seal_stamp">Wax Seal Stamp Kit</option>
-                <option value="candle_spell_jar">Candle Jar / Spell Candle</option>
-                <option value="matchbook">Matchbook / Matchbox</option>
-                <option value="polaroid_frame">Polaroid Photo Frame</option>
-                <option value="nail_polish">Nail Polish Bottle</option>
-                <option value="coffee_cup">Coffee / Iced Coffee / Tea</option>
-                <option value="specimen_vial">Lab Specimen Vial (Evidence)</option>
-                <option value="evidence_tag">Evidence Tag + Barcode</option>
-                <option value="tarot_card">Tarot Card Pack (Original)</option>
-                <option value="bookmark_sneaker_lace">Bookmark + Sneaker Lace Combo</option>
-                <option value="book_stack_tropes">Stack of Books (Tropes on Spines)</option>
-                <option value="confession_note">Confession Note</option>
+                <!-- Scales / meters -->
+                <option value="spice_scale">Spice Scale (thermometer/meter)</option>
+                <option value="delulu_meter">Delulu Meter</option>
+                <option value="caution_sign">Caution Sign (spice/delulu warning)</option>
+
+                <!-- Witchy / luxe -->
+                <option value="elixir">Elixir / Love potion dropper bottle</option>
+                <option value="candle_jar">Candle jar / spell candle</option>
+                <option value="wax_seal">Wax seal stamp kit</option>
+                <option value="tarot_pack">Tarot card pack (original)</option>
+                <option value="fortune_cookie">Fortune cookie</option>
+                <option value="magic_8_ball">Magic 8 ball</option>
+                <option value="glass_fortune_ball">Glass fortune ball</option>
+
+                <!-- Lifestyle / cute -->
+                <option value="matchbook">Matchbook / matchbox (“Ignite me” / “Burn after reading”)</option>
+                <option value="polaroid_frame">Polaroid photo frame</option>
+                <option value="nail_polish">Nail polish bottle</option>
+                <option value="coffee_cup">Coffee / iced coffee / tea cup</option>
+                <option value="bookmark_sneaker_lace">Bookmark + sneaker lace combo</option>
+                <option value="book_stack">Stack of books (tropes on spines)</option>
               </select>
             </div>
           </div>
 
           <div class="row">
             <div>
-              <label for="palette">Color Palette (None allowed)</label>
+              <label for="palette">Color Palette</label>
               <select id="palette"></select>
             </div>
             <div>
@@ -299,13 +284,13 @@
 
           <div class="row">
             <div>
-              <label for="spiceLevel">Spice Level (1–5)</label>
+              <label for="spiceLevel">Spice Level (non-graphic)</label>
               <select id="spiceLevel">
                 <option value="1">1 — sweet tension</option>
-                <option value="2">2 — flirty heat</option>
-                <option value="3" selected>3 — spicy vibes</option>
-                <option value="4">4 — dark romance heat (non-graphic)</option>
-                <option value="5">5 — filthy talk energy (non-graphic)</option>
+                <option value="2" selected>2 — playful heat</option>
+                <option value="3">3 — spicy vibes</option>
+                <option value="4">4 — dark romance heat</option>
+                <option value="5">5 — filthy talk energy</option>
               </select>
             </div>
             <div>
@@ -320,14 +305,14 @@
           <div class="row">
             <label class="toggle" style="grid-column:1/-1;">
               <input id="blankMode" type="checkbox" />
-              <div><b>Blank sticker mode</b> (no label/quote text at all — useful for icon packs)</div>
+              <div><b>Blank sticker mode</b> (no text at all)</div>
             </label>
           </div>
 
           <div class="row">
             <label class="toggle" style="grid-column:1/-1;">
               <input id="cutSafeMode" type="checkbox" checked />
-              <div><b>Cut-safe mode</b> (contain smoke/sparkles/glow/particles <b>INSIDE</b> the die-cut silhouette — default ON)</div>
+              <div><b>Cut-safe mode</b> (forces ALL accents/particles/glow inside the die-cut silhouette — ON by default)</div>
             </label>
           </div>
 
@@ -336,18 +321,18 @@
               <label for="labelMode">Label Text Mode</label>
               <select id="labelMode">
                 <option value="none">No label text</option>
-                <option value="auto" selected>Auto label title + subtitle</option>
+                <option value="auto" selected>Auto title + subtitle</option>
                 <option value="manual">Use my Title + Subtitle</option>
-                <option value="mixed">Manual if provided, otherwise Auto</option>
+                <option value="mixed">Manual if provided, else Auto</option>
                 <option value="quote_subtitle">Quote as Subtitle (title auto)</option>
               </select>
             </div>
             <div>
-              <label for="quoteMode">Quote Mode</label>
+              <label for="quoteMode">Quote Length</label>
               <select id="quoteMode">
                 <option value="any" selected>Any</option>
-                <option value="micro">Micro (2–5 words)</option>
-                <option value="standard">Standard (witty lines)</option>
+                <option value="micro">Micro (2–6 words)</option>
+                <option value="standard">Standard (one-liners)</option>
               </select>
             </div>
           </div>
@@ -355,25 +340,25 @@
           <div class="row">
             <div>
               <label for="titleText">Title (optional)</label>
-              <input id="titleText" type="text" maxlength="60" placeholder='Example: "EMERGENCY ROMANCE SUPPLY"' />
+              <input id="titleText" type="text" maxlength="60" placeholder='Example: "GUEST CHECK"' />
             </div>
             <div>
               <label for="subtitleText">Subtitle (optional)</label>
-              <input id="subtitleText" type="text" maxlength="90" placeholder='Example: "99% Delulu • 1% Regret"' />
+              <input id="subtitleText" type="text" maxlength="90" placeholder='Example: "Call me a good girl and take me to the bookstore"' />
             </div>
           </div>
 
           <div class="row">
             <label class="toggle" style="grid-column:1/-1;">
               <input id="useRandomQuote" type="checkbox" checked />
-              <div><b>Use random quote</b> (you can still type a quote to override)</div>
+              <div><b>Use random quote</b> (type one to override)</div>
             </label>
           </div>
 
           <div class="row">
             <div>
-              <label for="quote">Quote (optional override)</label>
-              <input id="quote" type="text" maxlength="140" placeholder='Example: "Possessive Energy Only."' />
+              <label for="quote">Quote override (optional)</label>
+              <input id="quote" type="text" maxlength="160" placeholder='Example: "This book ruined me… 5 stars."' />
             </div>
             <div>
               <label for="quoteUsage">Quote usage</label>
@@ -390,33 +375,33 @@
           <div class="row">
             <div>
               <label for="customMainObject">Custom Main Object (optional)</label>
-              <input id="customMainObject" type="text" maxlength="120" placeholder='Example: "sparkly Kindle + sneaker charm"' />
+              <input id="customMainObject" type="text" maxlength="140" placeholder='Example: "sparkly Kindle + sneaker charm"' />
             </div>
             <div>
               <label for="customVibe">Custom Vibe (optional)</label>
-              <input id="customVibe" type="text" maxlength="120" placeholder='Example: "Midnight Book Bae Energy"' />
+              <input id="customVibe" type="text" maxlength="140" placeholder='Example: "Remaining in Bookland until further notice"' />
             </div>
           </div>
 
           <div class="row">
             <div>
               <label for="customPalette">Custom Palette (optional)</label>
-              <input id="customPalette" type="text" maxlength="120" placeholder='Example: "neon pink + espresso brown + chrome"' />
+              <input id="customPalette" type="text" maxlength="140" placeholder='Example: "red + black + chrome"' />
             </div>
             <div>
               <label for="customAccents">Custom Accents (optional)</label>
-              <input id="customAccents" type="text" maxlength="120" placeholder='Example: "gold foil flecks + glitter dots"' />
+              <input id="customAccents" type="text" maxlength="140" placeholder='Example: "gold foil flecks + glitter dots (inside border)"' />
             </div>
           </div>
 
           <div class="row">
             <div>
               <label for="customProductTheme">Custom Product Theme (optional)</label>
-              <input id="customProductTheme" type="text" maxlength="120" placeholder='Example: "love potion dropper bottle label sticker"' />
+              <input id="customProductTheme" type="text" maxlength="160" placeholder='Example: "caution sign sticker about spice levels"' />
             </div>
             <div>
               <label for="customQuotes">Custom Quote Bank (optional — one per line)</label>
-              <textarea id="customQuotes" placeholder="Add your own quotes here. If filled, random quotes will pull from here first."></textarea>
+              <textarea id="customQuotes" placeholder="Add your own quotes here. If filled, random quotes pull from here first."></textarea>
             </div>
           </div>
 
@@ -424,86 +409,29 @@
 
           <div class="bankGrid">
             <div class="bankBox">
-              <div class="bankTitle">CORE (Random picks 1–2 max)</div>
+              <div class="bankTitle">CORE BANKS (Random picks 1–2 max)</div>
 
-              <label class="checkRow">
-                <input type="checkbox" id="bGeneralUrbanBookish" checked>
-                <span>General Urban Bookish</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="bTBRKindleBooktok">
-                <span>TBR / Kindle / BookTok</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="bMorallyGray">
-                <span>Morally Gray (toggle)</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="bUnhingedMMC">
-                <span>Unhinged MMC (possessive/protective)</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="bStreetLingo">
-                <span>Street / Urban Lingo</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="bTropes">
-                <span>BookTok Tropes (reverse harem, age-gap, wealthy MMC, etc.)</span>
-              </label>
+              <label class="checkRow"><input type="checkbox" id="bGeneralUrbanBookish" checked><span>General Urban Bookish</span></label>
+              <label class="checkRow"><input type="checkbox" id="bTBRKindleBooktok"><span>TBR / Kindle / BookTok</span></label>
+              <label class="checkRow"><input type="checkbox" id="bMorallyGray"><span>Morally Gray / DBE / Villain Era</span></label>
+              <label class="checkRow"><input type="checkbox" id="bUnhingedMMC"><span>Unhinged MMC (protective/possessive)</span></label>
+              <label class="checkRow"><input type="checkbox" id="bStreetLingo"><span>Street / Urban Lingo</span></label>
+              <label class="checkRow"><input type="checkbox" id="bTropes"><span>BookTok Tropes (wealthy MMC, age-gap, reverse harem, etc.)</span></label>
+              <label class="checkRow"><input type="checkbox" id="bMoodIYKYK"><span>Mood / IYKYK / Era / Bookland</span></label>
             </div>
 
             <div class="bankBox">
-              <div class="bankTitle">GENRES (Quote flavor toggles)</div>
+              <div class="bankTitle">GENRE BANKS (Random picks 1–2 max)</div>
 
-              <label class="checkRow">
-                <input type="checkbox" id="gUrbanFiction">
-                <span>Urban Fiction</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="gBlackRomance">
-                <span>Black Romance</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="gDarkRomance">
-                <span>Dark Romance (non-graphic)</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="gBlackParanormal">
-                <span>Black Paranormal Romance</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="gThriller">
-                <span>Thriller / Suspense</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="gFantasy">
-                <span>Fantasy</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="gHorror">
-                <span>Horror</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="gBookishLuxe">
-                <span>Bookish Luxe</span>
-              </label>
-
-              <label class="checkRow">
-                <input type="checkbox" id="gSoftGlam">
-                <span>Soft Glam Reader</span>
-              </label>
+              <label class="checkRow"><input type="checkbox" id="gUrbanFiction"><span>Urban Fiction</span></label>
+              <label class="checkRow"><input type="checkbox" id="gBlackRomance"><span>Black Romance</span></label>
+              <label class="checkRow"><input type="checkbox" id="gDarkRomance"><span>Dark Romance (non-graphic)</span></label>
+              <label class="checkRow"><input type="checkbox" id="gBlackParanormal"><span>Black Paranormal Romance</span></label>
+              <label class="checkRow"><input type="checkbox" id="gThriller"><span>Thriller / Suspense</span></label>
+              <label class="checkRow"><input type="checkbox" id="gFantasy"><span>Fantasy</span></label>
+              <label class="checkRow"><input type="checkbox" id="gHorror"><span>Horror</span></label>
+              <label class="checkRow"><input type="checkbox" id="gSoftGlam"><span>Soft Glam Reader</span></label>
+              <label class="checkRow"><input type="checkbox" id="gBookishLuxe"><span>Bookish Luxe</span></label>
             </div>
           </div>
 
@@ -515,8 +443,8 @@
           </div>
 
           <div class="hint">
-            <b>Cut-safe mode</b> forces the prompt to request a single closed die-cut silhouette and tells the model that <b>ALL accents</b> must stay inside the outline.
-            <br/>🧠 Harmony: choosing <b>Horror</b> will auto-bias palettes toward <b>red/black</b> when you leave palette blank.
+            <b>Important:</b> Cut-safe mode adds strict “no sparkles/particles outside outline” rules that apply to <b>ALL accents</b>.
+            <br><b>Harmony:</b> If Genre Tone is <b>Horror</b> and palette is blank, it will auto-pair to <b>red/black</b> palettes.
           </div>
         </div>
       </section>
@@ -532,17 +460,14 @@
             <label for="promptOut">Prompt</label>
             <textarea id="promptOut" readonly></textarea>
           </div>
-
           <div style="margin-bottom:12px;">
             <label for="negOut">Negative Prompt</label>
             <textarea id="negOut" readonly></textarea>
           </div>
-
           <div>
             <label for="notesOut">Export Notes</label>
             <textarea id="notesOut" readonly></textarea>
           </div>
-
           <div class="footerNote">
             <b>Commercial safety:</b> keep it original — avoid brand names/logos, real book titles, celebrity likeness, and copyrighted characters.
           </div>
@@ -554,12 +479,15 @@
   <div class="toast" id="toast">Copied!</div>
 
   <script>
-    // ---------- DOM helpers ----------
+    // ---------- helpers ----------
     const $ = (id)=>document.getElementById(id);
     const v = (id)=>($(id)?.value ?? "");
     const setV = (id,val)=>{ if($(id)) $(id).value = val; };
     const c = (id)=>!!($(id)?.checked);
     const setC = (id,val)=>{ if($(id)) $(id).checked = !!val; };
+    const rndInt = (n)=>Math.floor(Math.random()*n);
+    const pick = (arr)=>arr[rndInt(arr.length)];
+    const uniq = (arr)=>Array.from(new Set(arr));
 
     function showToast(msg){
       const t = $("toast");
@@ -572,66 +500,41 @@
       const p = $("statusPill");
       if(p) p.textContent = msg;
     }
-    const rndInt = (n)=>Math.floor(Math.random()*n);
-    const pick = (arr)=>arr[rndInt(arr.length)];
-    const uniq = (arr)=>Array.from(new Set(arr));
 
-    // ---------- Variations ----------
+    // ---------- variations ----------
     const VARIATIONS = {
-      bold_vector: "bold vector sticker, thick clean lines, high-contrast shapes, sharp vector clarity, premium sticker look",
-      cute_clipart: "cute flat vector clipart sticker, rounded shapes, clean flat shading, crisp edges, commercial clipart style",
-      hand_doodle: "hand-drawn doodle sticker style, thick outline, simple flat shading, charming imperfections (but clean)",
-      hand_drawn: "hand-drawn illustration style, sketchy ink outlines, playful imperfect strokes, doodle aesthetic, still crisp and sticker-ready, vector-like clarity",
       booktok_pop: "booktok pop-art sticker style, bold shapes, punchy contrast, crisp outlines",
+      bold_vector: "bold vector sticker, thick clean lines, high-contrast shapes, sharp vector clarity",
+      cute_clipart: "cute flat vector clipart sticker, rounded shapes, clean flat shading, crisp edges, commercial clipart look",
+      hand_doodle: "hand-drawn doodle sticker style, thick outline, simple flat shading, charming imperfections (but clean)",
+      hand_drawn: "hand-drawn illustration style, ink sketch outlines, slightly imperfect strokes, cute + edgy, still crisp and sticker-ready, vector-like clarity",
       noir_minimal: "noir minimal sticker, simple shapes, limited details, strong contrast, modern minimal icon",
-      neon_noir: "neon noir sticker, subtle neon glow accents, dark subject, high contrast highlights (glow contained inside silhouette)",
+      neon_noir: "neon noir sticker, subtle neon glow accents (glow contained inside silhouette), dark subject, high contrast highlights",
       luxury_editorial: "luxury editorial sticker aesthetic, polished highlights, premium glam details, clean upscale feel",
-      vintage_label: "vintage apothecary label sticker style, ornate frame details, bold readable label text (still clean)",
-      kawaii_goth: "kawaii goth sticker style, cute + dark contrast, tiny hearts, subtle spooky accents, clean vector finish"
+      vintage_label: "vintage apothecary label sticker style, ornate frame details, clean label blocks, readable type",
+      kawaii_goth: "kawaii goth sticker style, cute + dark contrast, tiny spooky accents, clean vector finish"
     };
 
-    // ---------- Palettes ----------
+    // ---------- palettes ----------
     const PALETTES = [
       "Grey + Red + Black",
-      "Obsidian + Molten Gold + Smoke Gray",
       "Black Cherry + Gunmetal + Chrome",
-      "Midnight Blue + Emerald + Gold",
-      "Burgundy Wine + Antique Gold + Espresso",
+      "Blood Red + Ink Black + Steel",
+      "Obsidian + Molten Gold + Smoke Gray",
       "Deep Plum + Rose Gold + Charcoal",
-      "Black + Ruby + Liquid Silver",
-      "Sapphire + Jet Black + Platinum",
-      "Cream + Warm Brown + Gold",
+      "Burgundy Wine + Antique Gold + Espresso",
+      "White + Black + Chrome",
       "Ivory + Espresso + Rose Gold",
       "Blush Pink + Cocoa + Cream",
       "Rose Gold + Mauve + Champagne",
-      "Dusty Rose + Mocha + Gold",
-      "Amethyst + Midnight + Silver",
-      "Teal + Obsidian + Violet Glow",
-      "Forest Green + Black + Moonlight Silver",
       "Neon Pink + Black + Chrome",
-      "Electric Blue + Hot Pink + Black",
-      "Acid Green + Black + Silver",
-      "Orange + Royal Blue + Black",
-      "Metallic Silver + Bubblegum + Black",
-      "Aqua + Deep Purple + Neon Yellow",
-      "White + Black + Chrome",
-      "Light Gray + Black + Platinum",
-      "Copper + Black + Ember Glow",
-      "Blood Red + Ink + Steel",
-      "Burnt Orange + Charcoal + Gold",
-      "Galaxy Blue + Violet + Star White",
-      "Lavender + Soft Gold + Ivory",
-      "Peach + Nude + Warm Brown",
-      "Tangerine + Purple + White",
-      // extra horror-friendly options (safe additions)
-      "Crimson + Black + Chrome",
-      "Cherry Red + Jet Black + Silver"
+      "Forest Green + Black + Moonlight Silver",
+      "Midnight Blue + Emerald + Gold",
+      "Amethyst + Midnight + Silver"
     ];
-
     const HORROR_PALETTES = [
       "Grey + Red + Black",
-      "Blood Red + Ink + Steel",
-      "Crimson + Black + Chrome",
+      "Blood Red + Ink Black + Steel",
       "Black Cherry + Gunmetal + Chrome",
       "White + Black + Chrome"
     ];
@@ -650,66 +553,123 @@
       });
     }
 
-    // ---------- Product descriptions ----------
+    // ---------- product descriptions (ALL new additions included) ----------
     const PRODUCT_DESC = {
-      // existing
+      // Medical / thriller / lab
       iv_bag: "IV drip bag sticker illustration (generic medical bag shape), hanging with tube, clamp, drip chamber, glossy liquid fill; clean label panel area for text; no hospital branding",
-      pill_bottle: "prescription pill bottle sticker (non-IV), rounded amber bottle with childproof cap and clean label panel; a few stylized pills nearby; no pharmacy branding",
-      prescription_pad: "prescription pad / Rx notepad sticker with tear-off sheets; clean header blocks; no clinic branding",
-      heart_monitor: "heart monitor strip sticker, ECG waveform display or paper strip look with clean monitor frame; readable label panel",
-      toe_tag: "toe tag sticker (generic evidence/morgue tag) with string loop and bold label blocks; thriller-coded; no real case identifiers",
-      seasoning: "generic seasoning jar sticker, spice shaker with flip-top lid; clean label panel; tiny spice specks",
-      hot_sauce: "generic hot sauce bottle sticker, glass bottle with glossy shine; bold label panel; no brand marks",
-      honey_jar: "generic honey jar sticker, golden honey fill with drip effect; clean label panel; no brand marks",
-      juice_bottle: "generic juice bottle sticker, cute bottle silhouette with glossy highlights; bold label panel; no brand marks",
-      energy_drink: "generic energy drink can sticker, slim aluminum can with metallic shine; bold label panel; no brand marks",
-      candy: "generic candy wrapper sticker, shiny foil wrapper with twisted ends; bold label panel; no brand marks",
+      pill_bottle: "prescription bottle sticker (non-IV), amber bottle with childproof cap, clean warning label panel; a few stylized pills; no pharmacy branding",
+      prescription_pad: "prescription pad / Rx notepad sticker with tear-off sheets and clean header blocks; no clinic branding",
+      heart_monitor: "heart monitor screen or ECG strip sticker with waveform, clean monitor frame, readable label panel; no device branding",
+      toe_tag: "toe tag / evidence tag cousin sticker with string loop and bold label blocks; thriller-coded but cute/clean; no real case identifiers",
+      specimen_vial: "lab specimen vial sticker with barcode label and sparkly 'evidence' inside; clean lab aesthetic; no branding",
+      evidence_tag: "evidence tag sticker with barcode and neat fields; cute thriller vibe; no real case identifiers",
+      bp_monitor: "blood pressure monitor sticker with cuff icon and a clean digital display for humorous bookish stats; no branding",
 
-      // new product themes
-      door_tag: "door hanger / do-not-disturb door tag sticker with bold headline and big centered quote area; simple icon accents; clean signage layout; no branding",
-      name_tag: "name tag sticker (HELLO, I AM…) with bold name field and optional subtitle line; clean label blocks; no branding",
-      library_card: "library checkout card / library card sticker with stamped due dates, barcode, and clean text fields; vintage checkout slip look; no real library branding",
-      guest_check: "guest check / restaurant-style receipt sticker with table/date/check number fields; big handwritten quote in center; clean grid lines; no real restaurant branding",
-      tbr_receipt: "store receipt-style sticker titled TBR RECEIPT, itemized tropes/reads list, subtotal/total lines, barcode, funny footer line; clean readable typography; no real store branding",
+      // Slips / receipts / cards
+      library_card: "library card / checkout slip sticker with due-date stamp areas, barcode, and neat fields; vintage checkout aesthetic; no real library branding",
+      guest_check: "guest check sticker (restaurant-style form) with grid lines and header fields; big bold handwritten quote area; no real restaurant branding",
+      tbr_receipt: "store receipt sticker titled 'TBR RECEIPT' with itemized tropes/reads list, subtotal/total lines, barcode, funny footer; no real store branding",
+      book_review_card: "book review card sticker with star row and a short review line like '...5 stars'; clean readable layout",
+      name_tag: "name tag sticker 'HELLO, I AM…' with big name field and optional subtitle; clean label blocks; no branding",
+      door_tag: "door hanger / do-not-disturb sticker with bold header and quote area; clean signage layout; no branding",
+      confession_note: "confession note sticker with header 'CONFESSION:' and a bold handwritten quote; cute dramatic vibe; clean paper edges",
+      sticky_memos: "sticky memo pad sticker with handwritten quote, tape corners or tab, doodle accents; high contrast, readable",
 
-      spice_meter: "vertical spice scale / thermometer meter sticker with labeled levels and a slider indicator; playful icons; clean readable sections",
-      delulu_meter: "vertical meter sticker labeled DELULU METER with levels from realistic to certified delulu; clean sections and indicator",
-      ugly_cry_meter: "vertical meter sticker labeled UGLY CRY METER with escalating levels; tissues/tear icons; clean readable layout",
-      horror_scale: "vertical horror reader scale meter sticker with levels from creepy-cozy to sleep-with-lights-on; subtle spooky icons; clean readable layout",
+      // Scales / meters / signs
+      spice_scale: "spice scale meter sticker (thermometer or slider) with labeled levels; playful icons; clean readable sections",
+      delulu_meter: "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe",
+      caution_sign: "caution sign / warning placard sticker related to spice level or delulu choices; bold readable header; clean signage style",
 
-      caution_sign: "caution sign / hazard placard sticker with bold WARNING header and short spicy-safe text; clean signage style; no branding",
-      phone_dnd: "smartphone screen sticker showing DND / notification banner style text; clean original UI-like layout (not a real brand UI); readable type",
-      sticky_memos: "sticky memo note pad sticker with handwritten quote, tape corners or tab, doodle accents; clean high-contrast lettering",
-      fortune_cookie: "fortune cookie sticker with a fortune strip showing a short quote; cute clean vector look; no branding",
-      magic_8_ball: "magic 8 ball sticker with readable answer window and playful highlights; clean vector clarity",
-      glass_fortune_ball: "glass crystal ball sticker on a small stand, faint glow contained inside silhouette; readable label panel; mystical vibe",
-      bp_monitor: "blood pressure monitor sticker (digital screen + cuff icon) showing humorous reading-related status; clean readable screen",
-      book_review_card: "book review card sticker with star rating row, short review quote, and ‘5 stars’ style layout; clean readable design",
-      elixir_bottle: "elixir / potion bottle sticker (dropper or cork bottle) with label panel and sparkly fill; paranormal luxe vibe",
+      // Witchy / fortune / tools
+      elixir: "love potion / elixir dropper bottle sticker with label panel and sparkly fill; coven chic vibe; no branding",
+      candle_jar: "candle jar / spell candle sticker with label panel; tiny sparkles and glow strictly contained inside silhouette; no branding",
+      wax_seal: "wax seal stamp kit sticker: wax seal imprint, stamp handle, sealing wax; elegant label area; no branding",
+      tarot_pack: "original tarot card pack sticker (not a copyrighted deck) with ornate frame and symbolic icon; readable title block",
+      fortune_cookie: "fortune cookie sticker with a fortune strip showing a short quote; clean cute style",
+      magic_8_ball: "magic 8 ball sticker with readable answer window; glossy highlight; clean silhouette",
+      glass_fortune_ball: "glass fortune ball sticker on a small stand; faint glow fully contained inside silhouette; mystical vibe",
 
-      wax_seal_stamp: "wax seal stamp kit sticker: wax seal imprint, stamp handle, and sealing wax; elegant label area; vintage luxe vibe",
-      candle_spell_jar: "spell candle jar sticker (glass candle jar) with label panel; tiny sigils/sparkles contained inside border; no branding",
+      // Lifestyle / cute
       matchbook: "matchbook / matchbox sticker with bold headline and short quote; matchstick icons; clean vintage pop look",
       polaroid_frame: "polaroid photo frame sticker with blank photo area and caption strip; clean border; no branding",
-      nail_polish: "nail polish bottle sticker with glossy highlight, label panel, and tiny sparkles; clean silhouette; no branding",
-      coffee_cup: "coffee cup / iced coffee / tea sticker with lid, straw (optional), label panel, condensation highlights; no branding",
-      specimen_vial: "lab specimen vial sticker with barcode label and sparkly ‘evidence’ fill; clean lab aesthetic; no branding",
-      evidence_tag: "evidence tag sticker (clean/cute) with barcode, case number fields, and short quote area; no real case identifiers",
-      tarot_card: "original tarot card pack sticker (no copyrighted deck), ornate frame, title block, symbolic icon; clean readable typography",
-      bookmark_sneaker_lace: "bookmark + sneaker lace combo sticker: cute bookmark tag paired with a stylized sneaker lace bow/loop; clever bookish + streetwear mashup; clean outlines",
-      book_stack_tropes: "stack of books sticker with trope names on spines (bold readable), cute accents, clean outlines; no real titles/authors",
-      confession_note: "confession note sticker with ‘CONFESSION:’ header and bold handwritten quote; clean paper edges; cute dramatic vibe"
+      nail_polish: "nail polish bottle sticker with glossy highlight, label panel, tiny sparkles; no branding",
+      coffee_cup: "coffee / iced coffee / tea cup sticker with lid and optional straw; condensation highlights; label panel; no branding",
+      bookmark_sneaker_lace: "bookmark + sneaker lace combo sticker: cute bookmark tag paired with a stylized sneaker lace loop/bow; bookish + streetwear mashup; crisp outlines",
+      book_stack: "stack of books sticker with trope names on the spines (bold readable typography), cute accents, clean outlines; no real titles/authors"
     };
 
-    // Accents map (optional helpers). Cut-safe will clamp these in prompt.
+    const PRODUCT_LABEL_TITLE_BANK = {
+      guest_check: ["GUEST CHECK","BOOKSTORE DATE CHECK","TAB: BOOKS + CHEMISTRY","CHECK, PLEASE (TO THE BOOKSTORE)"],
+      tbr_receipt: ["TBR RECEIPT","BOOKTOK TAX RECEIPT","RE-READ RECEIPT","PLOT TWIST RECEIPT"],
+      library_card: ["CHECKED OUT","BOOKLAND RESIDENT","DUE BACK: NEVER","LIBRARY FLIRT CARD"],
+      spice_scale: ["SPICE SCALE","CHEMISTRY CHECK","HEAT LEVELS"],
+      delulu_meter: ["DELULU METER","REALITY CHECK","MANIFESTATION LEVELS"],
+      door_tag: ["DO NOT DISTURB","READING IN PROGRESS","IN BOOKLAND","NOT AVAILABLE"],
+      name_tag: ["HELLO, I AM","READER STATUS","INTROVERT MODE","MAIN CHARACTER"],
+      book_review_card: ["BOOK REVIEW","5-STAR REPORT","THIS RUINED ME"],
+      matchbook: ["IGNITE ME","BURN AFTER READING","STRIKE A MATCH"],
+      candle_jar: ["SPELL CANDLE","PROTECTION CANDLE","LOVE WORK CANDLE"],
+      elixir: ["LOVE ELIXIR","COVEN CHIC TONIC","BOOKLAND SERUM"],
+      default: ["MAIN CHARACTER ENERGY","PLOT TWIST PENDING","SOFT LIFE LOADING","GREY AREA ONLY","LUXURY LOVE ONLY"]
+    };
+
+    const LABEL_SUBS = {
+      romance: [
+        "99% Delulu • 1% Regret",
+        "Side effects: possessive energy",
+        "Dosage: one more chapter",
+        "Warning: may cause delulu",
+        "Results: immediate butterflies",
+        "Not FDA approved (but effective)"
+      ],
+      thriller: [
+        "Case status: open",
+        "Suspect: too charming",
+        "Evidence: unread texts",
+        "Plot twist pending",
+        "Risk level: high",
+        "Filed under: chaos"
+      ],
+      fantasy: [
+        "Enchanted • do not dilute",
+        "Moonlit dosage only",
+        "Spellbound & sealed",
+        "Summon at midnight",
+        "Protected by wards"
+      ],
+      paranormal: [
+        "Do not invite him in",
+        "Blood moon approved",
+        "Cloaked • keep secret",
+        "Soul ties possible"
+      ],
+      luxe: [
+        "Energy: expensive",
+        "Luxury love only",
+        "Polished & petty",
+        "Keep it cute"
+      ],
+      horror: [
+        "No sleep club",
+        "Lights on recommended",
+        "Do not read alone",
+        "Creepy cozy level: high",
+        "Plot twist: sinister"
+      ]
+    };
+
+    // ---------- accents ----------
     const DEFAULT_ACCENTS_BY_PRODUCT = {
       iv_bag: "gold foil flecks + glitter dots",
-      elixir_bottle: "gold foil flecks + glitter dots",
-      candle_spell_jar: "tiny sparkles + glitter dots",
-      tarot_card: "tiny sparkles + ornate frame flourishes",
+      elixir: "gold foil flecks + glitter dots + tiny star sparkles",
+      candle_jar: "tiny sparkles + glitter dots",
+      tarot_pack: "ornate frame flourishes + tiny sparkles",
       book_review_card: "tiny star doodles + sparkle dots",
-      book_stack_tropes: "tiny sparkles + small hearts",
-      horror_scale: "inky specks + tiny sparkles"
+      book_stack: "tiny hearts + sparkle dots",
+      tbr_receipt: "tiny star doodles + confetti dots",
+      guest_check: "tiny sparkles + doodle marks",
+      specimen_vial: "sparkly evidence glitter + tiny particles",
+      evidence_tag: "tiny sparkle corners + barcode shine"
     };
 
     function describeProductKey(){
@@ -717,206 +677,180 @@
       if(custom) return custom;
       const k = v("productTheme");
       if(!k) return "";
-      return PRODUCT_DESC[k] || `packaging-style sticker illustration of ${k} with clean label panel`;
+      return PRODUCT_DESC[k] || `packaging-style sticker illustration with clean label panel`;
     }
 
-    // ---------- Label banks ----------
-    const LABEL_TITLES = {
-      iv_bag: ["HEARTBREAK RECOVERY SOLUTION","EMERGENCY ROMANCE SUPPLY","THE GREY DOSE SUPPLY","MIDNIGHT OBSESSION DRIP","SOFT LIFE TRANSFUSION","MAIN CHARACTER SERUM","JEALOUSY ANTIDOTE","TRUST ISSUES TREATMENT"],
-      pill_bottle: ["MORALLY GREY CAPSULES","BOOK BOYFRIEND PILLS","UNHINGED MMC TABLETS","TBR CONTROL MEDS","INTROVERT ENERGY CAPS","DELULU SUPPORT PILLS","CHAOS & CHEMISTRY RX"],
-      prescription_pad: ["PRESCRIPTION: BAD DECISIONS","RX: SOFT ERA ONLY","RX: ONE MORE CHAPTER","RX: RESPECTFULLY, NO","RX: MAIN CHARACTER MODE","RX: READ & DISAPPEAR"],
-      heart_monitor: ["HEART RATE: UNHINGED","PULSE CHECK: OBSESSED","STATUS: CHEMISTRY SPIKE","ALERT: BOOK BOYFRIEND","WARNING: FEELINGS DETECTED","STABILITY: NOT FOUND"],
-      toe_tag: ["CAUSE OF DEATH: FEELINGS","PRONOUNCED: DOWN BAD","CASE FILE: HEART SNATCHED","EVIDENCE: TEXTS TOO SWEET","MOTIVE: BOOKISH OBSESSION","FILED UNDER: CHAOS"],
-      seasoning: ["MAIN CHARACTER SEASONING","MORALLY GREY SPICE","UNHINGED MMC RUB","SOFT LIFE SPRINKLE","CITY-LIT HEAT","BOOKISH DUST"],
-      hot_sauce: ["PROTECTIVE HEAT","OBSESSION HOT SAUCE","MORALLY GREY FIRE","UNHINGED DRIP","CITY-LIT SCORCH","MIDNIGHT FLAME"],
-      honey_jar: ["SOFT LIFE HONEY","SWEET LIKE TROUBLE","BOOK BAE HONEY","MIDNIGHT GOLD","OBSESSION DRIZZLE","DANGEROUSLY SWEET"],
-      juice_bottle: ["DELULU JUICE","SOFT LIFE SIP","CITY-LIT NECTAR","BOOK BAE BLEND","ROMANCE REFRESH","SPARKLE SQUEEZE"],
-      energy_drink: ["ONE MORE CHAPTER ENERGY","UNHINGED MMC FUEL","PLOT TWIST POWER","BOOKTROVERT BOOST","TBR TURBO","MIDNIGHT HUSTLE"],
-      candy: ["SWEET BUT TOXIC","DELULU DROPS","CHEMISTRY CHEWS","BOOK BAE BITES","MIDNIGHT MELTS","UNHINGED FLAVOR"],
-
-      // new
-      library_card: ["BOOKLAND RESIDENT","CHECKED OUT","DUE BACK: NEVER","LIBRARY FLIRT CARD","READER ON FILE"],
-      guest_check: ["GUEST CHECK","BOOKSTORE DATE RECEIPT","LOVE + LITERATURE","TAB: PAID IN CHAPTERS"],
-      tbr_receipt: ["TBR RECEIPT","RE-READ PURCHASE","BOOKTOK TAX","PLOT TWIST RECEIPT"],
-      door_tag: ["DO NOT DISTURB","READING IN PROGRESS","IN BOOKLAND","NOT AVAILABLE"],
-      name_tag: ["HELLO, I AM","READER STATUS","INTROVERT MODE","MAIN CHARACTER"],
-      spice_meter: ["SPICE SCALE","CHEMISTRY CHECK","HEAT LEVELS"],
-      delulu_meter: ["DELULU METER","REALITY CHECK","MANIFESTATION LEVELS"],
-      ugly_cry_meter: ["UGLY CRY METER","TEAR LEVELS","EMOTIONAL DAMAGE"],
-      horror_scale: ["HORROR SCALE","NO SLEEP CLUB","CREEPY COZY METER"],
-      caution_sign: ["WARNING","CAUTION","PROCEED WITH FEELINGS"],
-      phone_dnd: ["DND MODE","AIRPLANE MODE","SILENT MOVES"],
-      sticky_memos: ["NOTE TO SELF","REMINDER","DO THIS AGAIN"],
-      fortune_cookie: ["FORTUNE","READER PROPHECY","TODAY’S SIGN"],
-      magic_8_ball: ["MAGIC 8 BALL","ASK AGAIN","THE PLOT KNOWS"],
-      glass_fortune_ball: ["FORTUNE BALL","THE VISION","SEEING CLEARLY"],
-      bp_monitor: ["READING VITALS","PULSE CHECK","BP STATUS"],
-      book_review_card: ["BOOK REVIEW","5 STAR REPORT","THIS RUINED ME"],
-      elixir_bottle: ["LOVE ELIXIR","BOOKLAND TONIC","COVEN CHIC SERUM"],
-      wax_seal_stamp: ["SEALED","COVEN SEAL","SIGNED & SEALED"],
-      candle_spell_jar: ["SPELL CANDLE","PROTECTION CANDLE","LOVE WORK CANDLE"],
-      matchbook: ["IGNITE ME","BURN AFTER READING","STRIKE A MATCH"],
-      polaroid_frame: ["SNAPSHOT","MEMORY","PROOF OF CHEMISTRY"],
-      nail_polish: ["GLOSS MODE","SOFT GLAM","READ & SLAY"],
-      coffee_cup: ["BREW & READ","CAF + CHAPTERS","SIP & PLOT"],
-      specimen_vial: ["EVIDENCE VIAL","CASE SAMPLE","SPARKLY PROOF"],
-      evidence_tag: ["EVIDENCE TAG","CASE FILE","EXHIBIT A"],
-      tarot_card: ["THE READER","THE PLOT TWIST","THE BOOK BOYFRIEND"],
-      bookmark_sneaker_lace: ["MARK MY PAGE","LACED & BOOKED","BOOKISH DRIP"],
-      book_stack_tropes: ["TROPE STACK","WHY CHOOSE","SLOW BURN STACK"],
-      confession_note: ["CONFESSION","IYKYK","OFF THE RECORD"],
-      default: ["MAIN CHARACTER ENERGY","PLOT TWIST PENDING","SOFT LIFE LOADING","LUXURY LOVE ONLY","DANGEROUS DESIRE","CITY-LIT CHAOS","GREY AREA ONLY"]
-    };
-
-    const LABEL_SUBS = {
-      romance: ["99% Delulu • 1% Regret","Side effects: possessive energy","Dosage: one more chapter","Warning: may cause delulu","Results: immediate butterflies","Not FDA approved (but effective)"],
-      thriller: ["Case status: open","Suspect: too charming","Evidence: unread texts","Warning: plot twist pending","Risk level: high","File under: chaos"],
-      fantasy: ["Enchanted • do not dilute","Moonlit dosage only","Blessed by ancestors","Spellbound & sealed","Summon at midnight","Protected by wards"],
-      paranormal: ["Not responsible for hauntings","Warning: soul ties possible","Night shift use only","Do not invite him in","Blood moon approved","Cloaked • keep secret"],
-      luxe: ["Handle with care","Energy: expensive","Luxury love only","Polished & petty","Read it again","Keep it cute"],
-      horror: ["No sleep club","Creepy cozy level: high","Lights on recommended","Do not read alone","If you know, you know","Plot twist: sinister"]
-    };
-
-    function subtitleSetForGenreTone(){
-      const g = v("genreTone");
-      if(g==="thriller") return "thriller";
-      if(g==="fantasy") return "fantasy";
-      if(g==="black_paranormal") return "paranormal";
-      if(g==="horror") return "horror";
-      if(g==="bookish_luxe") return "luxe";
-      if(g==="soft_glam_reader") return "luxe";
-      return "romance";
-    }
-
-    function getAutoLabel(){
-      const productKey = v("productTheme") || "default";
-      const titles = LABEL_TITLES[productKey] || LABEL_TITLES.default;
-      const subs = LABEL_SUBS[subtitleSetForGenreTone()] || LABEL_SUBS.romance;
-      return { title: pick(titles), subtitle: pick(subs) };
-    }
-
-    // ---------- Tropes (expanded, non-graphic) ----------
-    const TROPE_LIBRARY = [
-      "Billionaire / Wealthy MMC","Boss MMC","Celebrity MMC","Royalty MMC","Bodyguard MMC","Protector MMC",
-      "Age Gap","Grumpy x Sunshine","Enemies to Lovers","Friends to Lovers","Forbidden Love","Slow Burn",
-      "He Falls First","Touch Her & Die","Who Did This to You","Only One Bed","Fake Dating","Forced Proximity",
-      "Morally Grey MMC","Anti-Hero MMC","Villain Gets the Girl","Second Chance Romance","Workplace Romance",
-      "Single Dad MMC","Step-Daddy MMC (steps up as ideal father figure)","Found Family",
-      "Reverse Harem / Why Choose","MMF","MFM","MMFMM","MMMF","MMMMF",
-      "Witches","Vampires","Demons","Werewolves","Fae","Fated Mates","Soulmates","Cursed Lovers","Prophecy",
-      "Audiobook Addict","Kindle Girlie","TBR Overload","5-Star Ruined Me","Ugly Cry Certified"
-    ].map(t => `Trope: ${t}`);
-
-    // ---------- Quote banks ----------
+    // ---------- quote banks ----------
     const MICRO_QUOTES = [
-      "Final Chapter Energy","Airplane Mode Activated","Kindle Confidential","TBR Supreme","Booktrovert Vibes",
-      "Certified Delulu","Plot Twist Pending","Morals Optional","Grace With Teeth","Stand On Business",
-      "No Face No Case","Energy Expensive","Act Right Only","Handle Correctly","Possessive Energy Only",
-      "Soft But Savage","Pretty With Power","Reader In Charge","Do Not Disturb","Main Character Mood"
+      "Final Chapter Energy","Kindle Confidential","TBR Supreme","Booktrovert Vibes",
+      "Certified Delulu","Plot Twist Pending","Morals Optional","Grace With Teeth",
+      "Stand On Business","Energy Expensive","Handle Correctly","Possessive Energy Only",
+      "Soft But Savage","Pretty With Power","Reader In Charge","Do Not Disturb"
+    ];
+
+    // Templates based on your exact “whatever” phrasing (safe + editable):
+    const TEMPLATE_QUOTES = [
+      "I love “___” real bad.",
+      "Me + “___” go together real bad.",
+      "In my “___” era.",
+      "DBE: “___” … 5 stars.",
+      "This book ruined me… 5 stars.",
+      "Remaining in Bookland until further notice.",
+      "Ugly cry… “___”.",
+      "STFUATTDLAGG — “___”."
+    ];
+
+    const TROPE_QUOTES = [
+      // your requested trope list + extras (non-graphic)
+      "Trope: Wealthy MMC",
+      "Trope: Billionaire MMC",
+      "Trope: Boss MMC",
+      "Trope: Age Gap",
+      "Trope: Protector MMC",
+      "Trope: Bodyguard MMC",
+      "Trope: Single Dad MMC",
+      "Trope: Step-Daddy MMC (he steps up as ideal father figure)",
+      "Trope: Reverse Harem / Why Choose",
+      "Trope: MMF",
+      "Trope: MFM",
+      "Trope: MMFMM",
+      "Trope: MMMF",
+      "Trope: MMMMF",
+      "Trope: Enemies to Lovers",
+      "Trope: Forbidden Love",
+      "Trope: Slow Burn",
+      "Trope: He Falls First",
+      "Trope: Only One Bed",
+      "Trope: Fake Dating",
+      "Trope: Forced Proximity",
+      "Trope: Morally Grey MMC",
+      "Trope: Touch Her & Die (non-graphic)",
+      "Trope: Who Did This To You (protective)",
+      "Trope: Found Family",
+      "Trope: Second Chance"
     ];
 
     const QUOTE_BANKS = {
-      // CORE
+      // core
       general_urban_bookish: [
-        "Booked, Busy, Unavailable.","Reading Is My Love Language.","Respectfully, I’m In A Chapter.","If I Reply Late, Blame The Plot.",
-        "I’m Not Ignoring You—The MMC Is.","My Peace Got Page Numbers.","Fictional Standards Only.","Text Me After The Epilogue.",
-        "I Read That… Don’t Ask Questions.","Keep It Cute, I’m Reading.","I Don’t Chase— I Turn Pages.","Plot Thickening, Don’t Call.",
-        "I’m Outside… In My Kindle.","Soft Life, Sharp Tongue.","I’m Sweet—Until The Plot Twists."
+        "Booked, busy, unavailable.",
+        "Respectfully, I’m in a chapter.",
+        "If I reply late, blame the plot.",
+        "Text me after the epilogue.",
+        "Keep it cute, I’m reading.",
+        "My peace got page numbers.",
+        "Fictional standards only.",
+        "Plot thickening, don’t call.",
+        "Soft life, sharp tongue.",
+        "Pretty, booked, and bothered? Never."
       ],
       tbr_kindle_booktok: [
-        "My Kindle Know My Business.","My TBR Is A Lifestyle.","BookTok Made Me Do It.","Kindle History Stays Private.",
-        "One More Chapter Is A Lie.","I’m In My Re-Read Era.","I Buy Books Like It’s Therapy.","My TBR Got A Mortgage.",
-        "My Kindle Is The Side Piece.","I’m Booked Through Next Week.","I DNF People Too.","Shelf Control Issues."
+        "My Kindle know my business.",
+        "One more chapter is a lie.",
+        "BookTok made me do it.",
+        "I’m in my re-read era.",
+        "My TBR got a mortgage.",
+        "I DNF people too.",
+        "Shelf control issues.",
+        "Kindle history stays private."
       ],
       morally_gray: [
-        "If He’s Wrong, I’m Worse.","Grace With Teeth.","Morals? Negotiable.","Pretty. Petty. Precise.","I’m Not Nice. I’m Necessary.",
-        "Charm Is Tactical.","Mercy Is Optional.","I Play Long Games.","Soft Voice. Hard Consequences."
+        "If he’s wrong, I’m worse.",
+        "Charm is tactical.",
+        "Mercy is optional.",
+        "Soft voice. Hard consequences.",
+        "Pretty. Petty. Precise.",
+        "I play long games.",
+        "Villain era, but make it cute."
       ],
       unhinged_mmc: [
-        "He’s Unstable. I’m Interested.","Mine. No Discussion.","Obsessed Is Romantic.","Touch Me & See.","He Doesn’t Share.",
-        "Protective Looks Good.","He’d Burn Cities For Me.","Red Flags Are Decorative."
+        "Mine. No discussion.",
+        "Obsessed is romantic.",
+        "He doesn’t share.",
+        "Protective looks good.",
+        "Touch me & see (non-graphic).",
+        "Red flags are decorative."
       ],
       street_lingo: [
-        "Stand On Business.","Ten Toes. No Folding.","Don’t Play In My Face.","Clocked & Noted.","Say Less.",
-        "Keep It Cute Or Keep It Moving.","Energy Expensive.","No Face. No Case.","Silent Moves. Loud Results."
+        "Stand on business.",
+        "Ten toes. No folding.",
+        "Don’t play in my face.",
+        "Clocked & noted.",
+        "Say less.",
+        "Keep it cute or keep it moving."
       ],
-      tropes: TROPE_LIBRARY,
+      tropes: TROPE_QUOTES,
+      mood_iykyk: [
+        ...TEMPLATE_QUOTES,
+        "Mood: unbothered, booked.",
+        "Mood: expensive peace.",
+        "IYKYK.",
+        "The girls that get it, get it.",
+        "Audiobook on 1.5x.",
+        "Narrator got me blushing.",
+        "Slow burn, fast heartbeat.",
+        "Tissues required.",
+        "Crying but cute."
+      ],
 
-      // GENRE FLAVORS
+      // genre flavors
       urban_fiction: [
-        "Ride Or Die Reads.","Love Loud. Move Quiet.","City-Lit Chemistry.","Pressure Make Diamonds.",
-        "Hood Luxe, Soft Hands.","Don’t Fold On The Feelings."
+        "City-lit chemistry.",
+        "Pressure make diamonds.",
+        "Love loud. Move quiet.",
+        "Hood luxe, soft hands.",
+        "Ride-or-die reads."
       ],
       black_romance: [
-        "Soft Love, Strong Boundaries.","Luxury Love Only.","Healed, But Still Don’t Try Me.","Love Me Correctly.",
-        "Black Love, Big Energy.","Peace First, Passion Second."
+        "Black love, big energy.",
+        "Soft love, strong boundaries.",
+        "Love me correctly.",
+        "Peace first, passion second."
       ],
       dark_romance: [
-        "Sweet… Until Midnight.","Danger Looks Good.","Tension Got A Grip On Me.","Bad Decisions, Great Chemistry.",
-        "He’s A Problem. I’m Invested.","I Like It Dark And Devoted."
+        "Sweet… until midnight.",
+        "Bad decisions, great chemistry.",
+        "Tension got a grip on me.",
+        "Danger looks good."
       ],
       black_paranormal: [
-        "Ancestral Power Activated.","Moonlit & Dangerous.","My Aura Don’t Argue.","Spirit-Safe, But Still Spicy.",
-        "Wards Up, Standards Higher.","Coven Chic Only."
+        "Ancestral power activated.",
+        "Wards up, standards higher.",
+        "Coven chic only.",
+        "Moonlit & dangerous."
       ],
       thriller: [
-        "Trust No One.","Hidden In Plain Sight.","Smile. It’s Recorded.","Cold Case Energy.","Observe. Then Strike.",
-        "Nothing Is Random.","Keep Your Eyes Open."
+        "Trust no one.",
+        "Hidden in plain sight.",
+        "Cold case energy.",
+        "Plot twist pending."
       ],
       fantasy: [
-        "Spellbound & Sealed.","Summon At Midnight.","Divine & Dangerous.","Enchanted, Not Explained.",
-        "Cursed In A Cute Way.","Fae Rules, My Terms."
+        "Spellbound & sealed.",
+        "Summon at midnight.",
+        "Divine & dangerous.",
+        "Fae rules, my terms."
       ],
       horror: [
-        "No Sleep Club.","Creepy Cozy Reader.","I Read This Alone. Mistake.","If You Hear That… Run.","The Plot Is Possessed.",
-        "Lights On, Pages Turned.","Something’s In This Chapter.","This Book Took My Peace."
-      ],
-      bookish_luxe: [
-        "Glossy Covers, Expensive Taste.","Quiet Luxury, Loud Standards.","Polished & Petty.","Champagne Chapters Only.",
-        "Reader, But Make It Luxury."
+        "No sleep club.",
+        "Lights on, pages turned.",
+        "Do not read alone.",
+        "Creepy cozy reader.",
+        "This book took my peace."
       ],
       soft_glam_reader: [
-        "Soft Glam, Sharp Mind.","Pretty Pages Only.","Cozy But Don’t Test Me.","Lip Gloss & Literature.",
-        "Sweet Voice, Strong No."
+        "Soft glam, sharp mind.",
+        "Lip gloss & literature.",
+        "Cozy but don’t test me.",
+        "Pretty pages only."
       ],
-
-      // vibe/format mini-banks (used when those vibes are selected; also used by random)
-      mood_quotes: [
-        "Mood: unbothered, booked.","Mood: in my chapter era.","Mood: expensive peace.","Mood: soft life only.",
-        "Mood: don’t text—plotting."
-      ],
-      iykyk: [
-        "IYKYK.","If you know, you know.","You had to be there.","The girls that get it, get it.","Insider plot only."
-      ],
-      audiobook: [
-        "Audiobook on 1.5x.","Narrator got me blushing.","Headphones = boundaries.","If the audio hits, I’m gone."
-      ],
-      ruined_me_5stars: [
-        "This book ruined me… 5 stars.","Emotionally damaged… 5 stars.","I’ll never recover… 5 stars.","Sobbing… 5 stars."
-      ],
-      bookland: [
-        "Remaining in Bookland until further notice.","Do not disturb: Bookland.","Out of office: Bookland.","Currently unavailable: Bookland."
-      ],
-      in_my_era: [
-        "In my ‘soft but savage’ era.","In my ‘no new friends, just new books’ era.","In my ‘main character’ era.","In my ‘mind my business’ era."
-      ],
-      dbe: [
-        "DBE: down bad energy… 5 stars.","DBE: dangerously booked… 5 stars.","DBE: delulu but disciplined… 5 stars."
-      ],
-      slow_burn: [
-        "Slow burn, fast heartbeat.","Slow burn season.","Worth the wait.","Tension is the point."
-      ],
-      stfuattdlagg: [
-        "STFUATTDLAGG.","Say less. Turn the page.","Keep talking—I'm reading.","Louder? I’m in chapter 23."
-      ],
-      ugly_cry: [
-        "Ugly cry incoming.","Tissues required.","Crying but cute.","Sobbing in silence."
+      bookish_luxe: [
+        "Quiet luxury, loud standards.",
+        "Glossy covers, expensive taste.",
+        "Champagne chapters only.",
+        "Polished & petty."
       ]
     };
-
-    function wordCount(s){
-      return (s||"").trim().split(/\s+/).filter(Boolean).length;
-    }
 
     function customQuoteBank(){
       const raw = (v("customQuotes")||"").trim();
@@ -924,7 +858,7 @@
       return raw.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
     }
 
-    function selectedGenreBanks(){
+    function selectedGenreKeys(){
       const map = [
         ["gUrbanFiction","urban_fiction"],
         ["gBlackRomance","black_romance"],
@@ -933,68 +867,38 @@
         ["gThriller","thriller"],
         ["gFantasy","fantasy"],
         ["gHorror","horror"],
-        ["gBookishLuxe","bookish_luxe"],
-        ["gSoftGlam","soft_glam_reader"]
+        ["gSoftGlam","soft_glam_reader"],
+        ["gBookishLuxe","bookish_luxe"]
       ];
       return map.filter(([id])=>c(id)).map(([,k])=>k);
     }
 
-    function vibeKeyFromSelection(){
-      const vv = ((v("customVibe")||"").trim() || v("vibe") || "").toLowerCase();
-      if(!vv) return "";
-
-      if(vv.includes("mood")) return "mood_quotes";
-      if(vv.includes("iykyk")) return "iykyk";
-      if(vv.includes("audiobook")) return "audiobook";
-      if(vv.includes("ruined me")) return "ruined_me_5stars";
-      if(vv.includes("bookland")) return "bookland";
-      if(vv.includes("in my")) return "in_my_era";
-      if(vv.includes("dbe")) return "dbe";
-      if(vv.includes("slow burn")) return "slow_burn";
-      if(vv.includes("stfuattdl")) return "stfuattdlagg";
-      if(vv.includes("ugly cry")) return "ugly_cry";
-      return "";
-    }
-
     function buildQuotePool(){
-      // 1) Custom quotes win
       const custom = customQuoteBank();
       if(custom.length) return custom;
 
-      // 2) Base pool from selected core banks
       let pool = [];
-
       if(c("bGeneralUrbanBookish")) pool.push(...(QUOTE_BANKS.general_urban_bookish||[]));
       if(c("bTBRKindleBooktok")) pool.push(...(QUOTE_BANKS.tbr_kindle_booktok||[]));
       if(c("bMorallyGray")) pool.push(...(QUOTE_BANKS.morally_gray||[]));
       if(c("bUnhingedMMC")) pool.push(...(QUOTE_BANKS.unhinged_mmc||[]));
       if(c("bStreetLingo")) pool.push(...(QUOTE_BANKS.street_lingo||[]));
       if(c("bTropes")) pool.push(...(QUOTE_BANKS.tropes||[]));
+      if(c("bMoodIYKYK")) pool.push(...(QUOTE_BANKS.mood_iykyk||[]));
 
-      // 3) Add genre flavors (only if toggled)
-      selectedGenreBanks().forEach(key=>{
-        pool.push(...(QUOTE_BANKS[key]||[]));
-      });
+      selectedGenreKeys().forEach(k=> pool.push(...(QUOTE_BANKS[k]||[])));
 
-      // 4) If vibe implies a mini-bank, add it (doesn't count against your 1–2 bank picker, it's automatic flavor)
-      const vk = vibeKeyFromSelection();
-      if(vk) pool.push(...(QUOTE_BANKS[vk]||[]));
-
-      // 5) Mode adds micro
       const qm = v("quoteMode");
       if(qm === "micro" || qm === "any") pool.push(...MICRO_QUOTES);
 
       pool = uniq(pool);
 
-      // If nothing selected, fallback
       if(pool.length === 0){
-        pool = uniq([...(QUOTE_BANKS.general_urban_bookish||[]), ...(QUOTE_BANKS.street_lingo||[]), ...MICRO_QUOTES]);
+        pool = uniq([...(QUOTE_BANKS.general_urban_bookish||[]), ...(QUOTE_BANKS.mood_iykyk||[]), ...MICRO_QUOTES]);
       }
 
-      // If micro mode, strongly bias micro
       if(qm === "micro"){
-        const micro = uniq([...MICRO_QUOTES]);
-        return micro.length ? micro : pool;
+        return uniq([...MICRO_QUOTES, ...TEMPLATE_QUOTES]);
       }
 
       return pool;
@@ -1008,7 +912,24 @@
       return pool.length ? pick(pool) : "";
     }
 
-    // ---------- Typography / spice ----------
+    // ---------- strict cut-safe (stronger than before) ----------
+    function cutSafeText(){
+      if(!c("cutSafeMode")) return "";
+      return [
+        "Cut-safe die-cut requirement: one continuous closed silhouette outline around the ENTIRE design.",
+        "ABSOLUTE RULE: every sparkle, glitter dot, foil fleck, smoke wisp, particle, shine pop, and glow must be INSIDE the silhouette boundary.",
+        "No floating elements outside the border. No stray dots. No outside specks. No outside aura. No outer shadow.",
+        "Any glow must hug the silhouette tightly and remain fully inside the die-cut outline.",
+        "If any particles would cross the edge, remove them."
+      ].join(" ");
+    }
+    function accentContainmentSuffix(){
+      return c("cutSafeMode")
+        ? "(ALL accents/particles/glow fully contained INSIDE the silhouette; zero elements outside the outline)"
+        : "";
+    }
+
+    // ---------- typography + spice ----------
     function typographyRuleText(){
       if(v("typoRule") !== "on") return "";
       return "clear legible typography, centered composition, bold high-contrast text, no distorted letters";
@@ -1022,17 +943,7 @@
       return "spice aesthetic: filthy talk energy, power tension, ruthless chemistry (non-graphic)";
     }
 
-    // ---------- Cut-safe instruction (applies to ALL accents) ----------
-    function cutSafeText(){
-      if(!c("cutSafeMode")) return "";
-      return "Cut-safe die-cut requirement: one continuous closed silhouette outline around the ENTIRE design. All glow/sparkles/smoke/particles must stay INSIDE the silhouette boundary. No floating elements outside the border. No drifting aura; any glow must hug the silhouette tightly.";
-    }
-    function accentContainmentSuffix(){
-      if(!c("cutSafeMode")) return "";
-      return "(ALL accents/particles/glow fully contained INSIDE the silhouette; nothing outside the outline)";
-    }
-
-    // ---------- Visual finish ----------
+    // ---------- finish / style ----------
     function finishText(){
       const outline = (v("outline")==="bold_black") ? "thick bold outline" : "no outline";
       const border = (v("border")==="white") ? "clean white sticker offset border" : "no sticker border";
@@ -1046,39 +957,14 @@
 
       return [
         outline, border, bg, varText,
-        "crisp edges, vector-like clarity",
+        "bold shapes, punchy contrast",
+        "crisp outlines, crisp edges, vector-like clarity",
         "high resolution",
         "no brand logos, no watermark"
       ].filter(Boolean).join(", ");
     }
 
-    // ---------- Subject / label logic ----------
-    function shouldIncludeQuoteLine(stickerType){
-      const usage = v("quoteUsage"); // smart|always|never
-      if(c("blankMode")) return false;
-      if(usage === "never") return false;
-      if(usage === "always") return true;
-
-      if(stickerType === "icon_quote") return true;
-      if(stickerType === "quote_only") return true;
-      if(stickerType === "packaging") return false;
-      return false;
-    }
-
-    function genreToneText(){
-      const g = v("genreTone");
-      if(!g) return "";
-      return "genre tone: " + g.replaceAll("_"," ") + ".";
-    }
-
-    function vibeText(){
-      const custom = (v("customVibe")||"").trim();
-      const base = v("vibe");
-      const vv = custom || base;
-      return vv ? ("vibe: " + vv + ".") : "";
-    }
-
-    // ✅ Harmony rule: if Horror and palette left blank, auto-pair red/black palette in prompt
+    // ---------- harmony: horror -> red/black palette when blank ----------
     function paletteText(){
       const custom = (v("customPalette")||"").trim();
       const base = v("palette");
@@ -1087,33 +973,68 @@
       if(!p && v("genreTone")==="horror"){
         p = pick(HORROR_PALETTES);
       }
-
       return p ? ("color palette: " + p + ".") : "";
     }
 
+    function genreToneText(){
+      const g = v("genreTone");
+      return g ? ("genre tone: " + g.replaceAll("_"," ") + ".") : "";
+    }
+
+    function vibeText(){
+      const vv = ((v("customVibe")||"").trim() || v("vibe") || "").trim();
+      return vv ? ("vibe: " + vv + ".") : "";
+    }
+
     function buildLabelTextBlock(stickerType, quote){
-      if(c("blankMode")) return "No label text.";
-      const mode = v("labelMode"); // none|auto|manual|mixed|quote_subtitle
+      if(c("blankMode")) return "No label text. No quote text. No typography.";
+      const mode = v("labelMode");
       if(mode === "none") return "No label text.";
-      if(stickerType !== "packaging" && v("productTheme")==="") return "";
 
       const manualTitle = (v("titleText")||"").trim();
       const manualSub = (v("subtitleText")||"").trim();
 
-      const auto = getAutoLabel();
-      const title = (mode==="manual") ? manualTitle :
-                    (mode==="mixed") ? (manualTitle || auto.title) :
-                    (mode==="quote_subtitle") ? (auto.title) :
-                    (auto.title);
+      const pKey = v("productTheme") || "default";
+      const titlePool = PRODUCT_LABEL_TITLE_BANK[pKey] || PRODUCT_LABEL_TITLE_BANK.default;
+      const autoTitle = pick(titlePool);
 
-      const subtitle = (mode==="manual") ? manualSub :
-                       (mode==="mixed") ? (manualSub || auto.subtitle) :
-                       (mode==="quote_subtitle") ? (quote || auto.subtitle) :
-                       (auto.subtitle);
+      const subKey = subSetForGenre();
+      const autoSub = pick(LABEL_SUBS[subKey] || LABEL_SUBS.romance);
+
+      const title =
+        (mode==="manual") ? manualTitle :
+        (mode==="mixed") ? (manualTitle || autoTitle) :
+        (mode==="quote_subtitle") ? autoTitle :
+        autoTitle;
+
+      const subtitle =
+        (mode==="manual") ? manualSub :
+        (mode==="mixed") ? (manualSub || autoSub) :
+        (mode==="quote_subtitle") ? (quote || autoSub) :
+        autoSub;
 
       if(mode==="manual" && !title && !subtitle) return "No label text.";
-
       return `Label text (packaging-style): title “${title}”${subtitle ? `, subtitle “${subtitle}”` : ""}.`;
+    }
+
+    function subSetForGenre(){
+      const g = v("genreTone");
+      if(g==="thriller") return "thriller";
+      if(g==="fantasy") return "fantasy";
+      if(g==="black_paranormal") return "paranormal";
+      if(g==="horror") return "horror";
+      if(g==="soft_glam_reader" || g==="bookish_luxe") return "luxe";
+      return "romance";
+    }
+
+    function shouldIncludeQuoteLine(stickerType){
+      const usage = v("quoteUsage");
+      if(c("blankMode")) return false;
+      if(usage === "never") return false;
+      if(usage === "always") return true;
+      if(stickerType === "icon_quote") return true;
+      if(stickerType === "quote_only") return true;
+      return false;
     }
 
     function mainSubjectText(){
@@ -1131,35 +1052,42 @@
 
     function accentsText(){
       const userAcc = (v("customAccents")||"").trim();
-      const key = v("productTheme");
-      const defaultAcc = DEFAULT_ACCENTS_BY_PRODUCT[key] || "";
+      const pKey = v("productTheme");
+      const defaultAcc = DEFAULT_ACCENTS_BY_PRODUCT[pKey] || "";
       const combined = [userAcc, defaultAcc].filter(Boolean).join(" + ");
       if(!combined) return "";
       return `add accents: ${combined} ${accentContainmentSuffix()}.`;
     }
 
-    // ---------- Prompt assembly ----------
+    // ---------- prompt assembly ----------
     function buildPromptSingle(){
       const stickerType = v("stickerType");
       const quote = chooseQuote();
       const typo = typographyRuleText();
-      const safety = "original design, no trademarks, no brand names, no copyrighted characters";
+      const cutSafe = cutSafeText();
+
+      const safety = [
+        "original design",
+        "no trademarks",
+        "no brand names",
+        "no copyrighted characters",
+        "no real book titles",
+        "no celebrity likeness"
+      ].join(", ");
+
+      const blankLine = c("blankMode") ? "Blank sticker mode: absolutely no text anywhere." : "";
 
       const quoteLine = (quote && shouldIncludeQuoteLine(stickerType))
-        ? `Optional quote line: “${quote}”.`
+        ? `Quote text: “${quote}”.`
         : "";
 
-      const labelTextBlock = buildLabelTextBlock(stickerType, quote);
+      const labelBlock = buildLabelTextBlock(stickerType, quote);
 
       const labelPanelNote = (stickerType === "packaging" || v("productTheme") || (v("customProductTheme")||"").trim())
         ? "Include a clean label panel area for text, centered layout, readable hierarchy."
         : "";
 
-      const cutSafe = cutSafeText();
-      const blankLine = c("blankMode") ? "No text at all (blank sticker mode)." : "";
-
-      // product theme readable text
-      const pt = ((v("customProductTheme")||"").trim())
+      const productThemeText = ((v("customProductTheme")||"").trim())
         ? (v("customProductTheme")||"").trim()
         : (v("productTheme") ? v("productTheme").replaceAll("_"," ") : "None");
 
@@ -1171,12 +1099,12 @@
         genreToneText(),
         vibeText(),
         spiceAesthetic() + ".",
-        "Product theme: " + pt + ".",
+        "Product theme: " + productThemeText + ".",
         mainSubjectText(),
         accentsText(),
         typo ? ("Typography: " + typo + ".") : "",
         labelPanelNote,
-        labelTextBlock,
+        labelBlock,
         quoteLine,
         blankLine,
         safety + ".",
@@ -1191,24 +1119,44 @@
         out.push(`Prompt ${i+1}:\n${buildPromptSingle()}`);
       }
 
-      const negative =
-        "photorealistic, blurry, low-res, messy outline, uneven line weight, distorted letters, unreadable text, random extra words, watermark, signature, brand logos, copyrighted characters, celebrity likeness, background scene, floating particles outside outline, aura outside silhouette, UI elements";
+      // Negative prompt explicitly forbids outside particles
+      const negative = [
+        "photorealistic",
+        "blurry",
+        "low-res",
+        "messy outline",
+        "uneven line weight",
+        "distorted letters",
+        "unreadable text",
+        "random extra words",
+        "watermark",
+        "signature",
+        "brand logos",
+        "copyrighted characters",
+        "celebrity likeness",
+        "background scene",
+        "floating particles outside outline",
+        "sparkles outside border",
+        "glitter outside border",
+        "foil flecks outside border",
+        "outside aura",
+        "outside glow",
+        "outer drop shadow",
+        "UI elements"
+      ].join(", ");
 
       const notes =
 `Export notes:
 - Best: PNG
-- Background: Transparent (recommended for stickers)
+- Background: Transparent recommended
 - Size: 2000–3000px
 
 Cut-safe:
-- When ON: forces a single closed die-cut silhouette + keeps ALL accents inside.
+- ON = strict containment of ALL accents (sparkles/glitter/foil/particles/glow) INSIDE silhouette.
+- If Ideogram still leaks sparkles outside, keep cut-safe ON and remove "extra sparkles" from custom accents.
 
 Harmony:
-- Horror + no palette selected => auto-bias to red/black palettes.
-
-Label logic:
-- Label Mode controls title/subtitle.
-- Blank mode removes all text instructions.`;
+- Horror + blank palette => auto red/black palettes.`;
 
       return { body: out.join("\n\n"), negative, notes };
     }
@@ -1242,22 +1190,19 @@ Label logic:
       }
     }
 
-    // ---------- Hand-drawn preset toggle ----------
+    // ---------- Hand-drawn preset ----------
     function applyHandDrawnPreset(){
-      if(!$("handDrawnPreset")) return;
-
-      if(c("handDrawnPreset")){
-        setV("variation","hand_drawn");
-        setV("outline","bold_black");
-        setV("border","white");
-        if(v("bgMode")==="none_specified") setV("bgMode","transparent");
-        setV("typoRule","on");
-      }
+      if(!c("handDrawnPreset")) return;
+      setV("variation","hand_drawn");
+      setV("outline","bold_black");
+      setV("border","white");
+      if(v("bgMode")==="none_specified") setV("bgMode","transparent");
+      setV("typoRule","on");
     }
 
-    // ---------- Randomize (picks 1–2 quote banks max, ALWAYS sensible) ----------
-    const CORE_BANK_IDS = ["bGeneralUrbanBookish","bTBRKindleBooktok","bMorallyGray","bUnhingedMMC","bStreetLingo","bTropes"];
-    const GENRE_BANK_IDS = ["gUrbanFiction","gBlackRomance","gDarkRomance","gBlackParanormal","gThriller","gFantasy","gHorror","gBookishLuxe","gSoftGlam"];
+    // ---------- Randomize (still respects 1–2 banks max per section) ----------
+    const CORE_BANK_IDS = ["bGeneralUrbanBookish","bTBRKindleBooktok","bMorallyGray","bUnhingedMMC","bStreetLingo","bTropes","bMoodIYKYK"];
+    const GENRE_BANK_IDS = ["gUrbanFiction","gBlackRomance","gDarkRomance","gBlackParanormal","gThriller","gFantasy","gHorror","gSoftGlam","gBookishLuxe"];
 
     function uncheckAll(ids){ ids.forEach(id=>{ if($(id)) $(id).checked = false; }); }
 
@@ -1268,65 +1213,55 @@ Label logic:
       shuffled.slice(0, pickCount).forEach(id=> setC(id,true));
     }
 
+    const ALL_PRODUCTS = Object.keys(PRODUCT_DESC);
+
     function randomize(){
       setV("count", String(pick(["1","2","3"])));
       setV("stickerType", pick(["packaging","icon_quote","icon_only","quote_only"]));
-
       setC("cutSafeMode", true);
 
-      // genre tone (now includes horror)
+      // genre tone (includes horror)
       const g = pick(["urban_fiction","dark_romance","black_paranormal","black_romance","thriller","fantasy","horror","soft_glam_reader","bookish_luxe",""]);
       setV("genreTone", g);
 
-      // vibe
-      setV("vibe", pick(Array.from($("vibe").options).map(o=>o.value).filter(x=>x!=="" && x!=="None")));
-
-      // variation (bias hand_drawn sometimes)
+      // variation
       const varPick = pick(["booktok_pop","bold_vector","luxury_editorial","neon_noir","noir_minimal","hand_doodle","hand_drawn","cute_clipart","vintage_label","kawaii_goth",""]);
       setV("variation", varPick);
       setC("handDrawnPreset", varPick==="hand_drawn");
 
-      // product theme (expanded)
-      const PACKAGING_PRODUCTS = [
-        "iv_bag","pill_bottle","prescription_pad","heart_monitor","toe_tag",
-        "seasoning","hot_sauce","honey_jar","juice_bottle","energy_drink","candy",
-        "door_tag","name_tag","library_card","guest_check","tbr_receipt",
-        "spice_meter","delulu_meter","ugly_cry_meter","horror_scale",
-        "caution_sign","phone_dnd","sticky_memos","fortune_cookie","magic_8_ball","glass_fortune_ball",
-        "bp_monitor","book_review_card","elixir_bottle","wax_seal_stamp","candle_spell_jar","matchbook",
-        "polaroid_frame","nail_polish","coffee_cup","specimen_vial","evidence_tag","tarot_card",
-        "bookmark_sneaker_lace","book_stack_tropes","confession_note"
-      ];
+      // vibe
+      setV("vibe", pick(Array.from($("vibe").options).map(o=>o.value).filter(Boolean)));
 
-      if(v("stickerType")==="packaging"){
-        setV("productTheme", pick(PACKAGING_PRODUCTS));
-      } else {
-        setV("productTheme", Math.random()<0.45 ? pick(["iv_bag","tbr_receipt","book_review_card","coffee_cup","sticky_memos","book_stack_tropes",""]) : "");
-      }
+      // product
+      setV("productTheme", v("stickerType")==="packaging" ? pick(ALL_PRODUCTS) : (Math.random()<0.5 ? pick(ALL_PRODUCTS) : ""));
 
       // palette harmony
       if(g==="horror"){
-        setV("palette", pick(["", ...HORROR_PALETTES])); // allow blank so harmony can fill
+        setV("palette", pick(["", ...HORROR_PALETTES]));
       } else {
         setV("palette", pick(["", ...PALETTES]));
       }
 
+      // background
       setV("bgMode", pick(["transparent","solid_white","transparent"]));
+
+      // spice
       setV("spiceLevel", pick(["1","2","3","4","5"]));
 
+      // label
       setV("labelMode", v("stickerType")==="packaging" ? pick(["auto","mixed","none","quote_subtitle"]) : "none");
-      setC("blankMode", v("stickerType")==="icon_only" ? (Math.random()<0.25) : false);
 
-      // banks: pick 1–2 core, 1–2 genre
+      // blank mode
+      setC("blankMode", v("stickerType")==="icon_only" ? (Math.random()<0.3) : false);
+
+      // quote banks (1–2 per section)
       pickOneOrTwo(CORE_BANK_IDS);
-      if(Math.random()<0.55) pickOneOrTwo(GENRE_BANK_IDS); else uncheckAll(GENRE_BANK_IDS);
+      if(Math.random()<0.6) pickOneOrTwo(GENRE_BANK_IDS); else uncheckAll(GENRE_BANK_IDS);
 
       setC("useRandomQuote", !c("blankMode"));
-
-      // clear overrides
+      setV("quote","");
       setV("titleText","");
       setV("subtitleText","");
-      setV("quote","");
       setV("customMainObject","");
       setV("customVibe","");
       setV("customPalette","");
@@ -1336,7 +1271,7 @@ Label logic:
 
       applyHandDrawnPreset();
       generate();
-      showToast("Randomized (1–2 banks max)");
+      showToast("Randomized ✅");
     }
 
     function clearAll(){
@@ -1351,19 +1286,18 @@ Label logic:
       setV("bgMode","transparent");
       setV("border","white");
       setV("outline","bold_black");
-      setV("spiceLevel","3");
+      setV("spiceLevel","2");
       setV("typoRule","on");
 
       setC("blankMode", false);
       setC("cutSafeMode", true);
       setV("labelMode","auto");
-
       setC("useRandomQuote", true);
       setV("quoteUsage","smart");
+
       setV("quote","");
       setV("titleText","");
       setV("subtitleText","");
-
       setV("customMainObject","");
       setV("customVibe","");
       setV("customPalette","");
@@ -1383,7 +1317,7 @@ Label logic:
       showToast("Cleared");
     }
 
-    // ---------- Init ----------
+    // ---------- init ----------
     loadPalettes();
 
     $("generateBtn").addEventListener("click", ()=>{ applyHandDrawnPreset(); generate(); });
@@ -1391,9 +1325,8 @@ Label logic:
     $("randomBtn").addEventListener("click", randomize);
     $("clearBtn").addEventListener("click", clearAll);
 
-    // react to preset toggle immediately
     $("handDrawnPreset").addEventListener("change", ()=>{
-      applyHandDrawnPreset();
+      if(c("handDrawnPreset")) applyHandDrawnPreset();
       generate();
     });
 
