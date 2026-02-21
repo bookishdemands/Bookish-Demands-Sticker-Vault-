@@ -839,56 +839,60 @@ function checked(id){ return ($(id) ? $(id).checked : false); }
 
     // ---- Build prompt(s) output (1–5) ----
     function buildPromptBundle(){
-      const genre = document.getElementById("genre").value;
-      const vibe = document.getElementById("vibe").value;
-      const type = document.getElementById("type").value;
-      const object = document.getElementById("object").value;
-      const accents = document.getElementById("accents").value;
-      const palette = document.getElementById("palette").value;
-      const border = document.getElementById("border").value;
-      const outline = document.getElementById("outline").value;
+  try{
+    const genre = document.getElementById("genre").value;
+    const vibe = document.getElementById("vibe").value;
+    const type = document.getElementById("type").value;
+    const object = document.getElementById("object").value;
+    const accents = document.getElementById("accents").value;
+    const palette = document.getElementById("palette").value;
+    const border = document.getElementById("border").value;
+    const outline = document.getElementById("outline").value;
 
-      const useRandom = document.getElementById("useRandom").checked;
-      const enhancedType = document.getElementById("enhancedType").checked;
+    const useRandom = document.getElementById("useRandom").checked;
+    const enhancedType = document.getElementById("enhancedType").checked;
 
-      const count = parseInt(document.getElementById("count").value, 10);
-      const selectedProducts = getSelectedValues(document.getElementById("products"));
+    const count = parseInt(document.getElementById("count").value, 10);
+    const selectedProducts = getSelectedValues(document.getElementById("products"));
 
-      const userTitle = document.getElementById("titleText").value.trim();
-      const userSubtitle = document.getElementById("subtitleText").value.trim();
-      
-      const prompts = [];
-      for(let i=0; i<count; i++){
-  const p = buildSinglePrompt({
-    genre, vibe, type, object, accents, palette, border, outline,
-    useRandom, enhancedType, selectedProducts, index: i,
-    spiceLevel, spiceStampOn, userTitle, userSubtitle
-  });
-  prompts.push(`Prompt ${i+1}:\n${p}`);
-}
+    const userTitle = document.getElementById("titleText")?.value?.trim() || "";
+    const userSubtitle = document.getElementById("subtitleText")?.value?.trim() || "";
 
-      const negative =
-        "photorealistic, blurry, low-res, messy outline, uneven line weight, distorted anatomy, extra fingers, bad hands, watermark, signature, brand logos, copyrighted characters, celebrity likeness, random words, tiny unreadable text blocks, background scene, busy gradients, harsh shadows, poster design, UI elements";
+    const prompts = [];
 
-      const notes =
+    for(let i = 0; i < count; i++){
+      const p = buildSinglePrompt({
+        genre, vibe, type, object, accents, palette, border, outline,
+        useRandom, enhancedType, selectedProducts, index: i,
+        userTitle, userSubtitle
+      });
+
+      prompts.push(`Prompt ${i+1}:\n${p}`);
+    }
+
+    const negative =
+      "photorealistic, blurry, low-res, messy outline, uneven line weight, distorted anatomy, watermark, signature, tiny unreadable text, background scene";
+
+    const notes =
 `Export settings:
 - Format: PNG
 - Background: Transparent
-- Size: 2000–3000px (crisp for stickers)
+- Size: 2000–3000px`;
 
-Ideogram text tip:
-- If letters distort, re-run once.
-- Keep titles short (2–4 words) for best clarity.
+    return {
+      body: prompts.join("\n\n"),
+      negative,
+      notes
+    };
 
-If the output has a background:
-1) Remove background (remove.bg / Canva BG remover)
-2) Add white sticker outline (Canva: Edit Image → Shadows → Glow; set color white, blur 0, size up)
-
-Packaging tip:
-- Sell 40–60 PNGs per pack + include a preview sheet + 1–2 mockups.`;
-
-      return { body: prompts.join("\n\n"), negative, notes };
-    }
+  } catch (err){
+    return {
+      body: "❌ buildPromptBundle() crashed:\n" + (err?.message || err),
+      negative: "",
+      notes: ""
+    };
+  }
+}
 
     function showToast(msg){
       const t = document.getElementById("toast");
