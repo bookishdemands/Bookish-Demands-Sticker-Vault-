@@ -907,6 +907,7 @@ function checked(id){ return ($(id) ? $(id).checked : false); }
     }
 
     function generate(){
+    alert("Generate() is running ✅");
   debug("Generate() started ✅");
 
   try{
@@ -1062,6 +1063,7 @@ function checked(id){ return ($(id) ? $(id).checked : false); }
 
     // Auto-generate on load for instant usefulness
     window.addEventListener("load", generate);
+    document.getElementById("statusPill").textContent = "Script Loaded ✅";
   </script>
 </body>
 </html>
