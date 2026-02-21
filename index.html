@@ -495,6 +495,13 @@
   <div class="toast" id="toast">Copied!</div>
 
   <script>
+    function debug(msg){
+  const out = document.getElementById("promptOut");
+  if(out) out.value = msg;
+  const pill = document.getElementById("statusPill");
+  if(pill) pill.textContent = msg.slice(0, 18);
+}
+    
     // --- ON-SCREEN ERROR CAPTURE (mobile-safe) ---
 window.addEventListener("error", (e) => {
   const msg = `❌ JS Error: ${e.message}\nAt: ${e.filename}:${e.lineno}:${e.colno}`;
@@ -896,23 +903,46 @@ Packaging tip:
     }
 
     function generate(){
+  debug("Generate() started ✅");
+
   try{
-    const { body, negative, notes } = buildPromptBundle();
-    mustGet("promptOut").value = body;
-    mustGet("negOut").value = negative;
-    mustGet("notesOut").value = notes;
-    setStatus("Generated ✅");
-    setTimeout(()=>setStatus("Ready"), 900);
-  } catch (err){
-    console.error(err);
-    mustGet("promptOut").value =
-      "❌ Generator error:\n" + (err?.message || err) +
-      "\n\nMost common fix: a missing/incorrect HTML id. Check that your HTML contains the ids mentioned.";
-    setStatus("Error ❌");
-    showToast("Error — check Prompt box");
+    if(typeof buildPromptBundle !== "function"){
+      debug("❌ buildPromptBundle() NOT FOUND");
+      return;
+    }
+
+    const result = buildPromptBundle();
+
+    if(!result || typeof result !== "object"){
+      debug("❌ buildPromptBundle() returned nothing");
+      return;
+    }
+
+    const { body, negative, notes } = result;
+
+    const p = document.getElementById("promptOut");
+    const n = document.getElementById("negOut");
+    const no = document.getElementById("notesOut");
+
+    if(!p || !n || !no){
+      debug("❌ Missing output textarea id(s)");
+      return;
+    }
+
+    p.value = body || "";
+    n.value = negative || "";
+    no.value = notes || "";
+
+    debug("Generated ✅");
+    setTimeout(()=> {
+      const pill = document.getElementById("statusPill");
+      if(pill) pill.textContent = "Ready";
+    }, 900);
+
+  } catch(err){
+    debug("❌ ERROR: " + (err?.message || err));
   }
 }
-
     async function copyPrompt(){
       const prompt = document.getElementById("promptOut").value.trim();
       if(!prompt){
