@@ -967,6 +967,12 @@ Packaging tip:
       const object = document.getElementById("object");
       const accents = document.getElementById("accents");
       const palette = document.getElementById("palette");
+      if (palette) {
+       palette.selectedIndex = Math.floor(Math.random() * palette.options.length);
+}
+      if(!palette){
+  alert("Palette ID mismatch ❌");
+}
       const border = document.getElementById("border");
       const outline = document.getElementById("outline");
       const useRandom = document.getElementById("useRandom");
