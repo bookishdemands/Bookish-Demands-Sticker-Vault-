@@ -546,6 +546,12 @@
       "I’m The Prize, Period."
     ];
 
+    function mustGet(id){
+    const el = document.getElementById(id);
+    if(!el) throw new Error(`Missing element id="${id}"`);
+    return el;
+}
+
     // ---- Ideogram Typography Standard (your requirement) ----
     function typographyBlock(enhanced){
       return enhanced
@@ -868,13 +874,22 @@ Packaging tip:
     }
 
     function generate(){
-      const { body, negative, notes } = buildPromptBundle();
-      document.getElementById("promptOut").value = body;
-      document.getElementById("negOut").value = negative;
-      document.getElementById("notesOut").value = notes;
-      setStatus("Generated ✅");
-      setTimeout(()=>setStatus("Ready"), 900);
-    }
+  try{
+    const { body, negative, notes } = buildPromptBundle();
+    mustGet("promptOut").value = body;
+    mustGet("negOut").value = negative;
+    mustGet("notesOut").value = notes;
+    setStatus("Generated ✅");
+    setTimeout(()=>setStatus("Ready"), 900);
+  } catch (err){
+    console.error(err);
+    mustGet("promptOut").value =
+      "❌ Generator error:\n" + (err?.message || err) +
+      "\n\nMost common fix: a missing/incorrect HTML id. Check that your HTML contains the ids mentioned.";
+    setStatus("Error ❌");
+    showToast("Error — check Prompt box");
+  }
+}
 
     async function copyPrompt(){
       const prompt = document.getElementById("promptOut").value.trim();
