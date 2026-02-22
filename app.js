@@ -15,6 +15,7 @@ async function loadConfig(){
   const res = await fetch("./config.json", { cache: "no-store" });
   if(!res.ok) throw new Error("Could not load config.json");
   CFG = await res.json();
+  alert("Config loaded ✅ " + (CFG?.meta?.version || "no version found"));
 }
 function fillSelect(id, items, { placeholder = "Select..." } = {}) {
   const sel = document.getElementById(id);
