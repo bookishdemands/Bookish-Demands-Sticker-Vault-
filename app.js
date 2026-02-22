@@ -49,6 +49,7 @@ function fillSelect(id, items, { placeholder = "Select..." } = {}) {
 function populateAllOptionsFromConfig() {
   if (!CFG || !CFG.options) return;
 
+  fillSelect("count", ["1","2","3","4","5"], { placeholder: "Select count..." });
   fillSelect("product", CFG.options.product, { placeholder: "Select product..." });
   fillSelect("genreTone", CFG.options.genreTone, { placeholder: "Select genre..." });
   fillSelect("vibe", CFG.options.vibe, { placeholder: "Select vibe..." });
