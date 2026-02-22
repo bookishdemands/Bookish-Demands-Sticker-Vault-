@@ -619,9 +619,8 @@
     const setV = (id,val)=>{ if($(id)) $(id).value = val; };
     const c = (id)=>!!($(id)?.checked);
     const setC = (id,val)=>{ if($(id)) $(id).checked = !!val; };
-    // ---------- Re-entrancy guard (prevents infinite loops / call stack errors) ----------
+   // ---------- Re-entrancy guard (prevents infinite loops / call stack) ----------
 let __uiLock = false;
-
 function withUiLock(fn){
   if(__uiLock) return;
   __uiLock = true;
@@ -1343,34 +1342,60 @@ function screenTextForMonitor(){
     // ---------- Smart harmony rules ----------
     const HORROR_PALETTE_DEFAULT = "Blood Red + Ink Black + Bone";
 
-    function applyHarmonyRules(){
-      // Horror should auto-pair with red/black palettes unless user explicitly set custom palette
-      const genre = v("genreTone");
-      const genreToggleHorror = c("gHorror");
-      const customPalette = (v("customPalette")||"").trim();
-      const paletteSel = v("palette");
+    function setVIfDiff(id, val){
+  const el = $(id);
+  if(!el) return false;
+  if(String(el.value) === String(val)) return false;
+  el.value = val;
+  return true;
+}
+    const HORROR_PALETTE_DEFAULT = "Blood Red + Ink Black + Bone";
 
-      const harmonyBox = $("harmonyNote");
-      const horrorActive = (genre==="horror") || genreToggleHorror;
+function applyHarmonyRules(){
+  // Harmony should ONLY set values / show notes.
+  // It should NOT call generate().
 
-      if(horrorActive && !customPalette){
-        // If palette is empty or not horror-leaning, set a horror default
-        const looksHorror = (paletteSel||"").toLowerCase().includes("red") || (paletteSel||"").toLowerCase().includes("blood") || (paletteSel||"").toLowerCase().includes("oxblood") || (paletteSel||"").toLowerCase().includes("black cherry");
-        if(!paletteSel || !looksHorror){
-          setV("palette", HORROR_PALETTE_DEFAULT);
-          if(harmonyBox){
-            harmonyBox.style.display = "";
-            harmonyBox.innerHTML = `<b>Harmony rule applied:</b> Horror → palette auto-set to <b>${HORROR_PALETTE_DEFAULT}</b>. (Add a Custom Palette to override.)`;
-          }
-          return;
-        }
+  const genre = (v("genreTone") || "").trim();
+  const horrorToggle = c("gHorror");          // if you have this checkbox
+  const handDrawnOn = c("handDrawnPreset");   // if you added this toggle
+
+  const customPalette = (v("customPalette") || "").trim();
+  const paletteSel = (v("palette") || "").trim();
+
+  const harmonyBox = $("harmonyNote");
+
+  // --- 1) Hand-drawn preset: force variation to hand_drawn (only if different)
+  if(handDrawnOn){
+    setVIfDiff("variation", "hand_drawn");
+  }
+
+  // --- 2) Horror palette rule (genre OR toggle turns it on)
+  const horrorActive = (genre === "horror") || horrorToggle;
+
+  if(horrorActive && !customPalette){
+    // If palette is empty or not already red/black leaning, set it.
+    const looksHorror =
+      paletteSel.toLowerCase().includes("blood") ||
+      paletteSel.toLowerCase().includes("red") ||
+      paletteSel.toLowerCase().includes("black") ||
+      paletteSel.toLowerCase().includes("ink");
+
+    if(!paletteSel || !looksHorror){
+      const changed = setVIfDiff("palette", HORROR_PALETTE_DEFAULT);
+      if(changed && harmonyBox){
+        harmonyBox.style.display = "";
+        harmonyBox.innerHTML = `<b>Harmony:</b> Horror detected → palette auto-set to <b>${HORROR_PALETTE_DEFAULT}</b> (clear Custom Palette to keep auto-pairing).`;
       }
-
-      if(harmonyBox){
-        harmonyBox.style.display = "none";
-        harmonyBox.innerHTML = "";
-      }
+      return; // stop here so we don’t overwrite other harmony notes
     }
+  }
+
+  // --- 3) Otherwise hide note
+  if(harmonyBox){
+    harmonyBox.style.display = "none";
+    harmonyBox.innerHTML = "";
+  }
+}
 
     // ---------- Subject / label logic ----------
     function shouldIncludeQuoteLine(stickerType){
@@ -1641,7 +1666,6 @@ function buildPromptSingle(){
     
     // ---------- Prompt assembly ----------
     function buildPromptSingle(){
-      applyHarmonyRules();
 
       const stickerType = v("stickerType");
       const quote = chooseQuote();
@@ -1712,19 +1736,24 @@ Harmony:
     }
 
     function generate(){
-      try{
-        const { body, negative, notes } = buildBundle();
-        setV("promptOut", body);
-        setV("negOut", negative);
-        setV("notesOut", notes);
-        setStatus("Generated ✅");
-        setTimeout(()=>setStatus("Ready"), 900);
-      } catch(e){
-        setV("promptOut", "❌ Generator error:\n" + (e?.message || e));
-        setStatus("Error ❌");
-        showToast("Error — check Prompt box");
-      }
+    withUiLock(()=>{
+    try{
+      applyHarmonyRules(); // harmony runs ONCE safely here
+
+      const { body, negative, notes } = buildBundle();
+      setV("promptOut", body);
+      setV("negOut", negative);
+      setV("notesOut", notes);
+
+      setStatus("Generated ✅");
+      setTimeout(()=>setStatus("Ready"), 900);
+    } catch(e){
+      setV("promptOut", "❌ Generator error:\n" + (e?.message || e));
+      setStatus("Error ❌");
+      showToast("Error — check Prompt box");
     }
+  });
+}
 
     async function copyPrompt(){
       const text = (v("promptOut")||"").trim();
@@ -1875,8 +1904,8 @@ Harmony:
     // auto-apply hand drawn preset by forcing variation
     if(c("handDrawnPreset")) setV("variation","hand_drawn");
 
-    applyHarmonyRules();
-    generate();
+    applyHarmonyRules();  // set palette, etc (NO generate inside harmony)
+    generate();           // safe because generate is also guarded
   });
 }
 
