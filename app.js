@@ -1,29 +1,28 @@
-// app.js (Option 2)
+// app.js (Option 2 - corrected)
 let CFG = null;
 
 const $ = (id) => document.getElementById(id);
-const v = (id) => ($(`${id}`)?.value ?? "");
+const v = (id) => ($(id)?.value ?? "");
 const setV = (id, val) => { const el = $(id); if (el) el.value = val; };
-const c = (id) => !!($(`${id}`)?.checked);
-const setC = (id, val) => { const el = $(id); if (el) el.checked = !!val; };
 
 const rnd = (n) => Math.floor(Math.random() * n);
 const pick = (arr) => arr[rnd(arr.length)];
 const uniq = (arr) => Array.from(new Set(arr));
 
-async function loadConfig(){
+async function loadConfig() {
   const res = await fetch("./config.json", { cache: "no-store" });
-  if(!res.ok) throw new Error("Could not load config.json");
+  if (!res.ok) throw new Error("Could not load config.json");
   CFG = await res.json();
-  alert("Config loaded ✅ " + (CFG?.meta?.version || "no version found"));
+  // optional debug:
+  // alert("Config loaded ✅ " + (CFG?.meta?.version || "no version found"));
 }
+
 function fillSelect(id, items, { placeholder = "Select..." } = {}) {
-  const sel = document.getElementById(id);
+  const sel = $(id);
   if (!sel) return;
 
   sel.innerHTML = "";
 
-  // placeholder option
   const o0 = document.createElement("option");
   o0.value = "";
   o0.textContent = placeholder;
@@ -31,25 +30,22 @@ function fillSelect(id, items, { placeholder = "Select..." } = {}) {
 
   (items || []).forEach((item) => {
     const opt = document.createElement("option");
-
-    // supports strings OR objects
     if (typeof item === "string") {
       opt.value = item;
       opt.textContent = item;
     } else {
-      // objects like: { value, label, mainSubject }
       opt.value = item.value ?? "";
       opt.textContent = item.label ?? item.value ?? "";
     }
-
     sel.appendChild(opt);
   });
 }
 
 function populateAllOptionsFromConfig() {
-  if (!CFG || !CFG.options) return;
+  if (!CFG?.options) return;
 
-  fillSelect("count", ["1","2","3","4","5"], { placeholder: "Select count..." });
+  // Only populate dropdowns that exist in your HTML.
+  // These match your screenshots:
   fillSelect("product", CFG.options.product, { placeholder: "Select product..." });
   fillSelect("genreTone", CFG.options.genreTone, { placeholder: "Select genre..." });
   fillSelect("vibe", CFG.options.vibe, { placeholder: "Select vibe..." });
@@ -58,84 +54,100 @@ function populateAllOptionsFromConfig() {
   fillSelect("border", CFG.options.border, { placeholder: "Select border..." });
   fillSelect("outline", CFG.options.outline, { placeholder: "Select outline..." });
   fillSelect("spice", CFG.options.spice, { placeholder: "Select spice..." });
+
+  // If you add <select id="count"> later, uncomment:
+  // fillSelect("count", ["1","2","3","4","5"], { placeholder: "How many prompts?" });
 }
 
-function looksHorrorPalette(p){
-  const s = (p || "").toLowerCase();
-  return s.includes("red") || s.includes("blood") || s.includes("oxblood") || s.includes("black cherry");
+function applyDefaults() {
+  const d = CFG?.defaults || {};
+  // Only apply defaults to IDs that exist on the page.
+  Object.entries(d).forEach(([key, val]) => {
+    if ($(key)) setV(key, val);
+  });
+
+  // Common mismatch helpers (because your config uses different names sometimes):
+  // If config has bgMode but your UI is background:
+  if (!$("bgMode") && $("background") && d.bgMode && !v("background")) setV("background", d.bgMode);
+
+  // If config has spiceLevel but your UI is spice:
+  if (!$("spiceLevel") && $("spice") && d.spiceLevel && !v("spice")) setV("spice", d.spiceLevel);
+
+  // If config has productTheme but your UI is product:
+  if (!$("productTheme") && $("product") && d.productTheme && !v("product")) setV("product", d.productTheme);
 }
 
-function applyHarmonyRules(){
-  const genre = v("genreTone");
-  const paletteSel = v("palette");
-  const horrorActive = (genre === "horror") || c("gHorror"); // if you have the checkbox
-
-  if(horrorActive && !looksHorrorPalette(paletteSel)){
-    setV("palette", CFG.rules?.horrorPaletteDefault || "Blood Red + Ink Black + Bone");
-  }
+// Convert "IV Drip Bag" -> "iv_bag" to match your productDesc/productCategory keys
+function toKey(s) {
+  return String(s || "")
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
 }
 
-function productKey(){
-  // If you support customProductTheme, you can handle it here
-  return v("productTheme") || "";
+// Your product dropdown items are objects {value, mainSubject}
+function selectedProductObj() {
+  const selected = v("product");
+  return (CFG?.options?.product || []).find(p => p.value === selected) || null;
 }
 
-function productDesc(){
+function productKey() {
+  const p = selectedProductObj();
+  // Prefer explicit keys if you add them later, else derive:
+  return p?.key || toKey(p?.value || "");
+}
+
+function productDescText() {
+  const p = selectedProductObj();
+  if (!p) return "";
+  // Prefer mainSubject from options (best), else fall back to productDesc map:
+  return p.mainSubject || CFG?.productDesc?.[productKey()] || p.value;
+}
+
+function productCategory() {
   const k = productKey();
-  if(!k) return "";
-  return CFG.productDesc?.[k] || k.replaceAll("_"," ");
+  return CFG?.productCategory?.[k] || "default";
 }
 
-function productCategory(){
-  const k = productKey();
-  return CFG.productCategory?.[k] || "default";
-}
-
-function getAutoLabel(){
+function getAutoLabel() {
   const k = productKey() || "default";
-  const titles = CFG.labelTitles?.[k] || CFG.labelTitles?.default || ["MAIN CHARACTER ENERGY"];
+  const titles = CFG?.labelTitles?.[k] || CFG?.labelTitles?.default || ["MAIN CHARACTER ENERGY"];
   const cat = productCategory();
-  const subs = CFG.labelSubsByCategory?.[cat] || CFG.labelSubsByCategory?.default || ["Handle with care."];
+  const subs = CFG?.labelSubsByCategory?.[cat] || CFG?.labelSubsByCategory?.default || ["Handle with care."];
   return { title: pick(titles), subtitle: pick(subs) };
 }
 
-function buildQuotePool(){
-  // If you have customQuotes textarea, you can add “custom wins” logic here.
-  let pool = [];
-
-  // CORE toggles (IDs must match your HTML)
-  if(c("bGeneralUrbanBookish")) pool.push(...(CFG.quoteBanks?.general_urban_bookish || []));
-  if(c("bMoodQuotes")) pool.push(...(CFG.quoteBanks?.mood_quotes || []));
-  if(c("bIYKYK")) pool.push(...(CFG.quoteBanks?.iykyk || []));
-
-  // Add micro quotes depending on quoteMode
-  const qm = v("quoteMode");
-  if(qm === "micro" || qm === "any") pool.push(...(CFG.microQuotes || []));
-
-  pool = uniq(pool);
-  return pool.length ? pool : uniq([...(CFG.quoteBanks?.general_urban_bookish || []), ...(CFG.microQuotes || [])]);
+function spiceAestheticText() {
+  const lvl = String(v("spice") || "2"); // ✅ read from spice dropdown
+  return CFG?.spiceAestheticByLevel?.[lvl] || CFG?.spiceAestheticByLevel?.["2"] || "";
 }
 
-function chooseQuote(){
-  const typed = (v("quote") || "").trim();
-  if(typed) return typed;
-  if(!c("useRandomQuote")) return "";
-  const pool = buildQuotePool();
-  return pool.length ? pick(pool) : "";
+function finishText() {
+  const outline = (v("outline") === "bold_black") ? "thick bold outline" : "no outline";
+  const border = (v("border") === "white") ? "clean white sticker offset border" : "no sticker border";
+
+  // ✅ read from background dropdown
+  const bgVal = v("background");
+  const bg =
+    (bgVal === "transparent") ? "transparent background" :
+    (bgVal === "solid_white") ? "solid white background" :
+    (bgVal ? `${bgVal} background` : "background not specified");
+
+  return [
+    outline,
+    border,
+    bg,
+    "bold shapes, punchy contrast",
+    "crisp outlines, crisp edges, vector-like clarity",
+    "high resolution",
+    "no brand logos, no watermark"
+  ].filter(Boolean).join(", ");
 }
 
-function typographyRuleText(){
-  if(v("typoRule") !== "on") return "";
-  return "clear legible typography, centered composition, bold high-contrast text, no distorted letters";
-}
-
-function spiceAesthetic(){
-  const lvl = String(v("spiceLevel") || "2");
-  return CFG.spiceAestheticByLevel?.[lvl] || CFG.spiceAestheticByLevel?.["2"];
-}
-
-function cutSafeText(){
-  if(!c("cutSafeMode")) return "";
+function cutSafeText() {
+  // If you haven’t added cutSafeMode checkbox yet, always include (safe default).
   return [
     "Cut-safe die-cut requirement: one continuous closed silhouette outline around the ENTIRE design.",
     "ABSOLUTE RULE: every sparkle, glitter dot, foil fleck, smoke wisp, particle, shine pop, and glow must be INSIDE the silhouette boundary.",
@@ -145,109 +157,31 @@ function cutSafeText(){
   ].join(" ");
 }
 
-function finishText(){
-  const outline = (v("outline")==="bold_black") ? "thick bold outline" : "no outline";
-  const border = (v("border")==="white") ? "clean white sticker offset border" : "no sticker border";
+function generate() {
+  const palette = v("palette");
+  const genre = v("genreTone");
+  const vibe = v("vibe");
 
-  const bgMode = v("bgMode");
-  const bg =
-    (bgMode==="transparent") ? "transparent background" :
-    (bgMode==="solid_white") ? "solid white background" :
-    "background not specified";
+  const label = getAutoLabel();
 
-  let variationKey = v("variation") || "";
-  if(c("handDrawnPreset")) variationKey = "hand_drawn";
-  const variationText = variationKey ? (CFG.variations?.[variationKey] || "") : "";
-
-  const handDrawnExtra = c("handDrawnPreset")
-    ? "hand-drawn rule: keep lines organic and inked, slight wobble allowed, but edges must remain crisp and print-ready"
-    : "";
-
-  return [
-    outline, border, bg,
-    variationText,
-    handDrawnExtra,
-    "bold shapes, punchy contrast",
-    "crisp outlines, crisp edges, vector-like clarity",
-    "high resolution",
-    "no brand logos, no watermark"
-  ].filter(Boolean).join(", ");
-}
-
-function shouldIncludeQuoteLine(stickerType){
-  const usage = v("quoteUsage"); // smart|always|never
-  if(c("blankMode")) return false;
-  if(usage === "never") return false;
-  if(usage === "always") return true;
-  return (stickerType === "icon_quote" || stickerType === "quote_only");
-}
-
-function buildLabelTextBlock(stickerType, quote){
-  if(c("blankMode")) return "No label text.";
-
-  const mode = v("labelMode"); // none|auto|manual|mixed|quote_subtitle
-  if(mode === "none") return "No label text.";
-
-  // packaging-style label makes most sense when there is a product selected
-  const hasProduct = !!productDesc();
-  if(stickerType !== "packaging" && !hasProduct) return "";
-
-  const manualTitle = (v("titleText") || "").trim();
-  const manualSub = (v("subtitleText") || "").trim();
-  const auto = getAutoLabel();
-
-  const title =
-    (mode==="manual") ? manualTitle :
-    (mode==="mixed") ? (manualTitle || auto.title) :
-    (mode==="quote_subtitle") ? auto.title :
-    auto.title;
-
-  const subtitle =
-    (mode==="manual") ? manualSub :
-    (mode==="mixed") ? (manualSub || auto.subtitle) :
-    (mode==="quote_subtitle") ? (quote || auto.subtitle) :
-    auto.subtitle;
-
-  if(mode==="manual" && !title && !subtitle) return "No label text.";
-
-  return `Label text (packaging-style): title “${title}”${subtitle ? `, subtitle “${subtitle}”` : ""}.`;
-}
-
-function generate(){
-  applyHarmonyRules();
-
-  const stickerType = v("stickerType");
-  const quote = chooseQuote();
-
-  const palette = (v("palette") || "");
-  const genre = (v("genreTone") || "");
-  const vibe = (v("vibe") || "");
-  const typo = typographyRuleText();
-  const safety = "original design, no trademarks, no brand names, no copyrighted characters";
-
-  const labelTextBlock = buildLabelTextBlock(stickerType, quote);
-  const quoteLine = (quote && shouldIncludeQuoteLine(stickerType)) ? `Optional quote line: “${quote}”.` : "";
-
-  const product = productKey() ? productKey().replaceAll("_"," ") : "None";
-  const mainSubject = productDesc()
-    ? `Main subject: ${productDesc()}.`
+  const productName = v("product") || "None";
+  const mainSubject = productDescText()
+    ? `Main subject: ${productDescText()}.`
     : "Main subject: simple iconic bookish symbol.";
 
   const prompt = [
     "Create image:",
     finishText() + ".",
     cutSafeText(),
-    palette ? `color palette: ${palette}.` : "",
-    genre ? `genre tone: ${genre.replaceAll("_"," ")}.` : "",
-    vibe ? `vibe: ${vibe}.` : "",
-    spiceAesthetic() + ".",
-    `Product theme: ${product}.`,
+    palette ? `Color palette: ${palette}.` : "",
+    genre ? `Genre tone: ${genre}.` : "",
+    vibe ? `Vibe: ${vibe}.` : "",
+    spiceAestheticText() ? (spiceAestheticText() + ".") : "",
+    `Product theme: ${productName}.`,
     mainSubject,
-    typo ? `Typography: ${typo}.` : "",
-    labelTextBlock,
-    quoteLine,
-    c("blankMode") ? "No text at all (blank sticker mode)." : "",
-    safety + ".",
+    `Typography: clear legible typography, centered composition, bold high-contrast text, no distorted letters.`,
+    `Label text (packaging-style): title “${label.title}”, subtitle “${label.subtitle}”.`,
+    "Original design, no trademarks, no brand names, no copyrighted characters.",
     "Clean commercial sticker clipart look, polished, readable, centered."
   ].filter(Boolean).join(" ");
 
@@ -259,31 +193,17 @@ function generate(){
   setV("notesOut", "Export: PNG • 2000–3000px • Transparent background recommended");
 }
 
-function applyDefaults(){
-  const d = CFG.defaults || {};
-  Object.entries(d).forEach(([key, val]) => {
-    // match your IDs
-    if($(key)){
-      if($(key).type === "checkbox") setC(key, val);
-      else setV(key, val);
-    }
-  });
-}
-
 window.addEventListener("load", async () => {
   try {
     await loadConfig();
-
-    // ✅ THIS is what you’re missing
     populateAllOptionsFromConfig();
+    applyDefaults();
+    generate();
 
-    applyDefaults();   // if you have this
-    generate();        // if you have this
-
-    document.getElementById("generateBtn")?.addEventListener("click", generate);
+    $("generateBtn")?.addEventListener("click", generate);
   } catch (e) {
     console.error(e);
-    const out = document.getElementById("promptOut");
-    if (out) out.value = "❌ Error loading config/options: " + (e?.message || e);
+    // ✅ write error where you can SEE it
+    setV("output", "❌ Error: " + (e?.message || e));
   }
 });
