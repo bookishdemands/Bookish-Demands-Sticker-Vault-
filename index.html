@@ -355,7 +355,24 @@
               </select>
             </div>
           </div>
+          <div class="row" id="screenModeRow" style="display:none;">
+  <div>
+    <label for="screenMode">Monitor Screen Mode</label>
+    <select id="screenMode">
+      <option value="auto" selected>Auto (smart)</option>
+      <option value="vitals">Vitals (120/80, SYS/DIA, BPM)</option>
+      <option value="genre">Genre (big text)</option>
+      <option value="trope">Trope (big text)</option>
+      <option value="custom">Custom text</option>
+    </select>
+  </div>
 
+  <div id="customScreenTextWrap" style="display:none;">
+    <label for="customScreenText">Custom Screen Text</label>
+    <input id="customScreenText" type="text" maxlength="18" placeholder='Example: "AGE GAP" or "120/80"' />
+  </div>
+</div>
+          
           <div class="row">
             <div>
               <label for="titleText">Title (optional)</label>
@@ -603,6 +620,90 @@
     const c = (id)=>!!($(id)?.checked);
     const setC = (id,val)=>{ if($(id)) $(id).checked = !!val; };
 
+    /* =========================
+   Monitor Screen Mode UI + Logic
+   ========================= */
+
+function toggleScreenModeUI(){
+  const row = $("screenModeRow");
+  const customWrap = $("customScreenTextWrap");
+  if(!row) return;
+
+  const on = isMonitorProduct();
+  row.style.display = on ? "" : "none";
+
+  if(customWrap){
+    const mode = v("screenMode");
+    customWrap.style.display = (on && mode === "custom") ? "" : "none";
+  }
+}
+
+function screenMode(){
+  return (v("screenMode") || "auto").trim();
+}
+
+// Replace your existing screenTextForMonitor() with this version:
+function screenTextForMonitor(){
+  const k = v("productTheme");
+  const rules = PRODUCT_LAYOUT_RULES[k];
+  const maxLen = rules?.screenTextMax ?? 14;
+
+  const mode = screenMode();
+
+  // 1) Custom always wins if selected
+  if(mode === "custom"){
+    const custom = (v("customScreenText") || "").trim();
+    if(custom) return clampText(custom.toUpperCase(), maxLen);
+    // if custom chosen but empty, fallback to auto
+  }
+
+  // 2) Vitals mode: force vitals examples
+  if(mode === "vitals"){
+    const examples = rules?.screenExamples || ["120/80","SYS 120 / DIA 80","PULSE 72","BPM 78"];
+    // Prefer numeric-looking options
+    const vitals = examples.filter(x => /\d/.test(x));
+    return clampText(pick(vitals.length ? vitals : examples), maxLen);
+  }
+
+  // 3) Genre mode: force genre tone if available
+  if(mode === "genre"){
+    const g = (v("genreTone") || "").trim();
+    if(g) return clampText(g.replaceAll("_"," ").toUpperCase(), maxLen);
+    // if no genre selected, fallback to auto
+  }
+
+  // 4) Trope mode: force a trope if available
+  if(mode === "trope"){
+    const tropes = (selectedTropes?.() || []);
+    if(tropes.length){
+      const t = tropes[0]
+        .replace(/\(.*?\)/g,"")
+        .replace(/\s+/g," ")
+        .trim();
+      return clampText(t.toUpperCase(), maxLen);
+    }
+    // if no tropes selected, fallback to auto
+  }
+
+  // 5) Auto (smart): Title -> Trope -> Genre -> Vitals
+  const manualTitle = (v("titleText") || "").trim();
+  if(manualTitle) return clampText(manualTitle.toUpperCase(), maxLen);
+
+  const tropes = (selectedTropes?.() || []);
+  if(tropes.length){
+    const t = tropes[0]
+      .replace(/\(.*?\)/g,"")
+      .replace(/\s+/g," ")
+      .trim();
+    return clampText(t.toUpperCase(), maxLen);
+  }
+
+  const g = (v("genreTone") || "").trim();
+  if(g) return clampText(g.replaceAll("_"," ").toUpperCase(), maxLen);
+
+  const examples = rules?.screenExamples || ["120/80","SYS 120 / DIA 80","PULSE 72","BPM 78"];
+  return clampText(pick(examples), maxLen);
+}
     function showToast(msg){
       const t = $("toast");
       if(!t) return;
@@ -1353,7 +1454,181 @@
       const t = custom || (base ? base.replaceAll("_"," ") : "");
       return t ? ("Product theme: " + t + ".") : "Product theme: None.";
     }
+    /* =========================
+   PATCH: Monitor screen text + bottom quote banner
+   (Drop-in: paste inside <script> after PRODUCT_DESC / PRODUCT_CATEGORY / LABEL_SUBS / LABEL_TITLES)
+   ========================= */
 
+// 1) Add/override: product-specific layout rules
+const PRODUCT_LAYOUT_RULES = {
+  blood_pressure: {
+    screenPurpose: "Vitals display (e.g., 120/80, BPM, SYS/DIA labels) OR short Genre/Trope text",
+    screenExamples: ["120/80", "118/76", "SYS 120 / DIA 80", "PULSE 72", "BPM 78"],
+    screenTextMax: 14,
+    bottomBannerPurpose: "Quote line (main quote goes here, centered, readable)",
+  },
+  heart_monitor: {
+    screenPurpose: "Monitor display (ECG + numeric readouts) OR short Genre/Trope text",
+    screenExamples: ["HR 72", "BPM 86", "SYS 120 / DIA 80", "URBAN FICTION", "AGE GAP"],
+    screenTextMax: 14,
+    bottomBannerPurpose: "Quote line (main quote goes here, centered, readable)",
+  }
+};
+
+// 2) Helpers: pick screen text
+function isMonitorProduct(){
+  const k = v("productTheme");
+  return k === "blood_pressure" || k === "heart_monitor";
+}
+
+function clampText(s, max){
+  const t = (s||"").trim();
+  if(!t) return "";
+  if(t.length <= max) return t;
+  return t.slice(0, max).trim();
+}
+
+// Prefer: if user typed a Title, use that as screen text for monitors (it’s usually “URBAN FICTION”, “AGE GAP”, etc.)
+// Else: if tropes selected, use one trope label
+// Else: use genre tone
+// Else: use a vitals readout like 120/80 or HR/BPM
+function screenTextForMonitor(){
+  const k = v("productTheme");
+  const rules = PRODUCT_LAYOUT_RULES?.[k] || {};
+  const maxLen = rules?.screenTextMax ?? 18;
+
+  const mode = screenMode();
+
+  // If not a monitor product, return empty.
+  if(!isMonitorProduct()) return "";
+
+  // 1) Custom always wins
+  if(mode === "custom"){
+    const custom = (v("customScreenText") || "").trim();
+    if(custom) return clampText(custom.toUpperCase(), maxLen);
+  }
+
+  // Helper picks
+  const genreLabel = (()=>{
+    const g = (v("genreTone") || "").replaceAll("_"," ").trim();
+    if(!g) return "BOOKTROPE";
+    // keep short + bold
+    return g.toUpperCase().slice(0, 16);
+  })();
+
+  const tropeLabel = (()=>{
+    const t = (v("trope") || "").trim();
+    if(!t) return "SLOW BURN";
+    return t.toUpperCase().slice(0, 16);
+  })();
+
+  // 2) Smart Auto
+  if(mode === "auto"){
+    // If user picked a trope, use it. If not, show vitals.
+    if((v("trope") || "").trim()) return clampText(tropeLabel, maxLen);
+    return "SYS 120 / DIA 80 / PULSE 72";
+  }
+
+  // 3) Vitals (stacked look requested)
+  if(mode === "vitals"){
+    return "SYS 120 / DIA 80 / PULSE 72";
+  }
+
+  // 4) Genre big text
+  if(mode === "genre"){
+    return clampText(genreLabel, maxLen);
+  }
+
+  // 5) Trope big text
+  if(mode === "trope"){
+    return clampText(tropeLabel, maxLen);
+  }
+
+  // Fallback
+  return "SYS 120 / DIA 80 / PULSE 72";
+}
+
+// 3) Override/extend product descriptions so they *explicitly* request screen text + bottom banner quote
+// (This ensures the model puts the right text in the right place.)
+PRODUCT_DESC.blood_pressure =
+  "blood pressure monitor sticker (cuff + monitor), big rectangular screen area. " +
+  "REQUIRE: the SCREEN must display text/numbers (e.g., “120/80”, “SYS 120 / DIA 80”, “PULSE 72”, or short Genre/Trope text). " +
+  "REQUIRE: bottom banner area for the QUOTE text (centered). No medical brand, no real device UI screenshot.";
+
+PRODUCT_DESC.heart_monitor =
+  "heartbeat monitor screen sticker (ECG waveform + small screen), big screen area. " +
+  "REQUIRE: the SCREEN must display text/numbers (e.g., “HR 72”, “BPM 86”, “120/80”, or short Genre/Trope text). " +
+  "REQUIRE: bottom banner area for the QUOTE text (centered). No medical brand, no real device UI screenshot.";
+
+// 4) Make monitor products use category 'meter' (NOT medical) so subtitles don't become FDA-ish.
+// If you already have PRODUCT_CATEGORY, override these keys:
+PRODUCT_CATEGORY.blood_pressure = "meter";
+PRODUCT_CATEGORY.heart_monitor  = "meter";
+
+// 5) Add a monitor-specific label subtitle set (screen stats) so auto label supports the layout.
+LABEL_SUBS.monitor_stats = [
+  "SCREEN: display 120/80 + BPM.",
+  "SCREEN: display SYS/DIA + PULSE.",
+  "SCREEN: show Genre/Trope in big text.",
+  "SCREEN: show HR/BPM readout.",
+  "SCREEN: show 120/80 (clean, bold)."
+];
+
+// Replace subtitleSetKey() if present, or wrap it:
+const _subtitleSetKey = (typeof subtitleSetKey === "function") ? subtitleSetKey : null;
+function subtitleSetKey(){
+  if(isMonitorProduct()) return "monitor_stats";
+  // fallback to original behavior if it exists
+  if(_subtitleSetKey) return _subtitleSetKey();
+  // safe default if not
+  const cat = productCategory();
+  return LABEL_SUBS[cat] ? cat : "default";
+}
+
+// 6) Quote placement rule: for monitors, ALWAYS put the quote in the bottom banner.
+// We'll inject a layout instruction + force quote inclusion for packaging too.
+const _shouldIncludeQuoteLine = (typeof shouldIncludeQuoteLine === "function") ? shouldIncludeQuoteLine : null;
+function shouldIncludeQuoteLine(stickerType){
+  if(isMonitorProduct() && !c("blankMode")) return true; // always include quote for monitors
+  return _shouldIncludeQuoteLine ? _shouldIncludeQuoteLine(stickerType) : (stickerType !== "packaging");
+}
+
+// 7) Add explicit layout block for monitors: screen text + bottom quote banner.
+function monitorLayoutText(quote){
+  if(!isMonitorProduct()) return "";
+  const screen = screenTextForMonitor();
+  return [
+    "Layout rules (monitor sticker):",
+    `- SCREEN text (top display): “${screen}”.`,
+    `- BOTTOM BANNER text (quote area): “${quote || "___"}”.`,
+    "- Do NOT put the quote on the screen.",
+    "- Do NOT leave the screen blank."
+  ].join(" ");
+}
+
+// 8) Patch buildPromptSingle to include the layout rules.
+// If buildPromptSingle exists, wrap it; otherwise you can manually insert monitorLayoutText(quote) in your prompt assembly.
+const _buildPromptSingle = (typeof buildPromptSingle === "function") ? buildPromptSingle : null;
+function buildPromptSingle(){
+  // If your file already defines buildPromptSingle, we replicate the core flow:
+  // Use the existing one to build, then inject monitor rules near the end.
+  if(_buildPromptSingle){
+    // We need the quote value to inject; easiest: re-run chooseQuote() here.
+    // This matches your generator behavior.
+    const quote = chooseQuote();
+    const base = _buildPromptSingle();
+
+    // Inject rules right after "Main subject" if possible; fallback: append.
+    const injection = " " + monitorLayoutText(quote) + " ";
+    return base.includes("Main subject:")
+      ? base.replace("Main subject:", "Main subject:") + injection
+      : (base + injection);
+  }
+
+  // If no prior buildPromptSingle, you need to insert monitorLayoutText(quote) where you assemble prompts.
+  throw new Error("buildPromptSingle not found. Paste the monitorLayoutText(quote) line into your prompt assembly.");
+}
+    
     // ---------- Prompt assembly ----------
     function buildPromptSingle(){
       applyHarmonyRules();
@@ -1609,6 +1884,8 @@ Harmony:
       setC("bGeneralUrbanBookish", true);
       setC("bMoodQuotes", true);
       setC("bIYKYK", true);
+  
+      toggleScreenModeUI();
       applyHarmonyRules();
       generate();
     });
