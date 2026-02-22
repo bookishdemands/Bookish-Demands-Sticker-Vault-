@@ -72,7 +72,50 @@
           <label for="spice">Spice Level</label>
           <select id="spice"></select>
         </div>
-      </div>
+
+        <!-- QUOTES + ADVANCED CONTROLS -->
+<hr style="border:0;border-top:1px solid rgba(255,255,255,.08); margin:18px 0;">
+
+<h3 style="margin:0 0 8px 0; font-size:16px; opacity:.9;">Quotes</h3>
+
+<label style="display:flex; gap:10px; align-items:center; margin:10px 0;">
+  <input type="checkbox" id="useRandomQuote" checked />
+  Use random quote (from quote banks)
+</label>
+
+<label for="quote">Custom quote (overrides random)</label>
+<textarea id="quote" placeholder="Type a custom quote here (optional)..." style="min-height:90px;"></textarea>
+
+<label style="display:flex; gap:10px; align-items:center; margin:10px 0;">
+  <input type="checkbox" id="useMicroQuotes" checked />
+  Include Micro Quotes
+</label>
+
+<label style="margin-top:14px;">Choose which Quote Banks to pull from:</label>
+
+<div style="display:grid; grid-template-columns:1fr; gap:8px; margin-top:8px;">
+  <label style="display:flex; gap:10px; align-items:center;">
+    <input type="checkbox" id="bGeneralUrbanBookish" checked />
+    General Urban Bookish
+  </label>
+
+  <label style="display:flex; gap:10px; align-items:center;">
+    <input type="checkbox" id="bMoodQuotes" checked />
+    Mood Quotes
+  </label>
+
+  <label style="display:flex; gap:10px; align-items:center;">
+    <input type="checkbox" id="bIYKYK" checked />
+    IYKYK
+  </label>
+</div>
+
+<!-- ACTION BUTTONS -->
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px;">
+  <button id="randomizeBtn" type="button">Randomize</button>
+  <button id="clearBtn" type="button">Clear All</button>
+</div>
+  </div>
 
       <button id="generateBtn">Generate Prompt</button>
       <p class="hint">Tip: If it ever looks “cached,” add <b>?v=999</b> to your URL.</p>
