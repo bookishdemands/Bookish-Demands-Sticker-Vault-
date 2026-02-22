@@ -9,6 +9,11 @@ const pick = (arr) => arr[rnd(arr.length)];
 const uniq = (arr) => Array.from(new Set(arr));
 
 async function loadConfig() {
+  alert(
+  "Loaded ✅ v=" + (CFG?.meta?.version || "?") +
+  "\noptions keys: " + Object.keys(CFG?.options || {}).join(", ") +
+  "\nproduct len: " + ((CFG?.options?.product || []).length)
+);
   const res = await fetch("./config.json", { cache: "no-store" });
   if (!res.ok) throw new Error(`Could not load config.json (${res.status})`);
   CFG = await res.json();
