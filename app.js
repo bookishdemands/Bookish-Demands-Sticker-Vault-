@@ -23,19 +23,21 @@ function fillSelect(id, items, { placeholder = "Select..." } = {}) {
 
   sel.innerHTML = "";
 
-  const opt0 = document.createElement("option");
-  opt0.value = "";
-  opt0.textContent = placeholder;
-  sel.appendChild(opt0);
+  // placeholder option
+  const o0 = document.createElement("option");
+  o0.value = "";
+  o0.textContent = placeholder;
+  sel.appendChild(o0);
 
   (items || []).forEach((item) => {
     const opt = document.createElement("option");
 
-    // Supports strings OR objects like {value, label}
+    // supports strings OR objects
     if (typeof item === "string") {
       opt.value = item;
       opt.textContent = item;
     } else {
+      // objects like: { value, label, mainSubject }
       opt.value = item.value ?? "";
       opt.textContent = item.label ?? item.value ?? "";
     }
@@ -45,16 +47,16 @@ function fillSelect(id, items, { placeholder = "Select..." } = {}) {
 }
 
 function populateAllOptionsFromConfig() {
-  const o = CFG?.options || {};
+  if (!CFG || !CFG.options) return;
 
-  fillSelect("product", o.product, { placeholder: "Select product..." });
-  fillSelect("genreTone", o.genreTone, { placeholder: "Select genre..." });
-  fillSelect("vibe", o.vibe, { placeholder: "Select vibe..." });
-  fillSelect("palette", o.palette, { placeholder: "Select palette..." });
-  fillSelect("background", o.background, { placeholder: "Select background..." });
-  fillSelect("border", o.border, { placeholder: "Select border..." });
-  fillSelect("outline", o.outline, { placeholder: "Select outline..." });
-  fillSelect("spice", o.spice, { placeholder: "Select spice..." });
+  fillSelect("product", CFG.options.product, { placeholder: "Select product..." });
+  fillSelect("genreTone", CFG.options.genreTone, { placeholder: "Select genre..." });
+  fillSelect("vibe", CFG.options.vibe, { placeholder: "Select vibe..." });
+  fillSelect("palette", CFG.options.palette, { placeholder: "Select palette..." });
+  fillSelect("background", CFG.options.background, { placeholder: "Select background..." });
+  fillSelect("border", CFG.options.border, { placeholder: "Select border..." });
+  fillSelect("outline", CFG.options.outline, { placeholder: "Select outline..." });
+  fillSelect("spice", CFG.options.spice, { placeholder: "Select spice..." });
 }
 
 function looksHorrorPalette(p){
