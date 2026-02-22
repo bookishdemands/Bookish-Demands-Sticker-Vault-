@@ -1,20 +1,133 @@
 {
-  "products": [
-    "IV Drip Bag",
-    "Prescription Bottle",
-    "Confession Note",
-    "Delulu Meter"
+  "meta": {
+    "version": "1.0",
+    "brand": "Bookish Demands"
+  },
+
+  "template": [
+    "Create image:",
+    "{STYLE_BLOCK}",
+    "Cut-safe die-cut requirement: one continuous closed silhouette outline around the ENTIRE design.",
+    "ABSOLUTE RULE: every sparkle, glitter dot, foil fleck, smoke wisp, particle, shine pop, and glow must be INSIDE the silhouette boundary.",
+    "No floating elements outside the border. No stray dots. No outside specks. No outside aura. No outer shadow.",
+    "Any glow must hug the silhouette tightly and remain fully inside the die-cut outline.",
+    "If any particles would cross the edge, remove them.",
+    "",
+    "Color palette: {PALETTE}.",
+    "Genre tone: {GENRE_TONE}.",
+    "Vibe: {VIBE}.",
+    "Spice aesthetic: {SPICE_AESTHETIC}.",
+    "Product theme: {PRODUCT}.",
+    "Main subject: {MAIN_SUBJECT}.",
+    "Typography: clear legible typography, centered composition, bold high-contrast text, no distorted letters.",
+    "Background: {BACKGROUND}.",
+    "Sticker Border: {BORDER}.",
+    "Outline: {OUTLINE}.",
+    "Original design, no trademarks, no brand logos, no watermark."
   ],
-  "vibes": [
-    "Kindle After Dark",
-    "Protective Possessive Energy",
-    "Morally Gray Glam",
-    "Soft Glam Reader"
-  ],
-  "palettes": [
-    "Blood Red + Ink Black + Steel",
-    "Deep Plum + Gold",
-    "Blush + Champagne + Cocoa",
-    "Neon Red + Charcoal + White"
-  ]
+
+  "styleBlocks": {
+    "default": [
+      "no outline, no sticker border, transparent background",
+      "booktok pop-art sticker style",
+      "bold shapes, punchy contrast, crisp edges, vector-like clarity",
+      "high resolution"
+    ],
+    "clipart": [
+      "cute flat vector clipart sticker",
+      "rounded shapes, clean flat shading, crisp edges",
+      "commercial clipart look, vector-like clarity, high resolution"
+    ],
+    "handdrawn": [
+      "hand-drawn illustration style",
+      "ink sketch outlines, slightly imperfect strokes, still crisp and sticker-ready",
+      "high resolution, vector-like clarity"
+    ]
+  },
+
+  "spiceAestheticByLevel": {
+    "1": "soft flirt energy (non-graphic)",
+    "2": "spicy vibes, bold flirting, possessive undertones (non-graphic)",
+    "3": "dark romance heat, intense chemistry, edgy tension (non-graphic)",
+    "4": "unhinged tension, morally gray energy, possessive & protective (non-graphic)",
+    "5": "maximum spice energy, obsessive devotion tone (non-graphic)"
+  },
+
+  "options": {
+    "product": [
+      {
+        "value": "IV Drip Bag",
+        "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel and subtle glossy highlights; no medical branding"
+      },
+      {
+        "value": "Delulu Meter",
+        "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe; bold readable text"
+      },
+      {
+        "value": "Pill Bottle",
+        "mainSubject": "amber prescription-style bottle with childproof cap; clean warning label panel; a few stylized pills; no pharmacy branding"
+      },
+      {
+        "value": "Confession Note",
+        "mainSubject": "confession note sticker with header 'CONFESSION:' and a bold handwritten quote; clean paper edges; dramatic cute vibe"
+      }
+    ],
+
+    "genreTone": [
+      "urban fiction",
+      "dark romance",
+      "paranormal romance",
+      "soft glam reader"
+    ],
+
+    "vibe": [
+      "IYKYK",
+      "Protective Possessive Energy",
+      "Morally Gray Glam",
+      "Kindle After Dark"
+    ],
+
+    "palette": [
+      "Blood Red + Ink Black + Steel",
+      "Oxblood + Matte Black + Bone",
+      "Champagne Gold + Cocoa + Cream",
+      "Neon Red + Charcoal + White"
+    ],
+
+    "background": [
+      "Transparent background",
+      "Solid white background",
+      "Matte black background"
+    ],
+
+    "border": [
+      "No border",
+      "White border (recommended)"
+    ],
+
+    "outline": [
+      "No outline",
+      "Thick bold outline"
+    ],
+
+    "spice": [
+      { "value": "1", "label": "1 — soft flirt" },
+      { "value": "2", "label": "2 — flirty heat" },
+      { "value": "3", "label": "3 — dark romance heat" },
+      { "value": "4", "label": "4 — unhinged tension" },
+      { "value": "5", "label": "5 — maximum spice vibe" }
+    ]
+  },
+
+  "defaults": {
+    "product": "IV Drip Bag",
+    "genreTone": "urban fiction",
+    "vibe": "Kindle After Dark",
+    "palette": "Blood Red + Ink Black + Steel",
+    "background": "Transparent background",
+    "border": "White border (recommended)",
+    "outline": "Thick bold outline",
+    "spice": "2",
+    "styleBlock": "clipart"
+  }
 }
