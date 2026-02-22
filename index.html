@@ -619,23 +619,33 @@
     const setV = (id,val)=>{ if($(id)) $(id).value = val; };
     const c = (id)=>!!($(id)?.checked);
     const setC = (id,val)=>{ if($(id)) $(id).checked = !!val; };
+    // ---------- Re-entrancy guard (prevents infinite loops / call stack errors) ----------
+let __uiLock = false;
 
+function withUiLock(fn){
+  if(__uiLock) return;
+  __uiLock = true;
+  try { fn(); }
+  finally { __uiLock = false; }
+}
     /* =========================
    Monitor Screen Mode UI + Logic
    ========================= */
 
 function toggleScreenModeUI(){
-  const row = $("screenModeRow");
-  const customWrap = $("customScreenTextWrap");
-  if(!row) return;
+  withUiLock(()=>{
+    const row = $("screenModeRow");
+    const customWrap = $("customScreenTextWrap");
+    if(!row) return;
 
-  const on = isMonitorProduct();
-  row.style.display = on ? "" : "none";
+    const on = isMonitorProduct();
+    row.style.display = on ? "" : "none";
 
-  if(customWrap){
-    const mode = v("screenMode");
-    customWrap.style.display = (on && mode === "custom") ? "" : "none";
-  }
+    if(customWrap){
+      const mode = v("screenMode");
+      customWrap.style.display = (on && mode === "custom") ? "" : "none";
+    }
+  });
 }
 
 function screenMode(){
@@ -1861,12 +1871,14 @@ Harmony:
 
     // ---------- Event wiring ----------
     function onAnyInput(){
-      // auto-apply hand drawn preset by forcing variation
-      if(c("handDrawnPreset")) setV("variation","hand_drawn");
-      applyHarmonyRules();
-    }
+    withUiLock(()=>{
+    // auto-apply hand drawn preset by forcing variation
+    if(c("handDrawnPreset")) setV("variation","hand_drawn");
 
-    loadPalettes();
+    applyHarmonyRules();
+    generate();
+  });
+}
 
     $("generateBtn").addEventListener("click", generate);
     $("copyBtn").addEventListener("click", copyPrompt);
@@ -1880,15 +1892,17 @@ Harmony:
     });
 
     window.addEventListener("load", ()=>{
-      setC("cutSafeMode", true);
-      setC("bGeneralUrbanBookish", true);
-      setC("bMoodQuotes", true);
-      setC("bIYKYK", true);
-  
-      toggleScreenModeUI();
-      applyHarmonyRules();
-      generate();
-    });
+  withUiLock(()=>{
+    setC("cutSafeMode", true);
+    setC("bGeneralUrbanBookish", true);
+    setC("bMoodQuotes", true);
+    setC("bIYKYK", true);
+
+    toggleScreenModeUI();
+    applyHarmonyRules();
+    generate();
+  });
+});
   </script>
 </body>
 </html>
