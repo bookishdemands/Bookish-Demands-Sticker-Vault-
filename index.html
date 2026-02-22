@@ -1,48 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Bookish Demands Prompt Generator</title>
-<style>
-body {
-  font-family: system-ui;
-  background: #0e0e0e;
-  color: white;
-  padding: 40px;
-}
-select, button {
-  padding: 10px;
-  margin: 10px 0;
-  width: 100%;
-  font-size: 16px;
-}
-#output {
-  margin-top: 20px;
-  background: #1c1c1c;
-  padding: 20px;
-  border-radius: 8px;
-  white-space: pre-wrap;
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sticker Prompt Generator</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; margin:0; background:#0b0b0f; color:#fff;}
+    .wrap{max-width:720px; margin:0 auto; padding:24px;}
+    h1{margin:0 0 16px 0; font-size:34px; letter-spacing:.2px;}
+    .card{background:#141420; border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:18px;}
+    label{display:block; margin:14px 0 6px; opacity:.9;}
+    select, textarea, button{
+      width:100%; font-size:16px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.12); background:#0f0f18; color:#fff;
+      padding:12px 12px;
+    }
+    button{background:#f2f2f2; color:#111; font-weight:700; cursor:pointer; margin-top:16px;}
+    button:hover{filter:brightness(.95);}
+    textarea{min-height:220px; resize:vertical; line-height:1.35;}
+    .row{display:grid; grid-template-columns:1fr; gap:10px;}
+    .hint{opacity:.7; font-size:13px; margin-top:8px;}
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <h1>Sticker Prompt Generator</h1>
 
-<h1>Sticker Prompt Generator</h1>
+    <div class="card">
+      <div class="row">
+        <div>
+          <label for="product">Product</label>
+          <select id="product"></select>
+        </div>
 
-<label>Product</label>
-<select id="product"></select>
+        <div>
+          <label for="genreTone">Genre Tone</label>
+          <select id="genreTone"></select>
+        </div>
 
-<label>Vibe</label>
-<select id="vibe"></select>
+        <div>
+          <label for="vibe">Vibe</label>
+          <select id="vibe"></select>
+        </div>
 
-<label>Color Palette</label>
-<select id="palette"></select>
+        <div>
+          <label for="palette">Color Palette</label>
+          <select id="palette"></select>
+        </div>
 
-<button id="generateBtn">Generate Prompt</button>
+        <div>
+          <label for="background">Background</label>
+          <select id="background"></select>
+        </div>
 
-<div id="output"></div>
+        <div>
+          <label for="border">Sticker Border</label>
+          <select id="border"></select>
+        </div>
 
-<script src="app.js"></script>
+        <div>
+          <label for="outline">Outline</label>
+          <select id="outline"></select>
+        </div>
+
+        <div>
+          <label for="spice">Spice Level</label>
+          <select id="spice"></select>
+        </div>
+      </div>
+
+      <button id="generateBtn">Generate Prompt</button>
+      <p class="hint">Tip: If it ever looks “cached,” add <b>?v=999</b> to your URL.</p>
+
+      <label for="output">Prompt Output</label>
+      <textarea id="output" readonly></textarea>
+
+      <button id="copyBtn">Copy Prompt</button>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
 </body>
 </html>
