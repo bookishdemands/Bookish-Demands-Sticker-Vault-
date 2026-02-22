@@ -1,6 +1,36 @@
 {
   "meta": { "version": "2.0", "brand": "Bookish Demands" },
 
+  "options": {
+    "product": [
+      { "value": "IV Drip Bag", "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel; no medical branding" },
+      { "value": "Delulu Meter", "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe" }
+    ],
+    "genreTone": ["urban fiction", "dark romance"],
+    "vibe": ["IYKYK", "Kindle After Dark"],
+    "palette": ["Blood Red + Ink Black + Steel"],
+    "background": ["transparent", "solid_white"],
+    "border": ["white", "none"],
+    "outline": ["bold_black", "no_outline"],
+    "spice": [
+      { "value": "1", "label": "1 — sweet tension" },
+      { "value": "2", "label": "2 — flirty heat" }
+    ]
+  },
+
+  "defaults": {
+    "count": "1",
+    "stickerType": "packaging",
+    "genreTone": "urban fiction",
+    "vibe": "Kindle After Dark",
+    "productTheme": "IV Drip Bag",
+    "palette": "Blood Red + Ink Black + Steel",
+    "bgMode": "transparent",
+    "border": "white",
+    "outline": "bold_black",
+    "spiceLevel": "2"
+  }
+},
   "rules": {
     "horrorPaletteDefault": "Blood Red + Ink Black + Bone",
     "randomCoreBanksMax": 2,
