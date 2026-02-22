@@ -620,13 +620,40 @@
     const c = (id)=>!!($(id)?.checked);
     const setC = (id,val)=>{ if($(id)) $(id).checked = !!val; };
    // ---------- Re-entrancy guard (prevents infinite loops / call stack) ----------
-let __uiLock = false;
+    let __uiLock = false;
+
 function withUiLock(fn){
   if(__uiLock) return;
   __uiLock = true;
   try { fn(); }
+  catch(e){ console.error(e); }   // so you can see errors in console
   finally { __uiLock = false; }
 }
+  function ensurePaletteOptions(){
+  const sel = $("palette");
+  if(!sel) return;
+
+  // If already populated, do nothing
+  if(sel.options && sel.options.length > 0) return;
+
+  // Minimal safe defaults (you can add/remove as you like)
+  const defaults = [
+    "Auto (recommended)",
+    "Blood Red + Ink Black + Steel",
+    "Oxblood + Matte Black + Bone",
+    "Champagne Gold + Cocoa + Cream",
+    "Neon Red + Charcoal + White",
+  ];
+
+  sel.innerHTML = "";
+  defaults.forEach((label, i)=>{
+    const opt = document.createElement("option");
+    opt.value = (i === 0) ? "auto" : label;
+    opt.textContent = label;
+    sel.appendChild(opt);
+  });
+}  
+    
     /* =========================
    Monitor Screen Mode UI + Logic
    ========================= */
@@ -1900,16 +1927,19 @@ Harmony:
 
     // ---------- Event wiring ----------
     function onAnyInput(){
-    withUiLock(()=>{
+  withUiLock(()=>{
     // auto-apply hand drawn preset by forcing variation
-    if(c("handDrawnPreset")) setV("variation","hand_drawn");
+    if(c("handDrawnPreset")) setV("variation", "hand_drawn");
 
-    applyHarmonyRules();  // set palette, etc (NO generate inside harmony)
-    generate();           // safe because generate is also guarded
+    // harmony only sets values/notes — should NOT generate
+    applyHarmonyRules();
+
+    // keep monitor dropdown visibility synced
+    toggleScreenModeUI();
   });
 }
 
-    $("generateBtn").addEventListener("click", generate);
+    $("generateBtn")?.addEventListener("click", ()=>withUiLock(generate));
     $("copyBtn").addEventListener("click", copyPrompt);
     $("randomBtn").addEventListener("click", randomize);
     $("clearBtn").addEventListener("click", clearAll);
@@ -1922,13 +1952,19 @@ Harmony:
 
     window.addEventListener("load", ()=>{
   withUiLock(()=>{
+    // ✅ populate palette dropdown FIRST
+    if (typeof loadPalettes === "function") loadPalettes();
+    if (typeof ensurePaletteOptions === "function") ensurePaletteOptions();
+
+    // your defaults
     setC("cutSafeMode", true);
     setC("bGeneralUrbanBookish", true);
     setC("bMoodQuotes", true);
     setC("bIYKYK", true);
 
     toggleScreenModeUI();
-    applyHarmonyRules();
+
+    // ✅ only ONE generate call on load
     generate();
   });
 });
