@@ -4,7 +4,8 @@ let CFG = null;
 const $ = (id) => document.getElementById(id);
 const v = (id) => ($(id)?.value ?? "");
 const setV = (id, val) => { const el = $(id); if (el) el.value = val; };
-
+const c = (id) => !!($(id)?.checked);
+const setC = (id, val) => { const el = $(id); if (el) el.checked = !!val; };
 const rnd = (n) => Math.floor(Math.random() * n);
 const pick = (arr) => arr[rnd(arr.length)];
 const uniq = (arr) => Array.from(new Set(arr));
