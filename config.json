@@ -2,15 +2,10 @@
   "meta": { "version": "2.0", "brand": "Bookish Demands" },
 
   "options": {
+    "count": ["1","2","3","4","5"],
     "product": [
-      {
-        "value": "IV Drip Bag",
-        "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel; no medical branding"
-      },
-      {
-        "value": "Delulu Meter",
-        "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe"
-      }
+      { "value": "IV Drip Bag", "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel; no medical branding" },
+      { "value": "Delulu Meter", "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe" }
     ],
     "genreTone": ["urban fiction", "dark romance"],
     "vibe": ["IYKYK", "Kindle After Dark"],
@@ -24,7 +19,14 @@
     ]
   },
 
+  "rules": {
+    "horrorPaletteDefault": "Blood Red + Ink Black + Bone",
+    "randomCoreBanksMax": 2,
+    "randomTropesMax": 2
+  },
+
   "defaults": {
+    "count": "1",
     "product": "IV Drip Bag",
     "genreTone": "urban fiction",
     "vibe": "Kindle After Dark",
@@ -33,13 +35,8 @@
     "border": "white",
     "outline": "bold_black",
     "spice": "2"
-  },
-
-  "rules": {
-    "horrorPaletteDefault": "Blood Red + Ink Black + Bone",
-    "randomCoreBanksMax": 2,
-    "randomTropesMax": 2
-  },
+  }
+},
 
   "variations": {
     "bold_vector": "bold vector sticker, thick clean lines, high-contrast shapes, sharp vector clarity, premium sticker look",
