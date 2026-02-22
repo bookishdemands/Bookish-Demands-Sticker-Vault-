@@ -10,12 +10,18 @@ const pick = (arr) => arr[rnd(arr.length)];
 const uniq = (arr) => Array.from(new Set(arr));
 
 async function loadConfig() {
+  const res = await fetch("./config.json", { cache: "no-store" });
+  if (!res.ok) throw new Error(`Could not load config.json (${res.status})`);
+  CFG = await res.json();
+
   alert(
-  "CFG ✅ " +
-  (CFG?.meta?.version || "?") +
-  "\nkeys: " + Object.keys(CFG?.options || {}).join(", ") +
-  "\nproduct len: " + (CFG?.options?.product?.length || 0)
-);
+    "CFG ✅ " +
+    (CFG?.meta?.version || "?") +
+    "\nkeys: " + Object.keys(CFG?.options || {}).join(", ") +
+    "\nproduct len: " + (CFG?.options?.product?.length || 0)
+   );
+}  
+    
   const res = await fetch("./config.json", { cache: "no-store" });
   if (!res.ok) throw new Error(`Could not load config.json (${res.status})`);
   CFG = await res.json();
@@ -246,22 +252,28 @@ async function init() {
     generate();
 
     $("generateBtn")?.addEventListener("click", generate);
-    document.getElementById("randomizeBtn")?.addEventListener("click", randomizeAll);
-document.getElementById("clearBtn")?.addEventListener("click", clearAll);
+    $("randomizeBtn")?.addEventListener("click", randomizeAll);
+    $("clearBtn")?.addEventListener("click", clearAll);
 
-document.getElementById("copyBtn")?.addEventListener("click", async () => {
-  const text = v("output");
-  if (!text) return;
-  try {
-    await navigator.clipboard.writeText(text);
-    alert("Copied ✅");
-  } catch {
-    // fallback
-    const ta = $("output");
-    ta?.select();
-    document.execCommand("copy");
-    alert("Copied ✅");
+    $("copyBtn")?.addEventListener("click", async () => {
+      const text = v("output");
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("Copied ✅");
+      } catch {
+        const ta = $("output");
+        ta?.select();
+        document.execCommand("copy");
+        alert("Copied ✅");
+      }
+    });
+
+  } catch (e) {
+    console.error(e);
+    alert("Init error ❌ " + (e?.message || e));
   }
-});
+}
 
+// ✅ this must be OUTSIDE init()
 window.addEventListener("load", init);
