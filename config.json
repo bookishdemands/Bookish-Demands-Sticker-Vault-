@@ -3,8 +3,14 @@
 
   "options": {
     "product": [
-      { "value": "IV Drip Bag", "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel; no medical branding" },
-      { "value": "Delulu Meter", "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe" }
+      {
+        "value": "IV Drip Bag",
+        "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel; no medical branding"
+      },
+      {
+        "value": "Delulu Meter",
+        "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe"
+      }
     ],
     "genreTone": ["urban fiction", "dark romance"],
     "vibe": ["IYKYK", "Kindle After Dark"],
@@ -19,18 +25,16 @@
   },
 
   "defaults": {
-    "count": "1",
-    "stickerType": "packaging",
+    "product": "IV Drip Bag",
     "genreTone": "urban fiction",
     "vibe": "Kindle After Dark",
-    "productTheme": "IV Drip Bag",
     "palette": "Blood Red + Ink Black + Steel",
-    "bgMode": "transparent",
+    "background": "transparent",
     "border": "white",
     "outline": "bold_black",
-    "spiceLevel": "2"
-  }
-},
+    "spice": "2"
+  },
+
   "rules": {
     "horrorPaletteDefault": "Blood Red + Ink Black + Bone",
     "randomCoreBanksMax": 2,
@@ -76,39 +80,17 @@
   },
 
   "labelSubsByCategory": {
-    "medical": [
-      "Not FDA approved (but effective).",
-      "Side effects: possessive behavior."
-    ],
-    "meter": [
-      "Slide to your current level.",
-      "Current status: down bad."
-    ],
-    "default": [
-      "99% Delulu • 1% Regret",
-      "Handle with care."
-    ]
+    "medical": ["Not FDA approved (but effective).", "Side effects: possessive behavior."],
+    "meter": ["Slide to your current level.", "Current status: down bad."],
+    "default": ["99% Delulu • 1% Regret", "Handle with care."]
   },
 
-  "microQuotes": [
-    "Final Chapter Energy",
-    "Kindle Confidential",
-    "Certified Delulu"
-  ],
+  "microQuotes": ["Final Chapter Energy", "Kindle Confidential", "Certified Delulu"],
 
   "quoteBanks": {
-    "general_urban_bookish": [
-      "Booked, Busy, Unavailable.",
-      "Respectfully, I’m In A Chapter."
-    ],
-    "mood_quotes": [
-      "Remaining in Bookland until further notice.",
-      "This book ruined me… 5 stars."
-    ],
-    "iykyk": [
-      "If you know, you know.",
-      "The girls that get it, get it."
-    ]
+    "general_urban_bookish": ["Booked, Busy, Unavailable.", "Respectfully, I’m In A Chapter."],
+    "mood_quotes": ["Remaining in Bookland until further notice.", "This book ruined me… 5 stars."],
+    "iykyk": ["If you know, you know.", "The girls that get it, get it."]
   },
 
   "spiceAestheticByLevel": {
@@ -117,27 +99,5 @@
     "3": "spice aesthetic: spicy vibes, bold flirting, possessive undertones (non-graphic)",
     "4": "spice aesthetic: dark romance heat, intense chemistry, edgy tension (non-graphic)",
     "5": "spice aesthetic: filthy talk energy, power tension, ruthless chemistry (non-graphic)"
-  },
-
-  "defaults": {
-    "count": "3",
-    "stickerType": "packaging",
-    "genreTone": "",
-    "variation": "",
-    "handDrawnPreset": false,
-    "vibe": "",
-    "productTheme": "",
-    "palette": "",
-    "bgMode": "transparent",
-    "border": "white",
-    "outline": "bold_black",
-    "spiceLevel": "2",
-    "typoRule": "on",
-    "blankMode": false,
-    "cutSafeMode": true,
-    "labelMode": "auto",
-    "quoteMode": "any",
-    "quoteUsage": "smart",
-    "useRandomQuote": true
   }
 }
