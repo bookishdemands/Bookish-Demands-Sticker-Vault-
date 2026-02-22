@@ -16,6 +16,53 @@ async function loadConfig(){
   if(!res.ok) throw new Error("Could not load config.json");
   CFG = await res.json();
 }
+function fillSelect(id, items, { placeholder = "Select..." } = {}) {
+  const sel = document.getElementById(id);
+  if (!sel) return;
+
+  sel.innerHTML = "";
+
+  // Placeholder option
+  const o0 = document.createElement("option");
+  o0.value = "";
+  o0.textContent = placeholder;
+  sel.appendChild(o0);
+
+  (items || []).forEach(item => {
+    const opt = document.createElement("option");
+
+    // Support both strings and objects
+    if (typeof item === "string") {
+      opt.value = item;
+      opt.textContent = item;
+    } else {
+      opt.value = item.value ?? "";
+      opt.textContent = item.label ?? item.value ?? "";
+    }
+
+    sel.appendChild(opt);
+  });
+}
+
+function populateAllOptionsFromConfig() {
+  if (!CFG?.options) return;
+
+  // Match these IDs to YOUR HTML <select id="...">
+  fillSelect("product", CFG.options.product, { placeholder: "Select product" });
+  fillSelect("genreTone", CFG.options.genreTone, { placeholder: "Select genre tone" });
+  fillSelect("vibe", CFG.options.vibe, { placeholder: "Select vibe" });
+  fillSelect("palette", CFG.options.palette, { placeholder: "Select palette" });
+  fillSelect("background", CFG.options.background, { placeholder: "Select background" });
+  fillSelect("border", CFG.options.border, { placeholder: "Select border" });
+  fillSelect("outline", CFG.options.outline, { placeholder: "Select outline" });
+  fillSelect("spice", CFG.options.spice, { placeholder: "Select spice level" });
+
+  // style block (your config uses styleBlocks keys)
+  if (CFG.styleBlocks) {
+    const styleKeys = Object.keys(CFG.styleBlocks).map(k => ({ value: k, label: k }));
+    fillSelect("styleBlock", styleKeys, { placeholder: "Select style" });
+  }
+}
 
 function looksHorrorPalette(p){
   const s = (p || "").toLowerCase();
@@ -228,13 +275,19 @@ function applyDefaults(){
 }
 
 window.addEventListener("load", async () => {
-  try{
+  try {
     await loadConfig();
-    applyDefaults();
-    generate();
-    $("generateBtn")?.addEventListener("click", generate);
-  } catch(e){
+
+    // ✅ THIS is what you’re missing
+    populateAllOptionsFromConfig();
+
+    applyDefaults();   // if you have this
+    generate();        // if you have this
+
+    document.getElementById("generateBtn")?.addEventListener("click", generate);
+  } catch (e) {
     console.error(e);
-    setV("promptOut", "❌ Error:\n" + (e?.message || e));
+    const out = document.getElementById("promptOut");
+    if (out) out.value = "❌ Error loading config/options: " + (e?.message || e);
   }
 });
