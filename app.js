@@ -10,9 +10,10 @@ const uniq = (arr) => Array.from(new Set(arr));
 
 async function loadConfig() {
   alert(
-  "Loaded ✅ v=" + (CFG?.meta?.version || "?") +
-  "\noptions keys: " + Object.keys(CFG?.options || {}).join(", ") +
-  "\nproduct len: " + ((CFG?.options?.product || []).length)
+  "CFG ✅ " +
+  (CFG?.meta?.version || "?") +
+  "\nkeys: " + Object.keys(CFG?.options || {}).join(", ") +
+  "\nproduct len: " + (CFG?.options?.product?.length || 0)
 );
   const res = await fetch("./config.json", { cache: "no-store" });
   if (!res.ok) throw new Error(`Could not load config.json (${res.status})`);
