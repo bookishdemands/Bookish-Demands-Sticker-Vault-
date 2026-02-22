@@ -144,12 +144,16 @@ function buildPromptOnce() {
   const vibe = v("vibe");
   const mainSubject = getSelectedProductMainSubject();
 
+  const quote = chooseQuote(); // ✅ pull a quote
+
   const cutSafe =
     "Cut-safe die-cut requirement: one continuous closed silhouette outline around the ENTIRE design. " +
     "ABSOLUTE RULE: every sparkle, glitter dot, foil fleck, smoke wisp, particle, shine pop, and glow must be INSIDE the silhouette boundary. " +
     "No floating elements outside the border. No stray dots. No outside specks. No outside aura. No outer shadow. " +
     "Any glow must hug the silhouette tightly and remain fully inside the die-cut outline. " +
     "If any particles would cross the edge, remove them.";
+
+  const spice = spiceAesthetic(); // ✅ call once
 
   return [
     "Create image:",
@@ -158,8 +162,9 @@ function buildPromptOnce() {
     palette ? `Color palette: ${palette}.` : "",
     genre ? `Genre tone: ${genre}.` : "",
     vibe ? `Vibe: ${vibe}.` : "",
-    spiceAesthetic() ? `Spice aesthetic: ${spiceAesthetic()}.` : "",
+    spice ? `Spice aesthetic: ${spice}.` : "",
     mainSubject ? `Main subject: ${mainSubject}.` : "Main subject: simple iconic bookish symbol.",
+    quote ? `Optional quote line: “${quote}”.` : "", // ✅ inject quote
     "Typography: clear legible typography, centered composition, bold high-contrast text, no distorted letters.",
     "Original design, no trademarks, no brand logos, no watermark."
   ].filter(Boolean).join(" ");
