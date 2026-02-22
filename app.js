@@ -1,3 +1,4 @@
+alert("app.js loaded ✅");
 let CFG = null;
 
 const $ = (id) => document.getElementById(id);
