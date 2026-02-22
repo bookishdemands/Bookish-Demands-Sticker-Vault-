@@ -56,7 +56,7 @@ function populateAllOptionsFromConfig() {
   fillSelect("spice", CFG.options.spice, { placeholder: "Select spice..." });
 
   // If you add <select id="count"> later, uncomment:
-  // fillSelect("count", ["1","2","3","4","5"], { placeholder: "How many prompts?" });
+  fillSelect("count", ["1","2","3","4","5"], { placeholder: "How many prompts?" });
 }
 
 function applyDefaults() {
