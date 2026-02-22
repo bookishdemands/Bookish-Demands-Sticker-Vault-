@@ -1939,7 +1939,7 @@ Harmony:
   });
 }
 
-    $("generateBtn")?.addEventListener("click", ()=>withUiLock(generate));
+    $("generateBtn").addEventListener("click", generate);
     $("copyBtn").addEventListener("click", copyPrompt);
     $("randomBtn").addEventListener("click", randomize);
     $("clearBtn").addEventListener("click", clearAll);
@@ -1950,23 +1950,17 @@ Harmony:
       if(el) el.addEventListener("change", onAnyInput);
     });
 
-    window.addEventListener("load", ()=>{
+  window.addEventListener("load", ()=>{
   withUiLock(()=>{
-    // ✅ populate palette dropdown FIRST
+    // setup stuff
     if (typeof loadPalettes === "function") loadPalettes();
     if (typeof ensurePaletteOptions === "function") ensurePaletteOptions();
-
-    // your defaults
-    setC("cutSafeMode", true);
-    setC("bGeneralUrbanBookish", true);
-    setC("bMoodQuotes", true);
-    setC("bIYKYK", true);
-
     toggleScreenModeUI();
-
-    // ✅ only ONE generate call on load
-    generate();
+    applyHarmonyRules();
   });
+
+  // run AFTER lock releases
+  generate();
 });
   </script>
 </body>
