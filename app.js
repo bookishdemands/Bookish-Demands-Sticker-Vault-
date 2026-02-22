@@ -104,36 +104,44 @@ function bankKeyFromGenre(genre) {
 
 function buildQuotePool() {
   const banks = CFG?.quoteBanks || {};
-  const genre = v("genreTone");
-  const vibe = v("vibe");
-
   let pool = [];
 
-  // always include genre bank
-  const genreKey = bankKeyFromGenre(genre);
-  pool.push(...(banks[genreKey] || []));
+  // If these checkboxes exist, use them. If not, fall back.
+  const hasBankUI =
+    $("bGeneralUrbanBookish") || $("bMoodQuotes") || $("bIYKYK");
 
-  // vibe-driven boosts
-  if ((vibe || "").toLowerCase().includes("iykyk")) {
-    pool.push(...(banks.iykyk || []));
+  if (hasBankUI) {
+    if (c("bGeneralUrbanBookish")) pool.push(...(banks.general_urban_bookish || []));
+    if (c("bMoodQuotes")) pool.push(...(banks.mood_quotes || []));
+    if (c("bIYKYK")) pool.push(...(banks.iykyk || []));
+  } else {
+    // fallback if UI isn’t there
+    const genre = v("genreTone");
+    const genreKey = bankKeyFromGenre(genre);
+    pool.push(...(banks[genreKey] || []));
   }
-  if ((vibe || "").toLowerCase().includes("kindle")) {
-    pool.push(...(banks.mood_quotes || []));
-  }
 
-  // sprinkle micro quotes
-  pool.push(...(CFG.microQuotes || []));
+  // Micro quotes toggle
+  const microOn = $("useMicroQuotes") ? c("useMicroQuotes") : true;
+  if (microOn) pool.push(...(CFG.microQuotes || []));
 
-  // ultimate fallback so pool is never empty
   pool = uniq(pool.filter(Boolean));
-  if (!pool.length) pool = uniq([...(banks.general_urban_bookish || []), ...(CFG.microQuotes || [])]);
+
+  // final fallback so it never empties
+  if (!pool.length) {
+    pool = uniq([...(banks.general_urban_bookish || []), ...(CFG.microQuotes || [])]);
+  }
 
   return pool;
 }
 
 function chooseQuote() {
-  // If you later add a manual quote text input, handle it here.
-  // For now: always random from banks.
+  const typed = (v("quote") || "").trim();
+  if (typed) return typed; // ✅ custom wins
+
+  // If checkbox exists and is off, return empty
+  if ($("useRandomQuote") && !c("useRandomQuote")) return "";
+
   const pool = buildQuotePool();
   return pool.length ? pick(pool) : "";
 }
@@ -178,6 +186,49 @@ function generate() {
   setV("output", prompts.join("\n\n---\n\n"));
 }
 
+function setSelectToRandom(id) {
+  const sel = $(id);
+  if (!sel) return;
+  const opts = Array.from(sel.options).filter(o => o.value); // skip placeholder
+  if (!opts.length) return;
+  sel.value = pick(opts).value;
+}
+
+function randomizeAll() {
+  // dropdowns
+  setSelectToRandom("count");
+  setSelectToRandom("product");
+  setSelectToRandom("genreTone");
+  setSelectToRandom("vibe");
+  setSelectToRandom("palette");
+  setSelectToRandom("background");
+  setSelectToRandom("border");
+  setSelectToRandom("outline");
+  setSelectToRandom("spice");
+
+  // clear custom quote so random can kick in
+  if ($("quote")) setV("quote", "");
+
+  generate();
+}
+
+function clearAll() {
+  // reset selects to placeholder
+  ["count","product","genreTone","vibe","palette","background","border","outline","spice"]
+    .forEach(id => { if ($(id)) setV(id, ""); });
+
+  // reset quote + output
+  if ($("quote")) setV("quote", "");
+  if ($("output")) setV("output", "");
+
+  // reset checkboxes (optional defaults)
+  if ($("useRandomQuote")) setC("useRandomQuote", true);
+  if ($("useMicroQuotes")) setC("useMicroQuotes", true);
+  if ($("bGeneralUrbanBookish")) setC("bGeneralUrbanBookish", true);
+  if ($("bMoodQuotes")) setC("bMoodQuotes", true);
+  if ($("bIYKYK")) setC("bIYKYK", true);
+}
+
 async function init() {
   try {
     await loadConfig();
@@ -186,16 +237,22 @@ async function init() {
     generate();
 
     $("generateBtn")?.addEventListener("click", generate);
-    $("copyBtn")?.addEventListener("click", async () => {
-      const text = v("output");
-      if (!text) return;
-      await navigator.clipboard.writeText(text);
-      alert("Copied ✅");
-    });
+    document.getElementById("randomizeBtn")?.addEventListener("click", randomizeAll);
+document.getElementById("clearBtn")?.addEventListener("click", clearAll);
 
-  } catch (e) {
-    setV("output", "❌ " + (e?.message || String(e)));
+document.getElementById("copyBtn")?.addEventListener("click", async () => {
+  const text = v("output");
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    alert("Copied ✅");
+  } catch {
+    // fallback
+    const ta = $("output");
+    ta?.select();
+    document.execCommand("copy");
+    alert("Copied ✅");
   }
-}
+});
 
 window.addEventListener("load", init);
