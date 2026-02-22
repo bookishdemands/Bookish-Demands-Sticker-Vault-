@@ -253,7 +253,7 @@ function generate(){
   const negative =
     "photorealistic, blurry, low-res, messy outline, uneven line weight, distorted letters, unreadable text, random extra words, watermark, signature, brand logos, copyrighted characters, celebrity likeness, real book titles, background scene, floating particles outside outline, aura outside silhouette, outer shadow, UI screenshot, app interface, OS UI";
 
-  setV("promptOut", prompt);
+  setV("output", prompt);
   setV("negOut", negative);
   setV("notesOut", "Export: PNG • 2000–3000px • Transparent background recommended");
 }
