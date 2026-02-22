@@ -90,6 +90,53 @@ function finishText() {
     "no brand logos, no watermark"
   ].join(", ");
 }
+function bankKeyFromGenre(genre) {
+  const g = (genre || "").toLowerCase().trim();
+
+  if (g.includes("dark")) return "dark_romance";
+  if (g.includes("paranormal")) return "paranormal";
+  if (g.includes("thriller")) return "thriller";
+  if (g.includes("soft")) return "soft_life_self_care";
+  if (g.includes("urban")) return "general_urban_bookish";
+
+  return "mood_quotes"; // safe fallback
+}
+
+function buildQuotePool() {
+  const banks = CFG?.quoteBanks || {};
+  const genre = v("genreTone");
+  const vibe = v("vibe");
+
+  let pool = [];
+
+  // always include genre bank
+  const genreKey = bankKeyFromGenre(genre);
+  pool.push(...(banks[genreKey] || []));
+
+  // vibe-driven boosts
+  if ((vibe || "").toLowerCase().includes("iykyk")) {
+    pool.push(...(banks.iykyk || []));
+  }
+  if ((vibe || "").toLowerCase().includes("kindle")) {
+    pool.push(...(banks.mood_quotes || []));
+  }
+
+  // sprinkle micro quotes
+  pool.push(...(CFG.microQuotes || []));
+
+  // ultimate fallback so pool is never empty
+  pool = uniq(pool.filter(Boolean));
+  if (!pool.length) pool = uniq([...(banks.general_urban_bookish || []), ...(CFG.microQuotes || [])]);
+
+  return pool;
+}
+
+function chooseQuote() {
+  // If you later add a manual quote text input, handle it here.
+  // For now: always random from banks.
+  const pool = buildQuotePool();
+  return pool.length ? pick(pool) : "";
+}
 
 function buildPromptOnce() {
   const palette = v("palette");
