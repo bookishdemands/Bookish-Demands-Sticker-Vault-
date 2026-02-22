@@ -55,7 +55,9 @@ function populateAllOptionsFromConfig() {
   fillSelect("border", CFG.options.border, "Select border...");
   fillSelect("outline", CFG.options.outline, "Select outline...");
   fillSelect("spice", CFG.options.spice, "Select spice...");
+  alert("Populate ran ✅");
 }
+
 
 function applyDefaults() {
   const d = CFG?.defaults || {};
