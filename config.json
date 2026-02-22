@@ -1,5 +1,5 @@
 {
-  "meta": { "version": "2.0", "brand": "Bookish Demands" },
+  "meta": { "version": "2.1", "brand": "Bookish Demands" },
 
   "spiceAestheticByLevel": {
     "1": "soft flirt energy (non-graphic)",
@@ -11,20 +11,129 @@
 
   "options": {
     "product": [
-      { "value": "IV Drip Bag", "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel; no medical branding" },
-      { "value": "Delulu Meter", "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe" }
+      {
+        "value": "IV Drip Bag",
+        "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel and subtle glossy highlights; no medical branding"
+      },
+      {
+        "value": "Delulu Meter",
+        "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe; bold readable text"
+      },
+      {
+        "value": "Pill Bottle",
+        "mainSubject": "amber prescription-style bottle with childproof cap; clean warning label panel; a few stylized pills; no pharmacy branding"
+      },
+      {
+        "value": "Confession Note",
+        "mainSubject": "confession note sticker with header 'CONFESSION:' and a bold handwritten quote; clean paper edges; dramatic cute vibe"
+      }
     ],
-    "genreTone": ["urban fiction", "dark romance"],
-    "vibe": ["IYKYK", "Kindle After Dark"],
-    "palette": ["Blood Red + Ink Black + Steel"],
-    "background": ["transparent", "solid_white"],
-    "border": ["white", "none"],
-    "outline": ["bold_black", "no_outline"],
+
+    "genreTone": [
+      "urban fiction",
+      "dark romance",
+      "paranormal romance",
+      "fantasy",
+      "thriller",
+      "soft glam reader"
+    ],
+
+    "vibe": [
+      "IYKYK",
+      "Kindle After Dark",
+      "Protective Possessive Energy",
+      "Morally Gray Glam",
+      "Soft Life Reader",
+      "Main Character Energy"
+    ],
+
+    "palette": [
+      "Blood Red + Ink Black + Steel",
+      "Oxblood + Matte Black + Bone",
+      "Champagne Gold + Cocoa + Cream",
+      "Neon Red + Charcoal + White",
+      "Black Cherry + Smoke Gray + Cream"
+    ],
+
+    "background": [
+      "transparent",
+      "solid_white",
+      "matte_black"
+    ],
+
+    "border": [
+      "white",
+      "none"
+    ],
+
+    "outline": [
+      "bold_black",
+      "no_outline"
+    ],
+
     "spice": [
       { "value": "1", "label": "1 — sweet tension" },
-      { "value": "2", "label": "2 — flirty heat" }
+      { "value": "2", "label": "2 — flirty heat" },
+      { "value": "3", "label": "3 — dark romance heat" },
+      { "value": "4", "label": "4 — unhinged tension" },
+      { "value": "5", "label": "5 — maximum spice vibe" }
     ]
   },
+
+  "quoteBanks": {
+    "general_urban_bookish": [
+      "Booked, Busy, Unavailable.",
+      "Respectfully, I’m in a chapter.",
+      "If you see me reading—mind your business.",
+      "Peace, quiet, and plot twists.",
+      "I came for the vibe. Stayed for the drama."
+    ],
+    "dark_romance": [
+      "Morally gray is my favorite color.",
+      "Soft voice. Hard boundaries.",
+      "He’s a problem. I’m the author.",
+      "If he wanted to, he would… and he DID."
+    ],
+    "paranormal": [
+      "Something wicked… and well-written.",
+      "I like my romance cursed and committed.",
+      "The supernatural has nothing on my standards.",
+      "If it bites, it buys."
+    ],
+    "thriller": [
+      "Plot twists only. No spoilers.",
+      "Trust issues but make it literary.",
+      "I knew it. I just needed the chapter to prove it.",
+      "If it’s calm… it’s a setup."
+    ],
+    "soft_life_self_care": [
+      "Read. Rest. Repeat.",
+      "Soft life, hard standards.",
+      "My peace is non-negotiable.",
+      "I’m not rushing—I'm resting."
+    ],
+    "iykyk": [
+      "If you know, you know.",
+      "The girls that get it, get it.",
+      "Don’t ask. Just nod.",
+      "It’s giving… chapter 27."
+    ],
+    "mood_quotes": [
+      "This book ruined me… 5 stars.",
+      "Do not disturb: emotionally invested.",
+      "One more chapter (lying).",
+      "Currently unavailable: fictional man calling."
+    ]
+  },
+
+  "microQuotes": [
+    "Certified Delulu",
+    "Kindle Confidential",
+    "Final Chapter Energy",
+    "Main Character Energy",
+    "Plot Twist Pending",
+    "Read Now, Regret Later"
+  ],
 
   "defaults": {
     "count": "1",
