@@ -1,133 +1,113 @@
 {
-  "meta": {
-    "version": "1.0",
-    "brand": "Bookish Demands"
+  "meta": { "version": "2.0", "brand": "Bookish Demands" },
+
+  "rules": {
+    "horrorPaletteDefault": "Blood Red + Ink Black + Bone",
+    "randomCoreBanksMax": 2,
+    "randomTropesMax": 2
   },
 
-  "template": [
-    "Create image:",
-    "{STYLE_BLOCK}",
-    "Cut-safe die-cut requirement: one continuous closed silhouette outline around the ENTIRE design.",
-    "ABSOLUTE RULE: every sparkle, glitter dot, foil fleck, smoke wisp, particle, shine pop, and glow must be INSIDE the silhouette boundary.",
-    "No floating elements outside the border. No stray dots. No outside specks. No outside aura. No outer shadow.",
-    "Any glow must hug the silhouette tightly and remain fully inside the die-cut outline.",
-    "If any particles would cross the edge, remove them.",
-    "",
-    "Color palette: {PALETTE}.",
-    "Genre tone: {GENRE_TONE}.",
-    "Vibe: {VIBE}.",
-    "Spice aesthetic: {SPICE_AESTHETIC}.",
-    "Product theme: {PRODUCT}.",
-    "Main subject: {MAIN_SUBJECT}.",
-    "Typography: clear legible typography, centered composition, bold high-contrast text, no distorted letters.",
-    "Background: {BACKGROUND}.",
-    "Sticker Border: {BORDER}.",
-    "Outline: {OUTLINE}.",
-    "Original design, no trademarks, no brand logos, no watermark."
+  "variations": {
+    "bold_vector": "bold vector sticker, thick clean lines, high-contrast shapes, sharp vector clarity, premium sticker look",
+    "cute_clipart": "cute flat vector clipart sticker, rounded shapes, clean flat shading, crisp edges, commercial clipart style",
+    "hand_drawn": "hand-drawn illustration sticker style, inked outlines, slightly imperfect strokes, hand-rendered shading, trendy modern doodle realism, still crisp and sticker-ready",
+    "hand_doodle": "hand-drawn doodle sticker style, thick outline, simple flat shading, charming imperfections (but clean)",
+    "booktok_pop": "booktok pop-art sticker style, bold shapes, punchy contrast, crisp outlines",
+    "noir_minimal": "noir minimal sticker, simple shapes, limited details, strong contrast, modern minimal icon",
+    "neon_noir": "neon noir sticker, subtle neon glow accents, dark subject, high contrast highlights",
+    "luxury_editorial": "luxury editorial sticker aesthetic, polished highlights, premium glam details, clean upscale feel",
+    "vintage_label": "vintage apothecary label sticker style, ornate frame details, bold readable label text (still clean)",
+    "kawaii_goth": "kawaii goth sticker style, cute + dark contrast, tiny hearts, subtle spooky accents, clean vector finish"
+  },
+
+  "palettes": [
+    "Blood Red + Ink Black + Bone",
+    "Red + Black + Cream",
+    "Oxblood + Black + Smoke Gray"
   ],
 
-  "styleBlocks": {
+  "productDesc": {
+    "iv_bag": "IV drip bag sticker illustration (generic medical bag shape), hanging with tube, clamp, drip chamber, glossy liquid fill; clean label panel area for text; no hospital branding",
+    "pill_bottle": "prescription bottle sticker (amber bottle with childproof cap), clean warning label panel; a few stylized pills nearby; no pharmacy branding",
+    "delulu_meter": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe; centered composition"
+  },
+
+  "productCategory": {
+    "iv_bag": "medical",
+    "pill_bottle": "medical",
+    "delulu_meter": "meter"
+  },
+
+  "labelTitles": {
+    "delulu_meter": ["DELULU METER", "OBSESSION METER", "DEVOTION METER"],
+    "iv_bag": ["OBSESSION INFUSION", "SOFT LIFE TRANSFUSION"],
+    "pill_bottle": ["MORALLY GREY CAPSULES", "UNHINGED MMC TABLETS"],
+    "default": ["MAIN CHARACTER ENERGY", "PLOT TWIST PENDING"]
+  },
+
+  "labelSubsByCategory": {
+    "medical": [
+      "Not FDA approved (but effective).",
+      "Side effects: possessive behavior."
+    ],
+    "meter": [
+      "Slide to your current level.",
+      "Current status: down bad."
+    ],
     "default": [
-      "no outline, no sticker border, transparent background",
-      "booktok pop-art sticker style",
-      "bold shapes, punchy contrast, crisp edges, vector-like clarity",
-      "high resolution"
+      "99% Delulu • 1% Regret",
+      "Handle with care."
+    ]
+  },
+
+  "microQuotes": [
+    "Final Chapter Energy",
+    "Kindle Confidential",
+    "Certified Delulu"
+  ],
+
+  "quoteBanks": {
+    "general_urban_bookish": [
+      "Booked, Busy, Unavailable.",
+      "Respectfully, I’m In A Chapter."
     ],
-    "clipart": [
-      "cute flat vector clipart sticker",
-      "rounded shapes, clean flat shading, crisp edges",
-      "commercial clipart look, vector-like clarity, high resolution"
+    "mood_quotes": [
+      "Remaining in Bookland until further notice.",
+      "This book ruined me… 5 stars."
     ],
-    "handdrawn": [
-      "hand-drawn illustration style",
-      "ink sketch outlines, slightly imperfect strokes, still crisp and sticker-ready",
-      "high resolution, vector-like clarity"
+    "iykyk": [
+      "If you know, you know.",
+      "The girls that get it, get it."
     ]
   },
 
   "spiceAestheticByLevel": {
-    "1": "soft flirt energy (non-graphic)",
-    "2": "spicy vibes, bold flirting, possessive undertones (non-graphic)",
-    "3": "dark romance heat, intense chemistry, edgy tension (non-graphic)",
-    "4": "unhinged tension, morally gray energy, possessive & protective (non-graphic)",
-    "5": "maximum spice energy, obsessive devotion tone (non-graphic)"
-  },
-
-  "options": {
-    "product": [
-      {
-        "value": "IV Drip Bag",
-        "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel and subtle glossy highlights; no medical branding"
-      },
-      {
-        "value": "Delulu Meter",
-        "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe; bold readable text"
-      },
-      {
-        "value": "Pill Bottle",
-        "mainSubject": "amber prescription-style bottle with childproof cap; clean warning label panel; a few stylized pills; no pharmacy branding"
-      },
-      {
-        "value": "Confession Note",
-        "mainSubject": "confession note sticker with header 'CONFESSION:' and a bold handwritten quote; clean paper edges; dramatic cute vibe"
-      }
-    ],
-
-    "genreTone": [
-      "urban fiction",
-      "dark romance",
-      "paranormal romance",
-      "soft glam reader"
-    ],
-
-    "vibe": [
-      "IYKYK",
-      "Protective Possessive Energy",
-      "Morally Gray Glam",
-      "Kindle After Dark"
-    ],
-
-    "palette": [
-      "Blood Red + Ink Black + Steel",
-      "Oxblood + Matte Black + Bone",
-      "Champagne Gold + Cocoa + Cream",
-      "Neon Red + Charcoal + White"
-    ],
-
-    "background": [
-      "Transparent background",
-      "Solid white background",
-      "Matte black background"
-    ],
-
-    "border": [
-      "No border",
-      "White border (recommended)"
-    ],
-
-    "outline": [
-      "No outline",
-      "Thick bold outline"
-    ],
-
-    "spice": [
-      { "value": "1", "label": "1 — soft flirt" },
-      { "value": "2", "label": "2 — flirty heat" },
-      { "value": "3", "label": "3 — dark romance heat" },
-      { "value": "4", "label": "4 — unhinged tension" },
-      { "value": "5", "label": "5 — maximum spice vibe" }
-    ]
+    "1": "spice aesthetic: sweet tension, soft charm, cozy flirt energy",
+    "2": "spice aesthetic: playful chemistry, cheeky tension, cute-but-bold",
+    "3": "spice aesthetic: spicy vibes, bold flirting, possessive undertones (non-graphic)",
+    "4": "spice aesthetic: dark romance heat, intense chemistry, edgy tension (non-graphic)",
+    "5": "spice aesthetic: filthy talk energy, power tension, ruthless chemistry (non-graphic)"
   },
 
   "defaults": {
-    "product": "IV Drip Bag",
-    "genreTone": "urban fiction",
-    "vibe": "Kindle After Dark",
-    "palette": "Blood Red + Ink Black + Steel",
-    "background": "Transparent background",
-    "border": "White border (recommended)",
-    "outline": "Thick bold outline",
-    "spice": "2",
-    "styleBlock": "clipart"
+    "count": "3",
+    "stickerType": "packaging",
+    "genreTone": "",
+    "variation": "",
+    "handDrawnPreset": false,
+    "vibe": "",
+    "productTheme": "",
+    "palette": "",
+    "bgMode": "transparent",
+    "border": "white",
+    "outline": "bold_black",
+    "spiceLevel": "2",
+    "typoRule": "on",
+    "blankMode": false,
+    "cutSafeMode": true,
+    "labelMode": "auto",
+    "quoteMode": "any",
+    "quoteUsage": "smart",
+    "useRandomQuote": true
   }
 }
