@@ -23,16 +23,15 @@ function fillSelect(id, items, { placeholder = "Select..." } = {}) {
 
   sel.innerHTML = "";
 
-  // Placeholder option
-  const o0 = document.createElement("option");
-  o0.value = "";
-  o0.textContent = placeholder;
-  sel.appendChild(o0);
+  const opt0 = document.createElement("option");
+  opt0.value = "";
+  opt0.textContent = placeholder;
+  sel.appendChild(opt0);
 
-  (items || []).forEach(item => {
+  (items || []).forEach((item) => {
     const opt = document.createElement("option");
 
-    // Support both strings and objects
+    // Supports strings OR objects like {value, label}
     if (typeof item === "string") {
       opt.value = item;
       opt.textContent = item;
@@ -46,23 +45,16 @@ function fillSelect(id, items, { placeholder = "Select..." } = {}) {
 }
 
 function populateAllOptionsFromConfig() {
-  if (!CFG?.options) return;
+  const o = CFG?.options || {};
 
-  // Match these IDs to YOUR HTML <select id="...">
-  fillSelect("product", CFG.options.product, { placeholder: "Select product" });
-  fillSelect("genreTone", CFG.options.genreTone, { placeholder: "Select genre tone" });
-  fillSelect("vibe", CFG.options.vibe, { placeholder: "Select vibe" });
-  fillSelect("palette", CFG.options.palette, { placeholder: "Select palette" });
-  fillSelect("background", CFG.options.background, { placeholder: "Select background" });
-  fillSelect("border", CFG.options.border, { placeholder: "Select border" });
-  fillSelect("outline", CFG.options.outline, { placeholder: "Select outline" });
-  fillSelect("spice", CFG.options.spice, { placeholder: "Select spice level" });
-
-  // style block (your config uses styleBlocks keys)
-  if (CFG.styleBlocks) {
-    const styleKeys = Object.keys(CFG.styleBlocks).map(k => ({ value: k, label: k }));
-    fillSelect("styleBlock", styleKeys, { placeholder: "Select style" });
-  }
+  fillSelect("product", o.product, { placeholder: "Select product..." });
+  fillSelect("genreTone", o.genreTone, { placeholder: "Select genre..." });
+  fillSelect("vibe", o.vibe, { placeholder: "Select vibe..." });
+  fillSelect("palette", o.palette, { placeholder: "Select palette..." });
+  fillSelect("background", o.background, { placeholder: "Select background..." });
+  fillSelect("border", o.border, { placeholder: "Select border..." });
+  fillSelect("outline", o.outline, { placeholder: "Select outline..." });
+  fillSelect("spice", o.spice, { placeholder: "Select spice..." });
 }
 
 function looksHorrorPalette(p){
