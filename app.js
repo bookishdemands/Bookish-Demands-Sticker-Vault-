@@ -122,26 +122,42 @@ function buildQuotePool() {
   const banks = CFG?.quoteBanks || {};
   let pool = [];
 
-  const hasBankUI =
-    $("bGeneralUrbanBookish") || $("bMoodQuotes") || $("bIYKYK");
+  // CORE bank picks
+  if ($("bGeneralUrbanBookish") && c("bGeneralUrbanBookish")) pool.push(...(banks.general_urban_bookish || []));
+  if ($("bMoodQuotes") && c("bMoodQuotes")) pool.push(...(banks.mood_quotes || []));
+  if ($("bIYKYK") && c("bIYKYK")) pool.push(...(banks.iykyk || []));
 
-  if (hasBankUI) {
-    if (c("bGeneralUrbanBookish")) pool.push(...(banks.general_urban_bookish || []));
-    if (c("bMoodQuotes")) pool.push(...(banks.mood_quotes || []));
-    if (c("bIYKYK")) pool.push(...(banks.iykyk || []));
-  } else {
-    const genre = v("genreTone");
-    const genreKey = bankKeyFromGenre(genre);
+  // GENRE bank boosts (new)
+  if ($("gDarkRomance") && c("gDarkRomance")) pool.push(...(banks.dark_romance || []));
+  if ($("gParanormal") && c("gParanormal")) pool.push(...(banks.paranormal || []));
+  if ($("gThriller") && c("gThriller")) pool.push(...(banks.thriller || []));
+  if ($("gSoftLife") && c("gSoftLife")) pool.push(...(banks.soft_life_self_care || []));
+
+  // If no checkboxes are selected at all, fall back to genre-driven
+  const nothingSelected =
+    (!$("bGeneralUrbanBookish") || !c("bGeneralUrbanBookish")) &&
+    (!$("bMoodQuotes") || !c("bMoodQuotes")) &&
+    (!$("bIYKYK") || !c("bIYKYK")) &&
+    (!$("gDarkRomance") || !c("gDarkRomance")) &&
+    (!$("gParanormal") || !c("gParanormal")) &&
+    (!$("gThriller") || !c("gThriller")) &&
+    (!$("gSoftLife") || !c("gSoftLife"));
+
+  if (nothingSelected) {
+    const genreKey = bankKeyFromGenre(v("genreTone"));
     pool.push(...(banks[genreKey] || []));
+    pool.push(...(banks.mood_quotes || [])); // safe boost
   }
 
+  // Micro quotes toggle
   const microOn = $("useMicroQuotes") ? c("useMicroQuotes") : true;
   if (microOn) pool.push(...(CFG.microQuotes || []));
 
   pool = uniq(pool.filter(Boolean));
 
+  // final safety fallback
   if (!pool.length) {
-    pool = uniq([...(banks.general_urban_bookish || []), ...(CFG.microQuotes || [])]);
+    pool = uniq([...(banks.general_urban_bookish || []), ...(banks.mood_quotes || []), ...(CFG.microQuotes || [])]);
   }
 
   return pool;
@@ -263,6 +279,20 @@ function smartPickBanksFromSelections() {
   return Array.from(new Set(picked));
 }
 
+function smartGenreCheckboxFromGenreTone(genreTone) {
+  const key = bankKeyFromGenre(genreTone);
+  // Map genre bank key -> checkbox id
+  const map = {
+    dark_romance: "gDarkRomance",
+    paranormal: "gParanormal",
+    thriller: "gThriller",
+    soft_life_self_care: "gSoftLife",
+    general_urban_bookish: null, // genreTone=urban handled by CORE
+    mood_quotes: null
+  };
+  return map[key] || null;
+}
+
 function randomizeAll() {
   // dropdowns
   setSelectToRandom("count");
@@ -275,27 +305,53 @@ function randomizeAll() {
   setSelectToRandom("outline");
   setSelectToRandom("spice");
 
-  // clear custom quote so random can kick in
+  // quote system ON for randomize
+  if ($("useRandomQuote")) setC("useRandomQuote", true);
+  if ($("useMicroQuotes")) setC("useMicroQuotes", true);
+
+  // clear custom quote
   if ($("quote")) setV("quote", "");
 
-  // Quote system ON for randomize
-  if ($("useRandomQuote")) setC("useRandomQuote", true);
+  // Clear ALL bank checkboxes first
+  [
+    "bGeneralUrbanBookish","bMoodQuotes","bIYKYK",
+    "gDarkRomance","gParanormal","gThriller","gSoftLife"
+  ].forEach(id => { if ($(id)) setC(id, false); });
 
-  // Micro quotes: keep ON, or make it “sometimes”
-  if ($("useMicroQuotes")) setC("useMicroQuotes", true); // or: Math.random() < 0.75
+  // SMART PICKS (1–2 banks max total)
+  const genreTone = v("genreTone");
+  const vibe = v("vibe");
+  const vibeLower = (vibe || "").toLowerCase();
 
-  // Clear bank checkboxes first
-  ["bGeneralUrbanBookish","bMoodQuotes","bIYKYK"].forEach(id => {
-    if ($(id)) setC(id, false);
-  });
+  // Pick primary CORE bank
+  // Urban -> general; otherwise mood
+  let primaryCore = "bMoodQuotes";
+  if ((genreTone || "").toLowerCase().includes("urban")) primaryCore = "bGeneralUrbanBookish";
 
-  // Smart-pick 1–2 banks based on the NEW randomized genre/vibe
-  const banksToCheck = smartPickBanksFromSelections();
+  setC(primaryCore, true);
 
-  // Safety fallback if something weird happens
-  if (!banksToCheck.length) banksToCheck.push("bMoodQuotes");
+  // Optional GENRE bank (only if genreTone is dark/paranormal/thriller/soft)
+  const genreBox = smartGenreCheckboxFromGenreTone(genreTone);
+  let pickedCount = 1;
 
-  banksToCheck.forEach(id => { if ($(id)) setC(id, true); });
+  // Decide whether to use genre bank as the 2nd pick
+  // (helps make genreTone feel meaningful)
+  if (genreBox && pickedCount < 2) {
+    setC(genreBox, true);
+    pickedCount++;
+  }
+
+  // If we still have room for a 2nd pick, vibe can add IYKYK
+  if (pickedCount < 2 && vibeLower.includes("iykyk")) {
+    setC("bIYKYK", true);
+    pickedCount++;
+  }
+
+  // If nothing vibe-specific, small chance to add mood as a boost (if not already)
+  if (pickedCount < 2 && primaryCore !== "bMoodQuotes" && Math.random() < 0.35) {
+    setC("bMoodQuotes", true);
+    pickedCount++;
+  }
 
   generate();
 }
