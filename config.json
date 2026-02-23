@@ -170,64 +170,33 @@
       "Main Character Energy"
     ],
 
-    "paletteGroups": {
-  "blood": [
-    "Blood Red + Ink Black + Steel",
-    "Oxblood + Matte Black + Bone",
-    "Black + Blood Red + Ash",
-    "Crimson + Gunmetal + Ivory",
-    "Midnight Black + Ruby + Steel",
-    "Oxblood + Matte Black + Antique Gold"
-  ],
+    "palette": [
+      "Blood Red + Ink Black + Steel",
+      "Oxblood + Matte Black + Bone",
+      "Black + Blood Red + Ash",
+      "Crimson + Gunmetal + Ivory",
+      "Midnight Black + Ruby + Steel",
+      "Oxblood + Matte Black + Antique Gold",
 
-  "neon_noir": [
-    "Hot Pink + Electric Blue + Black",
-    "Neon Purple + Acid Green + Black",
-    "Cyber Teal + Magenta + Charcoal",
-    "Lime Pop + Jet Black + Silver",
-    "Violet Glow + Chrome + Ink Black"
-  ],
+      "Hot Pink + Electric Blue + Black",
+      "Neon Purple + Acid Green + Black",
+      "Cyber Teal + Magenta + Charcoal",
+      "Lime Pop + Jet Black + Silver",
+      "Violet Glow + Chrome + Ink Black",
 
-  "dark_luxe": [
-    "Matte Black + Antique Gold + Bone",
-    "Espresso + Gold Foil + Cream",
-    "Deep Plum + Champagne + Black",
-    "Charcoal + Rose Gold + Ivory",
-    "Midnight Blue + Gold + Smoke"
-  ],
+      "Matte Black + Antique Gold + Bone",
+      "Espresso + Gold Foil + Cream",
+      "Deep Plum + Champagne + Black",
+      "Charcoal + Rose Gold + Ivory",
+      "Midnight Blue + Gold + Smoke",
 
-  "soft_life": [
-    "Blush Pink + Champagne Gold + Warm Brown",
-    "Cream + Mocha + Soft Gold",
-    "Muted Taupe + Ivory + Dusty Rose",
-    "Sage + Cream + Soft Brown",
-    "Peach Nude + Beige + Light Gold"
-  ],
-
-  "royal_energy": [
-    "Royal Purple + Gold + Black",
-    "Emerald + Gold + Charcoal",
-    "Sapphire + Silver + Midnight",
-    "Plum + Antique Gold + Ink",
-    "Deep Teal + Gold + Onyx"
-  ],
-
-  "urban_matte": [
-    "Concrete Grey + Black + White",
-    "Ash Grey + Bone + Charcoal",
-    "Steel + Black + Soft White",
-    "Smoked Brown + Matte Black + Cream",
-    "Muted Olive + Black + Sand"
-  ],
-
-  "chrome_gloss": [
-    "Silver Chrome + Black + White",
-    "Gunmetal + Steel + Ice Grey",
-    "Chrome + Oxblood + Black",
-    "Polished Silver + Ink + Bone",
-    "Liquid Metal + Midnight + Smoke"
-  ]
-}
+      "Blush Pink + Champagne Gold + Warm Brown",
+      "Cream + Mocha + Soft Gold",
+      "Muted Taupe + Ivory + Dusty Rose",
+      "Sage + Cream + Soft Brown",
+      "Peach Nude + Beige + Light Gold"
+],
+    
     "background": [
       "transparent",
       "solid_white",
@@ -321,13 +290,61 @@
   },
 
   "paletteGroups": {
-    "blood": [
-      "Blood Red + Ink Black + Steel",
-      "Oxblood + Matte Black + Bone",
-      "Black + Blood Red + Ash",
-      "Crimson + Gunmetal + Ivory",
-      "Midnight Black + Ruby + Steel",
-      "Oxblood + Matte Black + Antique Gold"
-    ]
-  }
+  "blood": [
+    "Blood Red + Ink Black + Steel",
+    "Oxblood + Matte Black + Bone",
+    "Black + Blood Red + Ash",
+    "Crimson + Gunmetal + Ivory",
+    "Midnight Black + Ruby + Steel",
+    "Oxblood + Matte Black + Antique Gold"
+  ],
+
+  "neon_noir": [
+    "Hot Pink + Electric Blue + Black",
+    "Neon Purple + Acid Green + Black",
+    "Cyber Teal + Magenta + Charcoal",
+    "Lime Pop + Jet Black + Silver",
+    "Violet Glow + Chrome + Ink Black"
+  ],
+
+  "dark_luxe": [
+    "Matte Black + Antique Gold + Bone",
+    "Espresso + Gold Foil + Cream",
+    "Deep Plum + Champagne + Black",
+    "Charcoal + Rose Gold + Ivory",
+    "Midnight Blue + Gold + Smoke"
+  ],
+
+  "soft_life": [
+    "Blush Pink + Champagne Gold + Warm Brown",
+    "Cream + Mocha + Soft Gold",
+    "Muted Taupe + Ivory + Dusty Rose",
+    "Sage + Cream + Soft Brown",
+    "Peach Nude + Beige + Light Gold"
+  ],
+
+  "royal_energy": [
+    "Royal Purple + Gold + Black",
+    "Emerald + Gold + Charcoal",
+    "Sapphire + Silver + Midnight",
+    "Plum + Antique Gold + Ink",
+    "Deep Teal + Gold + Onyx"
+  ],
+
+  "urban_matte": [
+    "Concrete Grey + Black + White",
+    "Ash Grey + Bone + Charcoal",
+    "Steel + Black + Soft White",
+    "Smoked Brown + Matte Black + Cream",
+    "Muted Olive + Black + Sand"
+  ],
+
+  "chrome_gloss": [
+    "Silver Chrome + Black + White",
+    "Gunmetal + Steel + Ice Grey",
+    "Chrome + Oxblood + Black",
+    "Polished Silver + Ink + Bone",
+    "Liquid Metal + Midnight + Smoke"
+  ]
+ }
 }
