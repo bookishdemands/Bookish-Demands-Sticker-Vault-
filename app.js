@@ -206,6 +206,63 @@ function setSelectToRandom(id) {
   sel.value = pick(opts).value;
 }
 
+function bankKeyFromGenre(genre) {
+  const g = (genre || "").toLowerCase().trim();
+
+  if (g.includes("dark")) return "dark_romance";
+  if (g.includes("paranormal")) return "paranormal";
+  if (g.includes("thriller")) return "thriller";
+  if (g.includes("soft")) return "soft_life_self_care";
+  if (g.includes("urban")) return "general_urban_bookish";
+
+  return "mood_quotes"; // safe fallback
+}
+
+// Map CFG quote bank keys -> your checkbox IDs in HTML
+function bankKeyToCheckboxId(bankKey) {
+  const map = {
+    general_urban_bookish: "bGeneralUrbanBookish",
+    mood_quotes: "bMoodQuotes",
+    iykyk: "bIYKYK"
+    // NOTE: you don't currently have checkboxes for dark_romance/paranormal/etc
+    // so we route those through mood/general depending on your UI.
+  };
+  return map[bankKey] || null;
+}
+
+// Pick 1–2 banks, smarter, without checking everything
+function smartPickBanksFromSelections() {
+  const genre = v("genreTone");
+  const vibe = v("vibe");
+
+  // Start with genre-based intent
+  const genreKey = bankKeyFromGenre(genre);
+
+  // Because your UI only has 3 bank checkboxes, “route” genre intent:
+  // - dark/paranormal/thriller → Mood Quotes (best “genre-ish” you have)
+  // - urban → General Urban Bookish
+  // - soft → Mood Quotes (until you add a soft-life checkbox)
+  let primaryBankCheckbox = null;
+
+  if (genreKey === "general_urban_bookish") primaryBankCheckbox = "bGeneralUrbanBookish";
+  else primaryBankCheckbox = "bMoodQuotes";
+
+  // Secondary bank based on vibe
+  let secondaryBankCheckbox = null;
+  const vibeLower = (vibe || "").toLowerCase();
+
+  if (vibeLower.includes("iykyk")) secondaryBankCheckbox = "bIYKYK";
+  else if (vibeLower.includes("kindle")) secondaryBankCheckbox = "bMoodQuotes";
+  else {
+    // optional: small chance to add Mood as a spice booster if primary isn't mood
+    if (primaryBankCheckbox !== "bMoodQuotes" && Math.random() < 0.35) secondaryBankCheckbox = "bMoodQuotes";
+  }
+
+  // Deduplicate
+  const picked = [primaryBankCheckbox, secondaryBankCheckbox].filter(Boolean);
+  return Array.from(new Set(picked));
+}
+
 function randomizeAll() {
   // dropdowns
   setSelectToRandom("count");
@@ -221,19 +278,24 @@ function randomizeAll() {
   // clear custom quote so random can kick in
   if ($("quote")) setV("quote", "");
 
-  // ✅ Quote section defaults for randomize
+  // Quote system ON for randomize
   if ($("useRandomQuote")) setC("useRandomQuote", true);
-  if ($("useMicroQuotes")) setC("useMicroQuotes", true);
 
-  // ✅ Pick 1–2 quote banks automatically
-  const bankIds = ["bGeneralUrbanBookish","bMoodQuotes","bIYKYK"].filter(id => $(id));
-  bankIds.forEach(id => setC(id, false));
+  // Micro quotes: keep ON, or make it “sometimes”
+  if ($("useMicroQuotes")) setC("useMicroQuotes", true); // or: Math.random() < 0.75
 
-  if (bankIds.length) {
-    const pickCount = Math.random() < 0.60 ? 1 : 2; // 60% pick 1, else 2
-    const shuffled = [...bankIds].sort(() => Math.random() - 0.5);
-    shuffled.slice(0, pickCount).forEach(id => setC(id, true));
-  }
+  // Clear bank checkboxes first
+  ["bGeneralUrbanBookish","bMoodQuotes","bIYKYK"].forEach(id => {
+    if ($(id)) setC(id, false);
+  });
+
+  // Smart-pick 1–2 banks based on the NEW randomized genre/vibe
+  const banksToCheck = smartPickBanksFromSelections();
+
+  // Safety fallback if something weird happens
+  if (!banksToCheck.length) banksToCheck.push("bMoodQuotes");
+
+  banksToCheck.forEach(id => { if ($(id)) setC(id, true); });
 
   generate();
 }
