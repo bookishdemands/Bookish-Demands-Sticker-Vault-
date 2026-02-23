@@ -222,17 +222,21 @@ function randomizeAll() {
 }
 
 function clearAll() {
+  // reset selects to placeholder
   ["count","product","genreTone","vibe","palette","background","border","outline","spice"]
     .forEach(id => { if ($(id)) setV(id, ""); });
 
+  // reset quote + output
   if ($("quote")) setV("quote", "");
   if ($("output")) setV("output", "");
 
-  if ($("useRandomQuote")) setC("useRandomQuote", true);
-  if ($("useMicroQuotes")) setC("useMicroQuotes", true);
-  if ($("bGeneralUrbanBookish")) setC("bGeneralUrbanBookish", true);
-  if ($("bMoodQuotes")) setC("bMoodQuotes", true);
-  if ($("bIYKYK")) setC("bIYKYK", true);
+  // ✅ CLEAR ALL quote toggles + bank selections
+  if ($("useRandomQuote")) setC("useRandomQuote", false);
+  if ($("useMicroQuotes")) setC("useMicroQuotes", false);
+
+  if ($("bGeneralUrbanBookish")) setC("bGeneralUrbanBookish", false);
+  if ($("bMoodQuotes")) setC("bMoodQuotes", false);
+  if ($("bIYKYK")) setC("bIYKYK", false);
 }
 
 async function init() {
