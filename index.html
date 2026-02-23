@@ -95,22 +95,54 @@
 
         <label style="margin-top:14px;">Choose which Quote Banks to pull from:</label>
 
-        <div style="display:grid; grid-template-columns:1fr; gap:8px; margin-top:8px;">
-          <label style="display:flex; gap:10px; align-items:center; margin:0;">
-            <input type="checkbox" id="bGeneralUrbanBookish" checked />
-            General Urban Bookish
-          </label>
+<!-- CORE BANKS -->
+<div style="margin-top:8px; padding:10px; border:1px solid rgba(255,255,255,.10); border-radius:12px;">
+  <div style="font-size:13px; opacity:.85; margin-bottom:8px;"><b>CORE</b> (pick 1–2 max)</div>
 
-          <label style="display:flex; gap:10px; align-items:center; margin:0;">
-            <input type="checkbox" id="bMoodQuotes" />
-            Mood Quotes
-          </label>
+  <div style="display:grid; grid-template-columns:1fr; gap:8px;">
+    <label style="display:flex; gap:10px; align-items:center;">
+      <input type="checkbox" id="bGeneralUrbanBookish" checked />
+      General Urban Bookish
+    </label>
 
-          <label style="display:flex; gap:10px; align-items:center; margin:0;">
-            <input type="checkbox" id="bIYKYK" />
-            IYKYK
-          </label>
-        </div>
+    <label style="display:flex; gap:10px; align-items:center;">
+      <input type="checkbox" id="bMoodQuotes" checked />
+      Mood Quotes
+    </label>
+
+    <label style="display:flex; gap:10px; align-items:center;">
+      <input type="checkbox" id="bIYKYK" />
+      IYKYK
+    </label>
+  </div>
+</div>
+
+<!-- GENRE BANKS -->
+<div style="margin-top:10px; padding:10px; border:1px solid rgba(255,255,255,.10); border-radius:12px;">
+  <div style="font-size:13px; opacity:.85; margin-bottom:8px;"><b>GENRE</b> (optional boost)</div>
+
+  <div style="display:grid; grid-template-columns:1fr; gap:8px;">
+    <label style="display:flex; gap:10px; align-items:center;">
+      <input type="checkbox" id="gDarkRomance" />
+      Dark Romance
+    </label>
+
+    <label style="display:flex; gap:10px; align-items:center;">
+      <input type="checkbox" id="gParanormal" />
+      Paranormal Romance
+    </label>
+
+    <label style="display:flex; gap:10px; align-items:center;">
+      <input type="checkbox" id="gThriller" />
+      Thriller / Suspense
+    </label>
+
+    <label style="display:flex; gap:10px; align-items:center;">
+      <input type="checkbox" id="gSoftLife" />
+      Soft Life / Self Care
+    </label>
+  </div>
+</div>
 
         <!-- ACTION BUTTONS -->
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px;">
