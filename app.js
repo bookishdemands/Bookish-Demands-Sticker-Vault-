@@ -262,8 +262,16 @@ function bankKeysFromVibe(vibe) {
 
   // 1) Elite Dominance = wealthy/unhinged/DBE lane
   if (s.includes("elite dominance")) {
+  // 75% chance to activate elite dominance
+  if (Math.random() < 0.75) {
     keys.push("elite_dominance_lane");
   }
+
+  // 25% subtle unpredictability (optional luxury chaos)
+  if (Math.random() < 0.25) {
+    keys.push("dark_romance");
+  }
+}
 
   // 2) Dark Obsession = dark romance + mood (heavy tension)
   if (s.includes("dark obsession")) {
