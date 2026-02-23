@@ -256,67 +256,54 @@ function bankKeyFromGenre(genre) {
 
 function bankKeysFromVibe(vibe) {
   const s = (vibe || "").toLowerCase();
-
   const keys = [];
 
-  // Your existing vibe boosts (keep these)
-  if (s.includes("iykyk")) keys.push("iykyk");
-  if (s.includes("kindle")) keys.push("mood_quotes");
-  // ✅ Umbrella vibe routing (NO map needed)
-if (s.includes("elite dominance")) {
-  keys.push("bde_energy", "unhinged_wealthy_dbe");
-}
+  // --- Condensed vibe routing (uses YOUR quoteBanks names) ---
 
-if (s.includes("dark obsession")) {
-  keys.push("dark_romance");
-}
+  // 1) Elite Dominance = wealthy/unhinged/DBE lane
+  if (s.includes("elite dominance")) {
+    keys.push("elite_dominance_lane");
+  }
 
-if (s.includes("urban power")) {
-  keys.push("general_urban_bookish", "urban_power_couple");
-}
+  // 2) Dark Obsession = dark romance + mood (heavy tension)
+  if (s.includes("dark obsession")) {
+    keys.push("dark_romance", "mood_quotes");
+  }
 
-if (s.includes("feminine authority")) {
-  keys.push("boss_woman_energy", "urban_femme_fatale");
-}
+  // 3) Urban Power = power couple + (optional) mood
+  if (s.includes("urban power")) {
+    keys.push("urban_power_couple");
+  }
 
-if (s.includes("soft luxe")) {
-  keys.push("soft_life_self_care", "girly_feminine_energy");
-}
+  // 4) Feminine Authority = boss woman + girly feminine (both)
+  if (s.includes("feminine authority")) {
+    keys.push("boss_woman_energy", "girly_feminine_energy");
+  }
 
-if (s.includes("bookish mood")) {
-  keys.push("general_urban_bookish", "mood_quotes", "iykyk");
-}
+  // 5) Soft Luxe = self care + general bookish calm
+  if (s.includes("soft luxe")) {
+    keys.push("soft_life_self_care", "general_urban_bookish");
+  }
 
-if (s.includes("thriller")) {
-  keys.push("thriller");
-}
-if (s.includes("noir")) {
-  keys.push("thriller");
-}
-  // ✅ NEW: Unhinged / Wealthy / DBE triggers
-  // 🔥 BDE only
-if (s.includes("bde")) {
-  keys.push("bde_energy");
-}
+  // 6) Bookish Mood = general + mood + iykyk (viral sticker energy)
+  if (s.includes("bookish mood")) {
+    keys.push("general_urban_bookish", "mood_quotes", "iykyk");
+  }
 
-// 👑 DBE only
-if (s.includes("dbe") || s.includes("dark boss")) {
-  keys.push("unhinged_wealthy_dbe");
-}
+  // 7) Thriller & Noir = thriller + mood (suspensey)
+  if (s.includes("thriller") || s.includes("noir")) {
+    keys.push("thriller", "mood_quotes");
+  }
 
-// 💰 Wealthy / billionaire lane (optional stacking)
-if (
-  s.includes("billionaire") ||
-  s.includes("wealthy") ||
-  s.includes("rich") ||
-  s.includes("old money") ||
-  s.includes("private jet") ||
-  s.includes("mogul") ||
-  s.includes("high net worth")
-) {
-  keys.push("unhinged_wealthy_dbe");
-}
-  return keys;
+  // --- OPTIONAL: if you still want BDE as a “hidden add-on” when needed ---
+  // If you want BDE to ONLY show when you explicitly select “BDE Energy”,
+  // keep BDE as its own vibe in the dropdown instead of this.
+  if (s.includes("bde")) {
+    keys.push("bde_energy");
+  }
+
+  // remove duplicates
+  return [...new Set(keys)];
 }
 
 // Map CFG quote bank keys -> your checkbox IDs in HTML
