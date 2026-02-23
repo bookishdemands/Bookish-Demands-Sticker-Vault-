@@ -11,23 +11,144 @@
 
   "options": {
     "product": [
-      {
-        "value": "IV Drip Bag",
-        "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel and subtle glossy highlights; no medical branding"
-      },
-      {
-        "value": "Delulu Meter",
-        "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe; bold readable text"
-      },
-      {
-        "value": "Pill Bottle",
-        "mainSubject": "amber prescription-style bottle with childproof cap; clean warning label panel; a few stylized pills; no pharmacy branding"
-      },
-      {
-        "value": "Confession Note",
-        "mainSubject": "confession note sticker with header 'CONFESSION:' and a bold handwritten quote; clean paper edges; dramatic cute vibe"
-      }
-    ],
+  {
+    "value": "IV Drip Bag",
+    "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel and subtle glossy highlights; no medical branding"
+  },
+  {
+    "value": "Delulu Meter",
+    "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe; bold readable text"
+  },
+  {
+    "value": "Pill Bottle",
+    "mainSubject": "amber prescription-style bottle with childproof cap; clean warning label panel; a few stylized pills; no pharmacy branding"
+  },
+  {
+    "value": "Confession Note",
+    "mainSubject": "confession note sticker with header 'CONFESSION:' and a bold handwritten quote; clean paper edges; dramatic cute vibe"
+  },
+
+  {
+    "value": "Blood Oath Vial",
+    "mainSubject": "small glass vial sticker with deep red liquid, minimalist label panel for quote placement, subtle shine highlights, luxe dark romance vibe, no branding"
+  },
+  {
+    "value": "Velvet Sin Perfume Bottle",
+    "mainSubject": "luxury perfume bottle sticker with a clean label panel for the quote, glossy highlights, ornate but modern silhouette, no brand logos"
+  },
+  {
+    "value": "Obsessed Heart Monitor",
+    "mainSubject": "heart monitor / EKG screen sticker showing a bold heartbeat line, clean caption area for the quote, high contrast pop-art style"
+  },
+  {
+    "value": "Possessive Energy Warning Tag",
+    "mainSubject": "warning label/tag sticker (like a luggage or product warning tag) with a blank text panel for the quote, bold icons, high contrast, no real brand marks"
+  },
+  {
+    "value": "Morally Gray Passport Stamp",
+    "mainSubject": "passport stamp sticker (circular/rectangular ink-stamp style) with a central text area for the quote, distressed edges but clean readability, no country seals"
+  },
+  {
+    "value": "Red Flag Collector Card",
+    "mainSubject": "trading card style sticker with a bold frame and stats layout, large title panel for the quote, playful toxic romance humor vibe, no copyrighted characters"
+  },
+  {
+    "value": "Smut Door Hanger",
+    "mainSubject": "door hanger sticker with a large centered label area for the quote, simple icon accents, bold readable typography, no hotel branding"
+  },
+  {
+    "value": "Plot Twist Emergency Button",
+    "mainSubject": "big red emergency button sticker with a circular top label area for the quote, dramatic highlights, bold comic pop style"
+  },
+  {
+    "value": "Kindle Addict Prescription Pad",
+    "mainSubject": "prescription pad / Rx note sticker with fake fields and a large handwritten quote area, medical-themed but no pharmacy branding, playful and clean"
+  },
+  {
+    "value": "Book Hangover Recovery Kit",
+    "mainSubject": "first-aid kit / care kit box sticker with a clean label panel for the quote, subtle gloss, cute but edgy romance reader vibe"
+  },
+  {
+    "value": "Villain Energy Membership Card",
+    "mainSubject": "membership card sticker with a bold header and centered quote line area, luxe dark aesthetic, no real company branding"
+  },
+  {
+    "value": "Soft Life Serum Dropper",
+    "mainSubject": "glass dropper bottle sticker with soft glow, clean label panel for the quote, luxe self-care vibe, no skincare branding"
+  },
+  {
+    "value": "Emotional Support Bookmark Badge",
+    "mainSubject": "badge/ribbon seal sticker with a central text panel for the quote, bold outline, cute bookish energy, no school logos"
+  },
+  {
+    "value": "Main Character License Card",
+    "mainSubject": "novelty ID/license card sticker with a large quote line area, clean grid layout, no real state or government seals"
+  },
+  {
+    "value": "Guest List Wristband",
+    "mainSubject": "event wristband sticker with a bold text strip area for the quote, minimal icons, nightlife romance vibe, no venue branding"
+  },
+  {
+    "value": "Backstage Access Pass",
+    "mainSubject": "laminated backstage pass sticker with a big center panel for the quote, lanyard hole detail, high contrast, no band/venue logos"
+  },
+  {
+    "value": "Luxury Key Fob Tag",
+    "mainSubject": "luxury key tag sticker with a large centered label panel for the quote, sleek silhouette, metallic highlights, no car logos"
+  },
+  {
+    "value": "VIP Lounge Card",
+    "mainSubject": "VIP card sticker with bold typography and a main quote line area, luxe minimal style, no club branding"
+  },
+  {
+    "value": "Court Evidence Tag",
+    "mainSubject": "evidence tag sticker (true-crime vibe) with a large text block for the quote, barcode-like lines (generic), no department branding"
+  },
+  {
+    "value": "Case File Folder Tab",
+    "mainSubject": "file folder/tab sticker with a blank label strip for the quote, thriller/true crime aesthetic, clean and readable"
+  },
+  {
+    "value": "Receipt of Emotional Damage",
+    "mainSubject": "receipt/guest check sticker with a bold quote centered as the 'total' or 'note', clean grid layout, no real restaurant branding"
+  },
+  {
+    "value": "Library Fine Ticket",
+    "mainSubject": "library due-date/fine ticket sticker with a big quote area, clean stamped look, no library logos"
+  },
+  {
+    "value": "Dangerous MMC Business Card",
+    "mainSubject": "luxury business card sticker with a strong typographic quote as the headline, minimal details, no real company names"
+  },
+  {
+    "value": "Delulu Fuel Juice Box",
+    "mainSubject": "juice box sticker with a clean label panel for the quote, straw detail, cute + chaotic vibe, no brand logos"
+  },
+  {
+    "value": "Plot Armor Spray",
+    "mainSubject": "spray bottle/aerosol can sticker with a big label panel for the quote, bold icons, pop-art shine, no real product branding"
+  },
+  {
+    "value": "Spoiler Alert Tape",
+    "mainSubject": "tape strip sticker (like caution tape) with the quote printed repeatedly or as a bold center line, high contrast, no real warning authority"
+  },
+  {
+    "value": "Overstimulated Reader Meter",
+    "mainSubject": "meter/gauge sticker with levels and a slider needle, big quote panel, cute but edgy romance reader vibe, readable labels"
+  },
+  {
+    "value": "TBR Mountain Warning Sign",
+    "mainSubject": "warning road sign style sticker with a big center text area for the quote, simple icon of a book stack mountain, no real city logos"
+  },
+  {
+    "value": "Fantasy Realm Boarding Pass",
+    "mainSubject": "boarding pass sticker with a bold quote as the main 'destination' line, fantasy vibe but modern design, no airline branding"
+  },
+  {
+    "value": "Smut Loading Progress Bar",
+    "mainSubject": "progress bar sticker with percentage ticks and a big quote line above/below, bold readable typography, playful adult reader vibe"
+  }
+],
 
     "genreTone": [
       "urban fiction",
@@ -48,19 +169,21 @@
     ],
 
     
-    "palette": [
+   "palette": [
   "Blood Red + Ink Black + Steel",
+  "Oxblood + Matte Black + Bone",
+  "Champagne Gold + Cocoa + Cream",
+  "Neon Red + Charcoal + White",
+  "Black Cherry + Smoke Gray + Cream",
 
   "Oxblood + Matte Black + Antique Gold",
   "Deep Plum + Ink Black + Champagne Gold",
-  "Wine Red + Charcoal + Soft Blush",
   "Crimson + Gunmetal + Ivory",
   "Midnight Black + Ruby + Steel",
 
   "Electric Purple + Gloss Black + Chrome",
-  "Hot Pink + Smoke Grey + Silver",
+  "Hot Pink + Smoke Gray + Silver",
   "Emerald + Black + Gold",
-  "Neon Red + Matte Black + White",
   "Royal Blue + Black + Ice Silver",
 
   "Cocoa + Cream + Warm Taupe",
@@ -72,16 +195,15 @@
   "Forest Green + Obsidian + Moon Silver",
   "Amethyst + Black + Mystic Gold",
   "Sapphire + Night Blue + Silver",
-  "Emerald + Midnight + Smoke",
   "Deep Teal + Charcoal + Ice",
 
   "Black + Blood Red + Ash",
   "Slate + Bone + Rust",
-  "Deep Grey + Red + Fog White",
+  "Deep Gray + Red + Fog White",
   "Steel + Dark Blue + Silver",
-  "Black + Neon Red + Shadow Grey"
+  "Black + Neon Red + Shadow Gray"
 ],
-
+    
     "background": [
       "transparent",
       "solid_white",
