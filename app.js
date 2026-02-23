@@ -207,6 +207,7 @@ function setSelectToRandom(id) {
 }
 
 function randomizeAll() {
+  // dropdowns
   setSelectToRandom("count");
   setSelectToRandom("product");
   setSelectToRandom("genreTone");
@@ -217,7 +218,23 @@ function randomizeAll() {
   setSelectToRandom("outline");
   setSelectToRandom("spice");
 
+  // clear custom quote so random can kick in
   if ($("quote")) setV("quote", "");
+
+  // ✅ Quote section defaults for randomize
+  if ($("useRandomQuote")) setC("useRandomQuote", true);
+  if ($("useMicroQuotes")) setC("useMicroQuotes", true);
+
+  // ✅ Pick 1–2 quote banks automatically
+  const bankIds = ["bGeneralUrbanBookish","bMoodQuotes","bIYKYK"].filter(id => $(id));
+  bankIds.forEach(id => setC(id, false));
+
+  if (bankIds.length) {
+    const pickCount = Math.random() < 0.60 ? 1 : 2; // 60% pick 1, else 2
+    const shuffled = [...bankIds].sort(() => Math.random() - 0.5);
+    shuffled.slice(0, pickCount).forEach(id => setC(id, true));
+  }
+
   generate();
 }
 
@@ -226,15 +243,14 @@ function clearAll() {
   ["count","product","genreTone","vibe","palette","background","border","outline","spice"]
     .forEach(id => { if ($(id)) setV(id, ""); });
 
-  // reset quote + output
+  // clear custom quote + output
   if ($("quote")) setV("quote", "");
   if ($("output")) setV("output", "");
 
-  // ✅ clear quote behavior toggles
+  // ✅ CLEAR quote section toggles + bank selections
   if ($("useRandomQuote")) setC("useRandomQuote", false);
   if ($("useMicroQuotes")) setC("useMicroQuotes", false);
 
-  // ✅ clear quote bank selections (these are NOT micro quotes)
   if ($("bGeneralUrbanBookish")) setC("bGeneralUrbanBookish", false);
   if ($("bMoodQuotes")) setC("bMoodQuotes", false);
   if ($("bIYKYK")) setC("bIYKYK", false);
