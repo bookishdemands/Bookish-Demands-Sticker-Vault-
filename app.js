@@ -13,39 +13,37 @@ const pick = (arr) => arr[rnd(arr.length)];
 const uniq = (arr) => Array.from(new Set(arr));
 
 async function loadConfig() {
-  // Always resolve config.json from the current page URL (Safari-safe)
-  const url = new URL("config.json", window.location.href).toString();
+  const url = "./config.json?v=" + Date.now(); // hard cache-bust
+  const res = await fetch(url, { cache: "no-store" });
 
-  let res;
-  try {
-    res = await fetch(url, { cache: "no-store" });
-  } catch (err) {
-    throw new Error(`Fetch failed for config.json\nURL: ${url}\n${err?.message || err}`);
-  }
-
+  const ct = res.headers.get("content-type") || "";
   const text = await res.text();
 
   if (!res.ok) {
-    // If GitHub Pages returns a 404 HTML page, you'll see it here
-    throw new Error(
-      `Could not load config.json (${res.status})\nURL: ${url}\nFirst 120 chars:\n${text.slice(0, 120)}`
-    );
+    throw new Error(`config.json fetch failed (${res.status})\nURL: ${res.url}\nBody preview: ${text.slice(0, 120)}`);
   }
 
   try {
     CFG = JSON.parse(text);
   } catch (err) {
     throw new Error(
-      `config.json JSON parse error: ${err?.message || err}\nURL: ${url}\nFirst 200 chars:\n${text.slice(0, 200)}`
+      `config.json JSON parse failed\nURL: ${res.url}\nContent-Type: ${ct}\n` +
+      `Preview:\n${text.slice(0, 300)}`
     );
   }
 
+  // SAFETY: If you moved palettes into paletteGroups, rebuild options.palette automatically
+  if (CFG?.paletteGroups && (!CFG?.options?.palette || !CFG.options.palette.length)) {
+    const all = Object.values(CFG.paletteGroups).flat().filter(Boolean);
+    CFG.options = CFG.options || {};
+    CFG.options.palette = Array.from(new Set(all));
+  }
+
   alert(
-    "CFG ✅ " +
-      (CFG?.meta?.version || "?") +
-      "\nkeys: " + Object.keys(CFG?.options || {}).join(", ") +
-      "\npalette len: " + (CFG?.options?.palette?.length || 0) +
-      "\nproduct len: " + (CFG?.options?.product?.length || 0)
+    "CFG ✅ " + (CFG?.meta?.version || "?") +
+    "\nkeys: " + Object.keys(CFG?.options || {}).join(", ") +
+    "\nproduct len: " + (CFG?.options?.product?.length || 0) +
+    "\npalette len: " + (CFG?.options?.palette?.length || 0)
   );
 }
 
