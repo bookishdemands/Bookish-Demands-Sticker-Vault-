@@ -264,26 +264,27 @@ function bankKeysFromVibe(vibe) {
   if (s.includes("kindle")) keys.push("mood_quotes");
 
   // ✅ NEW: Unhinged / Wealthy / DBE triggers
-  const dbeTriggers = [
-    "dbe",
-    "bde",
-    "dark boss",
-    "billionaire",
-    "wealthy",
-    "rich",
-    "old money",
-    "private jet",
-    "ruthless provider",
-    "silk suit",
-    "mogul",
-    "possessive provider",
-    "luxury villain",
-    "high net worth",
-    "unhinged"
-  ];
-
-  if (dbeTriggers.some(t => s.includes(t))) {
+  // 🔥 BDE only
+if (s.includes("bde")) {
   keys.push("bde_energy");
+}
+
+// 👑 DBE only
+if (s.includes("dbe") || s.includes("dark boss")) {
+  keys.push("unhinged_wealthy_dbe");
+}
+
+// 💰 Wealthy / billionaire lane (optional stacking)
+if (
+  s.includes("billionaire") ||
+  s.includes("wealthy") ||
+  s.includes("rich") ||
+  s.includes("old money") ||
+  s.includes("private jet") ||
+  s.includes("mogul") ||
+  s.includes("high net worth")
+) {
+  keys.push("unhinged_wealthy_dbe");
 }
   return keys;
 }
