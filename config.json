@@ -29,8 +29,9 @@
   },
 
   {
-    "value": "Blood Oath Vial",
-    "mainSubject": "small glass vial sticker with deep red liquid, minimalist label panel for quote placement, subtle shine highlights, luxe dark romance vibe, no branding"
+  "value": "Blood Oath Vial",
+  "mainSubject": "small glass vial sticker with deep red liquid, minimalist label panel for quote placement, subtle shine highlights, luxe dark romance vibe, no branding",
+  "paletteLock": "blood"
   },
   {
     "value": "Velvet Sin Perfume Bottle",
@@ -49,8 +50,9 @@
     "mainSubject": "passport stamp sticker (circular/rectangular ink-stamp style) with a central text area for the quote, distressed edges but clean readability, no country seals"
   },
   {
-    "value": "Red Flag Collector Card",
-    "mainSubject": "trading card style sticker with a bold frame and stats layout, large title panel for the quote, playful toxic romance humor vibe, no copyrighted characters"
+  "value": "Red Flag Collector Card",
+  "mainSubject": "trading card style sticker with a bold frame and stats layout, large title panel for the quote, playful toxic romance humor vibe, no copyrighted characters",
+  "paletteLock": "blood"
   },
   {
     "value": "Smut Door Hanger",
@@ -295,4 +297,14 @@
     "outline": "bold_black",
     "spice": "2"
   }
+}
+"paletteGroups": {
+  "blood": [
+    "Blood Red + Ink Black + Steel",
+    "Oxblood + Matte Black + Bone",
+    "Black + Blood Red + Ash",
+    "Crimson + Gunmetal + Ivory",
+    "Midnight Black + Ruby + Steel",
+    "Oxblood + Matte Black + Antique Gold"
+  ]
 }
