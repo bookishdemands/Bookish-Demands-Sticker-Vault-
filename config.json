@@ -11,146 +11,145 @@
 
   "options": {
     "product": [
-  {
-    "value": "IV Drip Bag",
-    "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel and subtle glossy highlights; no medical branding"
-  },
-  {
-    "value": "Delulu Meter",
-    "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe; bold readable text"
-  },
-  {
-    "value": "Pill Bottle",
-    "mainSubject": "amber prescription-style bottle with childproof cap; clean warning label panel; a few stylized pills; no pharmacy branding"
-  },
-  {
-    "value": "Confession Note",
-    "mainSubject": "confession note sticker with header 'CONFESSION:' and a bold handwritten quote; clean paper edges; dramatic cute vibe"
-  },
-
-  {
-  "value": "Blood Oath Vial",
-  "mainSubject": "small glass vial sticker with deep red liquid, minimalist label panel for quote placement, subtle shine highlights, luxe dark romance vibe, no branding",
-  "paletteLock": "blood"
-  },
-  {
-    "value": "Velvet Sin Perfume Bottle",
-    "mainSubject": "luxury perfume bottle sticker with a clean label panel for the quote, glossy highlights, ornate but modern silhouette, no brand logos"
-  },
-  {
-    "value": "Obsessed Heart Monitor",
-    "mainSubject": "heart monitor / EKG screen sticker showing a bold heartbeat line, clean caption area for the quote, high contrast pop-art style"
-  },
-  {
-    "value": "Possessive Energy Warning Tag",
-    "mainSubject": "warning label/tag sticker (like a luggage or product warning tag) with a blank text panel for the quote, bold icons, high contrast, no real brand marks"
-  },
-  {
-    "value": "Morally Gray Passport Stamp",
-    "mainSubject": "passport stamp sticker (circular/rectangular ink-stamp style) with a central text area for the quote, distressed edges but clean readability, no country seals"
-  },
-  {
-  "value": "Red Flag Collector Card",
-  "mainSubject": "trading card style sticker with a bold frame and stats layout, large title panel for the quote, playful toxic romance humor vibe, no copyrighted characters",
-  "paletteLock": "blood"
-  },
-  {
-    "value": "Smut Door Hanger",
-    "mainSubject": "door hanger sticker with a large centered label area for the quote, simple icon accents, bold readable typography, no hotel branding"
-  },
-  {
-    "value": "Plot Twist Emergency Button",
-    "mainSubject": "big red emergency button sticker with a circular top label area for the quote, dramatic highlights, bold comic pop style"
-  },
-  {
-    "value": "Kindle Addict Prescription Pad",
-    "mainSubject": "prescription pad / Rx note sticker with fake fields and a large handwritten quote area, medical-themed but no pharmacy branding, playful and clean"
-  },
-  {
-    "value": "Book Hangover Recovery Kit",
-    "mainSubject": "first-aid kit / care kit box sticker with a clean label panel for the quote, subtle gloss, cute but edgy romance reader vibe"
-  },
-  {
-    "value": "Villain Energy Membership Card",
-    "mainSubject": "membership card sticker with a bold header and centered quote line area, luxe dark aesthetic, no real company branding"
-  },
-  {
-    "value": "Soft Life Serum Dropper",
-    "mainSubject": "glass dropper bottle sticker with soft glow, clean label panel for the quote, luxe self-care vibe, no skincare branding"
-  },
-  {
-    "value": "Emotional Support Bookmark Badge",
-    "mainSubject": "badge/ribbon seal sticker with a central text panel for the quote, bold outline, cute bookish energy, no school logos"
-  },
-  {
-    "value": "Main Character License Card",
-    "mainSubject": "novelty ID/license card sticker with a large quote line area, clean grid layout, no real state or government seals"
-  },
-  {
-    "value": "Guest List Wristband",
-    "mainSubject": "event wristband sticker with a bold text strip area for the quote, minimal icons, nightlife romance vibe, no venue branding"
-  },
-  {
-    "value": "Backstage Access Pass",
-    "mainSubject": "laminated backstage pass sticker with a big center panel for the quote, lanyard hole detail, high contrast, no band/venue logos"
-  },
-  {
-    "value": "Luxury Key Fob Tag",
-    "mainSubject": "luxury key tag sticker with a large centered label panel for the quote, sleek silhouette, metallic highlights, no car logos"
-  },
-  {
-    "value": "VIP Lounge Card",
-    "mainSubject": "VIP card sticker with bold typography and a main quote line area, luxe minimal style, no club branding"
-  },
-  {
-    "value": "Court Evidence Tag",
-    "mainSubject": "evidence tag sticker (true-crime vibe) with a large text block for the quote, barcode-like lines (generic), no department branding"
-  },
-  {
-    "value": "Case File Folder Tab",
-    "mainSubject": "file folder/tab sticker with a blank label strip for the quote, thriller/true crime aesthetic, clean and readable"
-  },
-  {
-    "value": "Receipt of Emotional Damage",
-    "mainSubject": "receipt/guest check sticker with a bold quote centered as the 'total' or 'note', clean grid layout, no real restaurant branding"
-  },
-  {
-    "value": "Library Fine Ticket",
-    "mainSubject": "library due-date/fine ticket sticker with a big quote area, clean stamped look, no library logos"
-  },
-  {
-    "value": "Dangerous MMC Business Card",
-    "mainSubject": "luxury business card sticker with a strong typographic quote as the headline, minimal details, no real company names"
-  },
-  {
-    "value": "Delulu Fuel Juice Box",
-    "mainSubject": "juice box sticker with a clean label panel for the quote, straw detail, cute + chaotic vibe, no brand logos"
-  },
-  {
-    "value": "Plot Armor Spray",
-    "mainSubject": "spray bottle/aerosol can sticker with a big label panel for the quote, bold icons, pop-art shine, no real product branding"
-  },
-  {
-    "value": "Spoiler Alert Tape",
-    "mainSubject": "tape strip sticker (like caution tape) with the quote printed repeatedly or as a bold center line, high contrast, no real warning authority"
-  },
-  {
-    "value": "Overstimulated Reader Meter",
-    "mainSubject": "meter/gauge sticker with levels and a slider needle, big quote panel, cute but edgy romance reader vibe, readable labels"
-  },
-  {
-    "value": "TBR Mountain Warning Sign",
-    "mainSubject": "warning road sign style sticker with a big center text area for the quote, simple icon of a book stack mountain, no real city logos"
-  },
-  {
-    "value": "Fantasy Realm Boarding Pass",
-    "mainSubject": "boarding pass sticker with a bold quote as the main 'destination' line, fantasy vibe but modern design, no airline branding"
-  },
-  {
-    "value": "Smut Loading Progress Bar",
-    "mainSubject": "progress bar sticker with percentage ticks and a big quote line above/below, bold readable typography, playful adult reader vibe"
-  }
-],
+      {
+        "value": "IV Drip Bag",
+        "mainSubject": "minimal vector sticker of an IV drip bag with a clean label panel and subtle glossy highlights; no medical branding"
+      },
+      {
+        "value": "Delulu Meter",
+        "mainSubject": "delulu meter sticker with labeled levels and a slider indicator; cute + cocky vibe; bold readable text"
+      },
+      {
+        "value": "Pill Bottle",
+        "mainSubject": "amber prescription-style bottle with childproof cap; clean warning label panel; a few stylized pills; no pharmacy branding"
+      },
+      {
+        "value": "Confession Note",
+        "mainSubject": "confession note sticker with header 'CONFESSION:' and a bold handwritten quote; clean paper edges; dramatic cute vibe"
+      },
+      {
+        "value": "Blood Oath Vial",
+        "mainSubject": "small glass vial sticker with deep red liquid, minimalist label panel for quote placement, subtle shine highlights, luxe dark romance vibe, no branding",
+        "paletteLock": "blood"
+      },
+      {
+        "value": "Velvet Sin Perfume Bottle",
+        "mainSubject": "luxury perfume bottle sticker with a clean label panel for the quote, glossy highlights, ornate but modern silhouette, no brand logos"
+      },
+      {
+        "value": "Obsessed Heart Monitor",
+        "mainSubject": "heart monitor / EKG screen sticker showing a bold heartbeat line, clean caption area for the quote, high contrast pop-art style"
+      },
+      {
+        "value": "Possessive Energy Warning Tag",
+        "mainSubject": "warning label/tag sticker (like a luggage or product warning tag) with a blank text panel for the quote, bold icons, high contrast, no real brand marks"
+      },
+      {
+        "value": "Morally Gray Passport Stamp",
+        "mainSubject": "passport stamp sticker (circular/rectangular ink-stamp style) with a central text area for the quote, distressed edges but clean readability, no country seals"
+      },
+      {
+        "value": "Red Flag Collector Card",
+        "mainSubject": "trading card style sticker with a bold frame and stats layout, large title panel for the quote, playful toxic romance humor vibe, no copyrighted characters",
+        "paletteLock": "blood"
+      },
+      {
+        "value": "Smut Door Hanger",
+        "mainSubject": "door hanger sticker with a large centered label area for the quote, simple icon accents, bold readable typography, no hotel branding"
+      },
+      {
+        "value": "Plot Twist Emergency Button",
+        "mainSubject": "big red emergency button sticker with a circular top label area for the quote, dramatic highlights, bold comic pop style"
+      },
+      {
+        "value": "Kindle Addict Prescription Pad",
+        "mainSubject": "prescription pad / Rx note sticker with fake fields and a large handwritten quote area, medical-themed but no pharmacy branding, playful and clean"
+      },
+      {
+        "value": "Book Hangover Recovery Kit",
+        "mainSubject": "first-aid kit / care kit box sticker with a clean label panel for the quote, subtle gloss, cute but edgy romance reader vibe"
+      },
+      {
+        "value": "Villain Energy Membership Card",
+        "mainSubject": "membership card sticker with a bold header and centered quote line area, luxe dark aesthetic, no real company branding"
+      },
+      {
+        "value": "Soft Life Serum Dropper",
+        "mainSubject": "glass dropper bottle sticker with soft glow, clean label panel for the quote, luxe self-care vibe, no skincare branding"
+      },
+      {
+        "value": "Emotional Support Bookmark Badge",
+        "mainSubject": "badge/ribbon seal sticker with a central text panel for the quote, bold outline, cute bookish energy, no school logos"
+      },
+      {
+        "value": "Main Character License Card",
+        "mainSubject": "novelty ID/license card sticker with a large quote line area, clean grid layout, no real state or government seals"
+      },
+      {
+        "value": "Guest List Wristband",
+        "mainSubject": "event wristband sticker with a bold text strip area for the quote, minimal icons, nightlife romance vibe, no venue branding"
+      },
+      {
+        "value": "Backstage Access Pass",
+        "mainSubject": "laminated backstage pass sticker with a big center panel for the quote, lanyard hole detail, high contrast, no band/venue logos"
+      },
+      {
+        "value": "Luxury Key Fob Tag",
+        "mainSubject": "luxury key tag sticker with a large centered label panel for the quote, sleek silhouette, metallic highlights, no car logos"
+      },
+      {
+        "value": "VIP Lounge Card",
+        "mainSubject": "VIP card sticker with bold typography and a main quote line area, luxe minimal style, no club branding"
+      },
+      {
+        "value": "Court Evidence Tag",
+        "mainSubject": "evidence tag sticker (true-crime vibe) with a large text block for the quote, barcode-like lines (generic), no department branding"
+      },
+      {
+        "value": "Case File Folder Tab",
+        "mainSubject": "file folder/tab sticker with a blank label strip for the quote, thriller/true crime aesthetic, clean and readable"
+      },
+      {
+        "value": "Receipt of Emotional Damage",
+        "mainSubject": "receipt/guest check sticker with a bold quote centered as the 'total' or 'note', clean grid layout, no real restaurant branding"
+      },
+      {
+        "value": "Library Fine Ticket",
+        "mainSubject": "library due-date/fine ticket sticker with a big quote area, clean stamped look, no library logos"
+      },
+      {
+        "value": "Dangerous MMC Business Card",
+        "mainSubject": "luxury business card sticker with a strong typographic quote as the headline, minimal details, no real company names"
+      },
+      {
+        "value": "Delulu Fuel Juice Box",
+        "mainSubject": "juice box sticker with a clean label panel for the quote, straw detail, cute + chaotic vibe, no brand logos"
+      },
+      {
+        "value": "Plot Armor Spray",
+        "mainSubject": "spray bottle/aerosol can sticker with a big label panel for the quote, bold icons, pop-art shine, no real product branding"
+      },
+      {
+        "value": "Spoiler Alert Tape",
+        "mainSubject": "tape strip sticker (like caution tape) with the quote printed repeatedly or as a bold center line, high contrast, no real warning authority"
+      },
+      {
+        "value": "Overstimulated Reader Meter",
+        "mainSubject": "meter/gauge sticker with levels and a slider needle, big quote panel, cute but edgy romance reader vibe, readable labels"
+      },
+      {
+        "value": "TBR Mountain Warning Sign",
+        "mainSubject": "warning road sign style sticker with a big center text area for the quote, simple icon of a book stack mountain, no real city logos"
+      },
+      {
+        "value": "Fantasy Realm Boarding Pass",
+        "mainSubject": "boarding pass sticker with a bold quote as the main 'destination' line, fantasy vibe but modern design, no airline branding"
+      },
+      {
+        "value": "Smut Loading Progress Bar",
+        "mainSubject": "progress bar sticker with percentage ticks and a big quote line above/below, bold readable typography, playful adult reader vibe"
+      }
+    ],
 
     "genreTone": [
       "urban fiction",
@@ -162,45 +161,45 @@
     ],
 
     "vibe": [
-  "Kindle After Dark",
-  "Street Luxe Romance",
-  "Morally Gray Glam",
-  "Protective Possessive Energy",
-  "Soft Life Reader",
-  "Main Character Energy",
-  "IYKYK",
-  "Plot Twist Pending",
-  "Do Not Disturb: Reading",
-  "Late Night Chapter Gremlin",
-  "Luxury Bookish Baddie",
-  "Boss Babe Bookworm",
-  "Bookstore Mafia Energy",
-  "Ruthless Chemistry",
-  "Touch Her & Die",
-  "He’s Unhinged, I’m Interested",
-  "Black Girl Magic Reader",
-  "Romantasy Obsession",
-  "Dark Academia Heat",
-  "Neon Noir Nights",
-  "Cozy Chaos",
-  "Quiet, Rich, & Reading",
-  "Soft But Not Sweet",
-  "Pretty & Dangerous",
-  "Booked & Busy",
-  "Chapter 27 Behavior",
-  "Villain Era Reader",
-  "Smut With Standards",
-  "Emotional Support Kindle",
-  "Don’t Talk To Me (I’m Reading)",
-  "Unhinged Billionaire Energy",
-"Dark Boss Energy (DBE)",
-"Wealthy & Possessive",
-"Private Jet Problems",
-"Old Money Obsession",
-"Ruthless Provider",
-"Silk Suit Villain",
-"Luxury Control Issues"
-],
+      "Kindle After Dark",
+      "Street Luxe Romance",
+      "Morally Gray Glam",
+      "Protective Possessive Energy",
+      "Soft Life Reader",
+      "Main Character Energy",
+      "IYKYK",
+      "Plot Twist Pending",
+      "Do Not Disturb: Reading",
+      "Late Night Chapter Gremlin",
+      "Luxury Bookish Baddie",
+      "Boss Babe Bookworm",
+      "Bookstore Mafia Energy",
+      "Ruthless Chemistry",
+      "Touch Her & Die",
+      "He’s Unhinged, I’m Interested",
+      "Black Girl Magic Reader",
+      "Romantasy Obsession",
+      "Dark Academia Heat",
+      "Neon Noir Nights",
+      "Cozy Chaos",
+      "Quiet, Rich, & Reading",
+      "Soft But Not Sweet",
+      "Pretty & Dangerous",
+      "Booked & Busy",
+      "Chapter 27 Behavior",
+      "Villain Era Reader",
+      "Smut With Standards",
+      "Emotional Support Kindle",
+      "Don’t Talk To Me (I’m Reading)",
+      "Unhinged Billionaire Energy",
+      "Dark Boss Energy (DBE)",
+      "Wealthy & Possessive",
+      "Private Jet Problems",
+      "Old Money Obsession",
+      "Ruthless Provider",
+      "Silk Suit Villain",
+      "Luxury Control Issues"
+    ],
 
     "palette": [
       "Blood Red + Ink Black + Steel",
@@ -227,23 +226,11 @@
       "Muted Taupe + Ivory + Dusty Rose",
       "Sage + Cream + Soft Brown",
       "Peach Nude + Beige + Light Gold"
-],
-    
-    "background": [
-      "transparent",
-      "solid_white",
-      "matte_black"
     ],
 
-    "border": [
-      "white",
-      "none"
-    ],
-
-    "outline": [
-      "bold_black",
-      "no_outline"
-    ],
+    "background": ["transparent", "solid_white", "matte_black"],
+    "border": ["white", "none"],
+    "outline": ["bold_black", "no_outline"],
 
     "spice": [
       { "value": "1", "label": "1 — sweet tension" },
@@ -262,224 +249,231 @@
       "Peace, quiet, and plot twists.",
       "I came for the vibe. Stayed for the drama.",
       "I read like I mean it.",
-    "My peace is a page-turner.",
-    "Just one more chapter… again.",
-    "Mind your business—I’m booked.",
-    "Booked, busy, and unbothered.",
-    "My hobby? Plot twists and boundaries.",
-    "If you see me quiet, I’m reading.",
-    "Soft life, strong spine.",
-    "New chapter, same standards.",
-    "I came to read, not to chat.",
-    "My TBR is undefeated.",
-    "Reading is my reset button.",
-    "Catch me in my fictional era.",
-    "Peace, quiet, and plot twists.",
-    "I’m not ignoring you—I’m invested.",
-    "I’m outside… in a book.",
-    "I romanticize my life with fiction.",
-    "This chapter has me in a chokehold.",
-    "If I’m smiling, the book is dangerous.",
-    "I’m booked through the weekend."
+      "My peace is a page-turner.",
+      "Just one more chapter… again.",
+      "Mind your business—I’m booked.",
+      "Booked, busy, and unbothered.",
+      "My hobby? Plot twists and boundaries.",
+      "If you see me quiet, I’m reading.",
+      "Soft life, strong spine.",
+      "New chapter, same standards.",
+      "I came to read, not to chat.",
+      "My TBR is undefeated.",
+      "Reading is my reset button.",
+      "Catch me in my fictional era.",
+      "Peace, quiet, and plot twists.",
+      "I’m not ignoring you—I’m invested.",
+      "I’m outside… in a book.",
+      "I romanticize my life with fiction.",
+      "This chapter has me in a chokehold.",
+      "If I’m smiling, the book is dangerous.",
+      "I’m booked through the weekend."
     ],
+
     "dark_romance": [
       "Morally gray is my favorite color.",
       "Soft voice. Hard boundaries.",
       "He’s a problem. I’m the author.",
       "If he wanted to, he would… and he DID.",
       "Morally gray is my comfort color.",
-    "He’s toxic. I’m literate.",
-    "I like my romance dark and my boundaries respected.",
-    "If he’s unhinged, I’m listening.",
-    "Fictional red flags are my favorite genre.",
-    "Possessive? Only on paper.",
-    "Touch her and die energy.",
-    "He’s dangerous. I’m interested.",
-    "I came for the plot… stayed for the obsession.",
-    "He’s the problem and I’m the reader.",
-    "Feral for a well-written villain.",
-    "If the tension doesn’t snap, I don’t want it.",
-    "I like my love stories ruthless.",
-    "He said mine—and my soul agreed.",
-    "This is not a love story. It’s a takeover."
+      "He’s toxic. I’m literate.",
+      "I like my romance dark and my boundaries respected.",
+      "If he’s unhinged, I’m listening.",
+      "Fictional red flags are my favorite genre.",
+      "Possessive? Only on paper.",
+      "Touch her and die energy.",
+      "He’s dangerous. I’m interested.",
+      "I came for the plot… stayed for the obsession.",
+      "He’s the problem and I’m the reader.",
+      "Feral for a well-written villain.",
+      "If the tension doesn’t snap, I don’t want it.",
+      "I like my love stories ruthless.",
+      "He said mine—and my soul agreed.",
+      "This is not a love story. It’s a takeover."
     ],
+
     "paranormal": [
       "Something wicked… and well-written.",
       "I like my romance cursed and committed.",
       "The supernatural has nothing on my standards.",
       "If it bites, it buys.",
       "My type? Supernatural and devoted.",
-    "If it has fangs, I’m sold.",
-    "Cursed, claimed, and completely hooked.",
-    "Summon me after chapter one.",
-    "I like my romance a little haunted.",
-    "Ghosted? I prefer possessed.",
-    "Magic, mayhem, and a man obsessed.",
-    "If he’s immortal, he better be loyal.",
-    "The paranormal isn’t scary—being single is.",
-    "Hexes, heat, and happily ever after.",
-    "I don’t chase. I conjure.",
-    "If the bond snaps, so do I.",
-    "Moonlit tension hits different.",
-    "I’m allergic to boring worlds.",
-    "Paranormal plot, unhinged devotion."
+      "If it has fangs, I’m sold.",
+      "Cursed, claimed, and completely hooked.",
+      "Summon me after chapter one.",
+      "I like my romance a little haunted.",
+      "Ghosted? I prefer possessed.",
+      "Magic, mayhem, and a man obsessed.",
+      "If he’s immortal, he better be loyal.",
+      "The paranormal isn’t scary—being single is.",
+      "Hexes, heat, and happily ever after.",
+      "I don’t chase. I conjure.",
+      "If the bond snaps, so do I.",
+      "Moonlit tension hits different.",
+      "I’m allergic to boring worlds.",
+      "Paranormal plot, unhinged devotion."
     ],
+
     "thriller": [
       "Plot twists only. No spoilers.",
       "Trust issues but make it literary.",
       "I knew it. I just needed the chapter to prove it.",
       "If it’s calm… it’s a setup.",
       "Trust no one. Turn the page.",
-    "Plot twist loading…",
-    "I like my stories sharp and suspicious.",
-    "Nothing is what it seems—and I love it.",
-    "My comfort? Psychological damage (fictional).",
-    "I’m here for the secrets.",
-    "Give me chills, not small talk.",
-    "I read with my guard up.",
-    "If it’s peaceful, it’s a setup.",
-    "The clue is in chapter three.",
-    "I love a slow burn… into chaos.",
-    "Page-turner with a side of paranoia.",
-    "I’m not scared—I’m intrigued.",
-    "Unreliable narrators are my weakness.",
-    "If it’s too quiet, someone’s lying."
+      "Plot twist loading…",
+      "I like my stories sharp and suspicious.",
+      "Nothing is what it seems—and I love it.",
+      "My comfort? Psychological damage (fictional).",
+      "I’m here for the secrets.",
+      "Give me chills, not small talk.",
+      "I read with my guard up.",
+      "If it’s peaceful, it’s a setup.",
+      "The clue is in chapter three.",
+      "I love a slow burn… into chaos.",
+      "Page-turner with a side of paranoia.",
+      "I’m not scared—I’m intrigued.",
+      "Unreliable narrators are my weakness.",
+      "If it’s too quiet, someone’s lying."
     ],
+
     "soft_life_self_care": [
       "Read. Rest. Repeat.",
       "Soft life, hard standards.",
       "My peace is non-negotiable.",
-      "I’m not rushing—I'm resting."
-    "Soft life, hard standards.",
-    "My peace is non-negotiable.",
-    "I’m not rushing—I’m resting.",
-    "I protect my energy like it’s luxury.",
-    "Slow days. Good books.",
-    "Being gentle with myself is the plan.",
-    "I deserve calm and consistent.",
-    "I romanticize my healing.",
-    "Soft mornings, softer boundaries.",
-    "I choose ease on purpose.",
-    "Peace looks good on me.",
-    "I’m allowed to take up space and time.",
-    "My life is not an emergency.",
-    "Rest is productive for me."
+      "I’m not rushing—I'm resting.",
+      "Soft life, hard standards.",
+      "My peace is non-negotiable.",
+      "I’m not rushing—I’m resting.",
+      "I protect my energy like it’s luxury.",
+      "Slow days. Good books.",
+      "Being gentle with myself is the plan.",
+      "I deserve calm and consistent.",
+      "I romanticize my healing.",
+      "Soft mornings, softer boundaries.",
+      "I choose ease on purpose.",
+      "Peace looks good on me.",
+      "I’m allowed to take up space and time.",
+      "My life is not an emergency.",
+      "Rest is productive for me."
     ],
+
     "iykyk": [
       "If you know, you know.",
       "The girls that get it, get it.",
       "If you know, you know.",
-    "Don’t ask. Just nod.",
-    "This is a safe space for delulu.",
-    "It’s giving… chapter 27.",
-    "We don’t kink shame—we bookmark.",
-    "I like my men fictional and unhinged.",
-    "Read it… then come back.",
-    "Say less. I’m already seated.",
-    "That trope? Yeah. That one.",
-    "I’m not okay and I love it here.",
-    "He breathed and I folded.",
-    "He smirked and I started a new personality.",
-    "Fictional men ruin standards (worth it).",
-    "I fear I have a type.",
-    "I’m in too deep (and so is he)."
+      "Don’t ask. Just nod.",
+      "This is a safe space for delulu.",
+      "It’s giving… chapter 27.",
+      "We don’t kink shame—we bookmark.",
+      "I like my men fictional and unhinged.",
+      "Read it… then come back.",
+      "Say less. I’m already seated.",
+      "That trope? Yeah. That one.",
+      "I’m not okay and I love it here.",
+      "He breathed and I folded.",
+      "He smirked and I started a new personality.",
+      "Fictional men ruin standards (worth it).",
+      "I fear I have a type.",
+      "I’m in too deep (and so is he)."
     ],
+
     "mood_quotes": [
       "This book ruined me… 5 stars.",
       "Do not disturb: emotionally invested.",
       "One more chapter (lying).",
       "Currently unavailable: fictional man calling.",
       "Do not disturb: emotionally invested.",
-    "Currently unavailable: fictional man calling.",
-    "One more chapter (lying).",
-    "If you need me, you don’t.",
-    "My mood? Page-turning menace.",
-    "Quiet because the plot is plotting.",
-    "I’m not dramatic, the book is.",
-    "Mentally in another universe.",
-    "Reading myself back to life.",
-    "Peace costs less than people.",
-    "Soft… until the MMC speaks.",
-    "I’m on chapter 27 behavior.",
-    "I have plans (and they’re fictional).",
-    "This book has me feral.",
-    "I’m fine. The plot isn’t.",
-    "Booked and barely coping.",
-    "My therapist is fiction.",
-    "I said I was done. I lied.",
-    "I’m in my villain reader era.",
-    "If I’m quiet, it’s getting good."
+      "Currently unavailable: fictional man calling.",
+      "One more chapter (lying).",
+      "If you need me, you don’t.",
+      "My mood? Page-turning menace.",
+      "Quiet because the plot is plotting.",
+      "I’m not dramatic, the book is.",
+      "Mentally in another universe.",
+      "Reading myself back to life.",
+      "Peace costs less than people.",
+      "Soft… until the MMC speaks.",
+      "I’m on chapter 27 behavior.",
+      "I have plans (and they’re fictional).",
+      "This book has me feral.",
+      "I’m fine. The plot isn’t.",
+      "Booked and barely coping.",
+      "My therapist is fiction.",
+      "I said I was done. I lied.",
+      "I’m in my villain reader era.",
+      "If I’m quiet, it’s getting good."
     ],
+
     "unhinged_wealthy_dbe": [
-  "He’s rich, rude, and ridiculously obsessed.",
-  "Soft voice. Violent loyalty.",
-  "He doesn’t argue. He acquires.",
-  "If he wanted to, he funded it.",
-  "Luxury, loyalty, and low tolerance.",
-  "He said 'mine' like a contract.",
-  "Unhinged but well-funded.",
-  "Possessive with portfolio diversification.",
-  "He buys companies and steals hearts.",
-  "His red flag? Platinum.",
-  "If it's not exclusive, he’s not interested.",
-  "Morally gray. Financially elite.",
-  "He solves problems with wire transfers.",
-  "Touch her and retire early.",
-  "Obsessive devotion, premium edition.",
-  "He doesn't chase. He owns.",
-  "Wealthy men don’t beg—they secure.",
-  "Rich in assets. Poor in patience.",
-  "His love language? Acquisition.",
-  "Dangerous. Devoted. Diversified."
-   ]
+      "He’s rich, rude, and ridiculously obsessed.",
+      "Soft voice. Violent loyalty.",
+      "He doesn’t argue. He acquires.",
+      "If he wanted to, he funded it.",
+      "Luxury, loyalty, and low tolerance.",
+      "He said 'mine' like a contract.",
+      "Unhinged but well-funded.",
+      "Possessive with portfolio diversification.",
+      "He buys companies and steals hearts.",
+      "His red flag? Platinum.",
+      "If it's not exclusive, he’s not interested.",
+      "Morally gray. Financially elite.",
+      "He solves problems with wire transfers.",
+      "Touch her and retire early.",
+      "Obsessive devotion, premium edition.",
+      "He doesn't chase. He owns.",
+      "Wealthy men don’t beg—they secure.",
+      "Rich in assets. Poor in patience.",
+      "His love language? Acquisition.",
+      "Dangerous. Devoted. Diversified."
+    ]
   },
 
   "microQuotes": [
-  "Certified Delulu",
-  "Kindle Confidential",
-  "Chapter 27 Energy",
-  "Main Character Energy",
-  "Plot Twist Pending",
-  "Do Not Disturb",
-  "Booked & Busy",
-  "Soft Life Mode",
-  "Unbothered Reader",
-  "Morally Gray Approved",
-  "Fictional Men Only",
-  "TBR Terrorist",
-  "One More Chapter",
-  "High Standards, Hot Books",
-  "Reading Is Therapy",
-  "Spicy But Classy",
-  "Romance Risk Accepted",
-  "Villain Era",
-  "Unhinged (Respectfully)",
-  "Emotional Support Kindle",
-  "Quiet—The Plot Is Plotting",
-  "Touch Her & Die",
-  "Smut With Standards",
-  "IYKYK",
-  "Read Now, Regret Later",
-  "If It’s Boring, I’m Out",
-  "Stay Toxic (Fiction Only)",
-  "Peace, Quiet, & Plot Twists",
-  "Pretty & Dangerous",
-  "Booked Through Sunday",
-  "DBE Approved",
-"Unhinged & Funded",
-"Obsessed & Insured",
-"Rich & Ruthless",
-"Silk Suit Energy",
-"Private Jet Mentality",
-"Morally Gray Mogul",
-"Possessive Provider",
-"Luxury Villain Era",
-"Old Money Obsession",
-"High Net Worth Heat",
-"Dominant, Diversified, Dangerous"
-],
+    "Certified Delulu",
+    "Kindle Confidential",
+    "Chapter 27 Energy",
+    "Main Character Energy",
+    "Plot Twist Pending",
+    "Do Not Disturb",
+    "Booked & Busy",
+    "Soft Life Mode",
+    "Unbothered Reader",
+    "Morally Gray Approved",
+    "Fictional Men Only",
+    "TBR Terrorist",
+    "One More Chapter",
+    "High Standards, Hot Books",
+    "Reading Is Therapy",
+    "Spicy But Classy",
+    "Romance Risk Accepted",
+    "Villain Era",
+    "Unhinged (Respectfully)",
+    "Emotional Support Kindle",
+    "Quiet—The Plot Is Plotting",
+    "Touch Her & Die",
+    "Smut With Standards",
+    "IYKYK",
+    "Read Now, Regret Later",
+    "If It’s Boring, I’m Out",
+    "Stay Toxic (Fiction Only)",
+    "Peace, Quiet, & Plot Twists",
+    "Pretty & Dangerous",
+    "Booked Through Sunday",
+    "DBE Approved",
+    "Unhinged & Funded",
+    "Obsessed & Insured",
+    "Rich & Ruthless",
+    "Silk Suit Energy",
+    "Private Jet Mentality",
+    "Morally Gray Mogul",
+    "Possessive Provider",
+    "Luxury Villain Era",
+    "Old Money Obsession",
+    "High Net Worth Heat",
+    "Dominant, Diversified, Dangerous"
+  ],
 
-    "defaults": {
+  "defaults": {
     "count": "1",
     "product": "IV Drip Bag",
     "genreTone": "urban fiction",
@@ -492,61 +486,55 @@
   },
 
   "paletteGroups": {
-  "blood": [
-    "Blood Red + Ink Black + Steel",
-    "Oxblood + Matte Black + Bone",
-    "Black + Blood Red + Ash",
-    "Crimson + Gunmetal + Ivory",
-    "Midnight Black + Ruby + Steel",
-    "Oxblood + Matte Black + Antique Gold"
-  ],
-
-  "neon_noir": [
-    "Hot Pink + Electric Blue + Black",
-    "Neon Purple + Acid Green + Black",
-    "Cyber Teal + Magenta + Charcoal",
-    "Lime Pop + Jet Black + Silver",
-    "Violet Glow + Chrome + Ink Black"
-  ],
-
-  "dark_luxe": [
-    "Matte Black + Antique Gold + Bone",
-    "Espresso + Gold Foil + Cream",
-    "Deep Plum + Champagne + Black",
-    "Charcoal + Rose Gold + Ivory",
-    "Midnight Blue + Gold + Smoke"
-  ],
-
-  "soft_life": [
-    "Blush Pink + Champagne Gold + Warm Brown",
-    "Cream + Mocha + Soft Gold",
-    "Muted Taupe + Ivory + Dusty Rose",
-    "Sage + Cream + Soft Brown",
-    "Peach Nude + Beige + Light Gold"
-  ],
-
-  "royal_energy": [
-    "Royal Purple + Gold + Black",
-    "Emerald + Gold + Charcoal",
-    "Sapphire + Silver + Midnight",
-    "Plum + Antique Gold + Ink",
-    "Deep Teal + Gold + Onyx"
-  ],
-
-  "urban_matte": [
-    "Concrete Grey + Black + White",
-    "Ash Grey + Bone + Charcoal",
-    "Steel + Black + Soft White",
-    "Smoked Brown + Matte Black + Cream",
-    "Muted Olive + Black + Sand"
-  ],
-
-  "chrome_gloss": [
-    "Silver Chrome + Black + White",
-    "Gunmetal + Steel + Ice Grey",
-    "Chrome + Oxblood + Black",
-    "Polished Silver + Ink + Bone",
-    "Liquid Metal + Midnight + Smoke"
-  ]
- }
+    "blood": [
+      "Blood Red + Ink Black + Steel",
+      "Oxblood + Matte Black + Bone",
+      "Black + Blood Red + Ash",
+      "Crimson + Gunmetal + Ivory",
+      "Midnight Black + Ruby + Steel",
+      "Oxblood + Matte Black + Antique Gold"
+    ],
+    "neon_noir": [
+      "Hot Pink + Electric Blue + Black",
+      "Neon Purple + Acid Green + Black",
+      "Cyber Teal + Magenta + Charcoal",
+      "Lime Pop + Jet Black + Silver",
+      "Violet Glow + Chrome + Ink Black"
+    ],
+    "dark_luxe": [
+      "Matte Black + Antique Gold + Bone",
+      "Espresso + Gold Foil + Cream",
+      "Deep Plum + Champagne + Black",
+      "Charcoal + Rose Gold + Ivory",
+      "Midnight Blue + Gold + Smoke"
+    ],
+    "soft_life": [
+      "Blush Pink + Champagne Gold + Warm Brown",
+      "Cream + Mocha + Soft Gold",
+      "Muted Taupe + Ivory + Dusty Rose",
+      "Sage + Cream + Soft Brown",
+      "Peach Nude + Beige + Light Gold"
+    ],
+    "royal_energy": [
+      "Royal Purple + Gold + Black",
+      "Emerald + Gold + Charcoal",
+      "Sapphire + Silver + Midnight",
+      "Plum + Antique Gold + Ink",
+      "Deep Teal + Gold + Onyx"
+    ],
+    "urban_matte": [
+      "Concrete Grey + Black + White",
+      "Ash Grey + Bone + Charcoal",
+      "Steel + Black + Soft White",
+      "Smoked Brown + Matte Black + Cream",
+      "Muted Olive + Black + Sand"
+    ],
+    "chrome_gloss": [
+      "Silver Chrome + Black + White",
+      "Gunmetal + Steel + Ice Grey",
+      "Chrome + Oxblood + Black",
+      "Polished Silver + Ink + Bone",
+      "Liquid Metal + Midnight + Smoke"
+    ]
+  }
 }
