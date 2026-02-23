@@ -266,6 +266,7 @@ function bankKeysFromVibe(vibe) {
   // ✅ NEW: Unhinged / Wealthy / DBE triggers
   const dbeTriggers = [
     "dbe",
+    "bde",
     "dark boss",
     "billionaire",
     "wealthy",
@@ -282,9 +283,8 @@ function bankKeysFromVibe(vibe) {
   ];
 
   if (dbeTriggers.some(t => s.includes(t))) {
-    keys.push("unhinged_wealthy_dbe");
-  }
-
+  keys.push("bde_energy");
+}
   return keys;
 }
 
