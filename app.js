@@ -182,7 +182,9 @@ function buildPromptOnce() {
     vibe ? `Vibe: ${vibe}.` : "",
     spice ? `Spice aesthetic: ${spice}.` : "",
     mainSubject ? `Main subject: ${mainSubject}.` : "Main subject: simple iconic bookish symbol.",
-    quote ? `Optional quote line: “${quote}”.` : "",
+    quote
+  ? `Text requirement: Print the quote EXACTLY as written ON the product itself (on the main label panel of the main subject). The quote must be integrated into the product design — NOT on a separate banner, ribbon, plaque, or floating below the product. Quote text: “${quote}”.`
+  : "",
     "Typography: clear legible typography, centered composition, bold high-contrast text, no distorted letters.",
     "Original design, no trademarks, no brand logos, no watermark."
   ].filter(Boolean).join(" ");
