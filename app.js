@@ -106,18 +106,6 @@ function finishText() {
   ].join(", ");
 }
 
-function bankKeyFromGenre(genre) {
-  const g = (genre || "").toLowerCase().trim();
-
-  if (g.includes("dark")) return "dark_romance";
-  if (g.includes("paranormal")) return "paranormal";
-  if (g.includes("thriller")) return "thriller";
-  if (g.includes("soft")) return "soft_life_self_care";
-  if (g.includes("urban")) return "general_urban_bookish";
-
-  return "mood_quotes";
-}
-
 function buildQuotePool() {
   const banks = CFG?.quoteBanks || {};
   let pool = [];
