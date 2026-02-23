@@ -120,42 +120,40 @@ function finishText() {
 
 function buildQuotePool() {
   const banks = CFG?.quoteBanks || {};
+  const genre = v("genreTone");
+  const vibe = v("vibe");
+
   let pool = [];
 
-  // CORE bank picks
-  if ($("bGeneralUrbanBookish") && c("bGeneralUrbanBookish")) pool.push(...(banks.general_urban_bookish || []));
-  if ($("bMoodQuotes") && c("bMoodQuotes")) pool.push(...(banks.mood_quotes || []));
-  if ($("bIYKYK") && c("bIYKYK")) pool.push(...(banks.iykyk || []));
+  // If these checkboxes exist, respect them (manual control mode)
+  const hasBankUI =
+    $("bGeneralUrbanBookish") || $("bMoodQuotes") || $("bIYKYK");
 
-  // GENRE bank boosts (new)
-  if ($("gDarkRomance") && c("gDarkRomance")) pool.push(...(banks.dark_romance || []));
-  if ($("gParanormal") && c("gParanormal")) pool.push(...(banks.paranormal || []));
-  if ($("gThriller") && c("gThriller")) pool.push(...(banks.thriller || []));
-  if ($("gSoftLife") && c("gSoftLife")) pool.push(...(banks.soft_life_self_care || []));
+  if (hasBankUI) {
+    if ($("bGeneralUrbanBookish") && c("bGeneralUrbanBookish")) pool.push(...(banks.general_urban_bookish || []));
+    if ($("bMoodQuotes") && c("bMoodQuotes")) pool.push(...(banks.mood_quotes || []));
+    if ($("bIYKYK") && c("bIYKYK")) pool.push(...(banks.iykyk || []));
 
-  // If no checkboxes are selected at all, fall back to genre-driven
-  const nothingSelected =
-    (!$("bGeneralUrbanBookish") || !c("bGeneralUrbanBookish")) &&
-    (!$("bMoodQuotes") || !c("bMoodQuotes")) &&
-    (!$("bIYKYK") || !c("bIYKYK")) &&
-    (!$("gDarkRomance") || !c("gDarkRomance")) &&
-    (!$("gParanormal") || !c("gParanormal")) &&
-    (!$("gThriller") || !c("gThriller")) &&
-    (!$("gSoftLife") || !c("gSoftLife"));
+    // ✅ Even in checkbox mode, we still allow vibe-based boosts (so DBE triggers work)
+    bankKeysFromVibe(vibe).forEach(k => pool.push(...(banks[k] || [])));
 
-  if (nothingSelected) {
-    const genreKey = bankKeyFromGenre(v("genreTone"));
+  } else {
+    // No bank UI? Then we do smart automatic pooling:
+    const genreKey = bankKeyFromGenre(genre);
     pool.push(...(banks[genreKey] || []));
-    pool.push(...(banks.mood_quotes || [])); // safe boost
+
+    // ✅ Vibe boosts (includes DBE)
+    bankKeysFromVibe(vibe).forEach(k => pool.push(...(banks[k] || [])));
   }
 
   // Micro quotes toggle
   const microOn = $("useMicroQuotes") ? c("useMicroQuotes") : true;
   if (microOn) pool.push(...(CFG.microQuotes || []));
 
+  // Clean + unique
   pool = uniq(pool.filter(Boolean));
 
-  // final safety fallback
+  // Final fallback so it never empties
   if (!pool.length) {
     pool = uniq([...(banks.general_urban_bookish || []), ...(banks.mood_quotes || []), ...(CFG.microQuotes || [])]);
   }
@@ -232,6 +230,40 @@ function bankKeyFromGenre(genre) {
   if (g.includes("urban")) return "general_urban_bookish";
 
   return "mood_quotes"; // safe fallback
+}
+
+function bankKeysFromVibe(vibe) {
+  const s = (vibe || "").toLowerCase();
+
+  const keys = [];
+
+  // Your existing vibe boosts (keep these)
+  if (s.includes("iykyk")) keys.push("iykyk");
+  if (s.includes("kindle")) keys.push("mood_quotes");
+
+  // ✅ NEW: Unhinged / Wealthy / DBE triggers
+  const dbeTriggers = [
+    "dbe",
+    "dark boss",
+    "billionaire",
+    "wealthy",
+    "rich",
+    "old money",
+    "private jet",
+    "ruthless provider",
+    "silk suit",
+    "mogul",
+    "possessive provider",
+    "luxury villain",
+    "high net worth",
+    "unhinged"
+  ];
+
+  if (dbeTriggers.some(t => s.includes(t))) {
+    keys.push("unhinged_wealthy_dbe");
+  }
+
+  return keys;
 }
 
 // Map CFG quote bank keys -> your checkbox IDs in HTML
