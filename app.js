@@ -230,10 +230,11 @@ function clearAll() {
   if ($("quote")) setV("quote", "");
   if ($("output")) setV("output", "");
 
-  // ✅ CLEAR ALL quote toggles + bank selections
+  // ✅ clear quote behavior toggles
   if ($("useRandomQuote")) setC("useRandomQuote", false);
   if ($("useMicroQuotes")) setC("useMicroQuotes", false);
 
+  // ✅ clear quote bank selections (these are NOT micro quotes)
   if ($("bGeneralUrbanBookish")) setC("bGeneralUrbanBookish", false);
   if ($("bMoodQuotes")) setC("bMoodQuotes", false);
   if ($("bIYKYK")) setC("bIYKYK", false);
