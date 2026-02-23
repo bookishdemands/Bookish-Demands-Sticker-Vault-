@@ -1,4 +1,5 @@
 alert("app.js loaded ✅");
+
 let CFG = null;
 
 const $ = (id) => document.getElementById(id);
@@ -6,6 +7,7 @@ const v = (id) => ($(id)?.value ?? "");
 const setV = (id, val) => { const el = $(id); if (el) el.value = val; };
 const c = (id) => !!($(id)?.checked);
 const setC = (id, val) => { const el = $(id); if (el) el.checked = !!val; };
+
 const rnd = (n) => Math.floor(Math.random() * n);
 const pick = (arr) => arr[rnd(arr.length)];
 const uniq = (arr) => Array.from(new Set(arr));
@@ -20,12 +22,7 @@ async function loadConfig() {
     (CFG?.meta?.version || "?") +
     "\nkeys: " + Object.keys(CFG?.options || {}).join(", ") +
     "\nproduct len: " + (CFG?.options?.product?.length || 0)
-   );
-}  
-    
-  const res = await fetch("./config.json", { cache: "no-store" });
-  if (!res.ok) throw new Error(`Could not load config.json (${res.status})`);
-  CFG = await res.json();
+  );
 }
 
 function fillSelect(id, items, placeholder) {
@@ -41,6 +38,7 @@ function fillSelect(id, items, placeholder) {
 
   (items || []).forEach((item) => {
     const opt = document.createElement("option");
+
     if (typeof item === "string") {
       opt.value = item;
       opt.textContent = item;
@@ -48,6 +46,7 @@ function fillSelect(id, items, placeholder) {
       opt.value = item.value ?? "";
       opt.textContent = item.label ?? item.value ?? "";
     }
+
     sel.appendChild(opt);
   });
 }
@@ -64,9 +63,9 @@ function populateAllOptionsFromConfig() {
   fillSelect("border", CFG.options.border, "Select border...");
   fillSelect("outline", CFG.options.outline, "Select outline...");
   fillSelect("spice", CFG.options.spice, "Select spice...");
+
   alert("Populate ran ✅");
 }
-
 
 function applyDefaults() {
   const d = CFG?.defaults || {};
@@ -106,6 +105,7 @@ function finishText() {
     "no brand logos, no watermark"
   ].join(", ");
 }
+
 function bankKeyFromGenre(genre) {
   const g = (genre || "").toLowerCase().trim();
 
@@ -115,14 +115,13 @@ function bankKeyFromGenre(genre) {
   if (g.includes("soft")) return "soft_life_self_care";
   if (g.includes("urban")) return "general_urban_bookish";
 
-  return "mood_quotes"; // safe fallback
+  return "mood_quotes";
 }
 
 function buildQuotePool() {
   const banks = CFG?.quoteBanks || {};
   let pool = [];
 
-  // If these checkboxes exist, use them. If not, fall back.
   const hasBankUI =
     $("bGeneralUrbanBookish") || $("bMoodQuotes") || $("bIYKYK");
 
@@ -131,19 +130,16 @@ function buildQuotePool() {
     if (c("bMoodQuotes")) pool.push(...(banks.mood_quotes || []));
     if (c("bIYKYK")) pool.push(...(banks.iykyk || []));
   } else {
-    // fallback if UI isn’t there
     const genre = v("genreTone");
     const genreKey = bankKeyFromGenre(genre);
     pool.push(...(banks[genreKey] || []));
   }
 
-  // Micro quotes toggle
   const microOn = $("useMicroQuotes") ? c("useMicroQuotes") : true;
   if (microOn) pool.push(...(CFG.microQuotes || []));
 
   pool = uniq(pool.filter(Boolean));
 
-  // final fallback so it never empties
   if (!pool.length) {
     pool = uniq([...(banks.general_urban_bookish || []), ...(CFG.microQuotes || [])]);
   }
@@ -153,9 +149,8 @@ function buildQuotePool() {
 
 function chooseQuote() {
   const typed = (v("quote") || "").trim();
-  if (typed) return typed; // ✅ custom wins
+  if (typed) return typed;
 
-  // If checkbox exists and is off, return empty
   if ($("useRandomQuote") && !c("useRandomQuote")) return "";
 
   const pool = buildQuotePool();
@@ -167,8 +162,7 @@ function buildPromptOnce() {
   const genre = v("genreTone");
   const vibe = v("vibe");
   const mainSubject = getSelectedProductMainSubject();
-
-  const quote = chooseQuote(); // ✅ pull a quote
+  const quote = chooseQuote();
 
   const cutSafe =
     "Cut-safe die-cut requirement: one continuous closed silhouette outline around the ENTIRE design. " +
@@ -177,7 +171,7 @@ function buildPromptOnce() {
     "Any glow must hug the silhouette tightly and remain fully inside the die-cut outline. " +
     "If any particles would cross the edge, remove them.";
 
-  const spice = spiceAesthetic(); // ✅ call once
+  const spice = spiceAesthetic();
 
   return [
     "Create image:",
@@ -188,7 +182,7 @@ function buildPromptOnce() {
     vibe ? `Vibe: ${vibe}.` : "",
     spice ? `Spice aesthetic: ${spice}.` : "",
     mainSubject ? `Main subject: ${mainSubject}.` : "Main subject: simple iconic bookish symbol.",
-    quote ? `Optional quote line: “${quote}”.` : "", // ✅ inject quote
+    quote ? `Optional quote line: “${quote}”.` : "",
     "Typography: clear legible typography, centered composition, bold high-contrast text, no distorted letters.",
     "Original design, no trademarks, no brand logos, no watermark."
   ].filter(Boolean).join(" ");
@@ -205,13 +199,12 @@ function generate() {
 function setSelectToRandom(id) {
   const sel = $(id);
   if (!sel) return;
-  const opts = Array.from(sel.options).filter(o => o.value); // skip placeholder
+  const opts = Array.from(sel.options).filter(o => o.value);
   if (!opts.length) return;
   sel.value = pick(opts).value;
 }
 
 function randomizeAll() {
-  // dropdowns
   setSelectToRandom("count");
   setSelectToRandom("product");
   setSelectToRandom("genreTone");
@@ -222,22 +215,17 @@ function randomizeAll() {
   setSelectToRandom("outline");
   setSelectToRandom("spice");
 
-  // clear custom quote so random can kick in
   if ($("quote")) setV("quote", "");
-
   generate();
 }
 
 function clearAll() {
-  // reset selects to placeholder
   ["count","product","genreTone","vibe","palette","background","border","outline","spice"]
     .forEach(id => { if ($(id)) setV(id, ""); });
 
-  // reset quote + output
   if ($("quote")) setV("quote", "");
   if ($("output")) setV("output", "");
 
-  // reset checkboxes (optional defaults)
   if ($("useRandomQuote")) setC("useRandomQuote", true);
   if ($("useMicroQuotes")) setC("useMicroQuotes", true);
   if ($("bGeneralUrbanBookish")) setC("bGeneralUrbanBookish", true);
@@ -276,5 +264,4 @@ async function init() {
   }
 }
 
-// ✅ this must be OUTSIDE init()
 window.addEventListener("load", init);
