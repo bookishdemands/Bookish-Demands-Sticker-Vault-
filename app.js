@@ -13,15 +13,39 @@ const pick = (arr) => arr[rnd(arr.length)];
 const uniq = (arr) => Array.from(new Set(arr));
 
 async function loadConfig() {
-  const res = await fetch("./config.json", { cache: "no-store" });
-  if (!res.ok) throw new Error(`Could not load config.json (${res.status})`);
-  CFG = await res.json();
+  // Always resolve config.json from the current page URL (Safari-safe)
+  const url = new URL("config.json", window.location.href).toString();
+
+  let res;
+  try {
+    res = await fetch(url, { cache: "no-store" });
+  } catch (err) {
+    throw new Error(`Fetch failed for config.json\nURL: ${url}\n${err?.message || err}`);
+  }
+
+  const text = await res.text();
+
+  if (!res.ok) {
+    // If GitHub Pages returns a 404 HTML page, you'll see it here
+    throw new Error(
+      `Could not load config.json (${res.status})\nURL: ${url}\nFirst 120 chars:\n${text.slice(0, 120)}`
+    );
+  }
+
+  try {
+    CFG = JSON.parse(text);
+  } catch (err) {
+    throw new Error(
+      `config.json JSON parse error: ${err?.message || err}\nURL: ${url}\nFirst 200 chars:\n${text.slice(0, 200)}`
+    );
+  }
 
   alert(
     "CFG ✅ " +
-    (CFG?.meta?.version || "?") +
-    "\nkeys: " + Object.keys(CFG?.options || {}).join(", ") +
-    "\nproduct len: " + (CFG?.options?.product?.length || 0)
+      (CFG?.meta?.version || "?") +
+      "\nkeys: " + Object.keys(CFG?.options || {}).join(", ") +
+      "\npalette len: " + (CFG?.options?.palette?.length || 0) +
+      "\nproduct len: " + (CFG?.options?.product?.length || 0)
   );
 }
 
