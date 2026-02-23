@@ -281,13 +281,34 @@ function smartGenreCheckboxFromGenreTone(genreTone) {
   return map[key] || null;
 }
 
+function getSelectedProductObj() {
+  const selected = v("product");
+  const list = CFG?.options?.product || [];
+  return list.find(p => p.value === selected) || null;
+}
+
+function setPaletteSmartForSelectedProduct() {
+  const p = getSelectedProductObj();
+  const lock = p?.paletteLock;
+
+  // If no lock, do nothing (palette stays random as usual)
+  if (!lock) return;
+
+  const group = CFG?.paletteGroups?.[lock];
+  if (!Array.isArray(group) || !group.length) return;
+
+  // Pick from the locked group only
+  setV("palette", pick(group));
+}
+
 function randomizeAll() {
   // dropdowns
   setSelectToRandom("count");
   setSelectToRandom("product");
   setSelectToRandom("genreTone");
   setSelectToRandom("vibe");
-  setSelectToRandom("palette");
+  setSelectToRandom("palette");      // normal random first
+  setPaletteSmartForSelectedProduct(); // then lock it ONLY if product needs it
   setSelectToRandom("background");
   setSelectToRandom("border");
   setSelectToRandom("outline");
