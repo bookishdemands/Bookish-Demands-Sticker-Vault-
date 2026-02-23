@@ -360,6 +360,11 @@ function clearAll() {
   if ($("bGeneralUrbanBookish")) setC("bGeneralUrbanBookish", false);
   if ($("bMoodQuotes")) setC("bMoodQuotes", false);
   if ($("bIYKYK")) setC("bIYKYK", false);
+  // clear genre boost checkboxes
+  if ($("gDarkRomance")) setC("gDarkRomance", false);
+  if ($("gParanormal")) setC("gParanormal", false);
+  if ($("gThriller")) setC("gThriller", false);
+  if ($("gSoftLife")) setC("gSoftLife", false);
 }
 
 async function init() {
