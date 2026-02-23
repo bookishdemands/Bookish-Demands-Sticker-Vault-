@@ -51,6 +51,18 @@ function fillSelect(id, items, placeholder) {
   });
 }
 
+function getAllPalettes() {
+  // Preferred: if options.palette exists, use it
+  if (Array.isArray(CFG?.options?.palette) && CFG.options.palette.length) {
+    return CFG.options.palette;
+  }
+
+  // Otherwise: build from paletteGroups
+  const groups = CFG?.paletteGroups || {};
+  const flattened = Object.values(groups).flat().filter(Boolean);
+  return uniq(flattened);
+}
+
 function populateAllOptionsFromConfig() {
   if (!CFG?.options) return;
 
@@ -58,7 +70,7 @@ function populateAllOptionsFromConfig() {
   fillSelect("product", CFG.options.product, "Select product...");
   fillSelect("genreTone", CFG.options.genreTone, "Select genre...");
   fillSelect("vibe", CFG.options.vibe, "Select vibe...");
-  fillSelect("palette", CFG.options.palette, "Select palette...");
+  fillSelect("palette", getAllPalettes(), "Select palette...");
   fillSelect("background", CFG.options.background, "Select background...");
   fillSelect("border", CFG.options.border, "Select border...");
   fillSelect("outline", CFG.options.outline, "Select outline...");
