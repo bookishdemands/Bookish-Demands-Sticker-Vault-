@@ -47,13 +47,40 @@
       "Main Character Energy"
     ],
 
+    
     "palette": [
-      "Blood Red + Ink Black + Steel",
-      "Oxblood + Matte Black + Bone",
-      "Champagne Gold + Cocoa + Cream",
-      "Neon Red + Charcoal + White",
-      "Black Cherry + Smoke Gray + Cream"
-    ],
+  "Blood Red + Ink Black + Steel",
+
+  "Oxblood + Matte Black + Antique Gold",
+  "Deep Plum + Ink Black + Champagne Gold",
+  "Wine Red + Charcoal + Soft Blush",
+  "Crimson + Gunmetal + Ivory",
+  "Midnight Black + Ruby + Steel",
+
+  "Electric Purple + Gloss Black + Chrome",
+  "Hot Pink + Smoke Grey + Silver",
+  "Emerald + Black + Gold",
+  "Neon Red + Matte Black + White",
+  "Royal Blue + Black + Ice Silver",
+
+  "Cocoa + Cream + Warm Taupe",
+  "Mocha + Blush + Gold",
+  "Terracotta + Sand + Espresso",
+  "Warm Beige + Chocolate + Soft Pink",
+  "Latte + Ivory + Bronze",
+
+  "Forest Green + Obsidian + Moon Silver",
+  "Amethyst + Black + Mystic Gold",
+  "Sapphire + Night Blue + Silver",
+  "Emerald + Midnight + Smoke",
+  "Deep Teal + Charcoal + Ice",
+
+  "Black + Blood Red + Ash",
+  "Slate + Bone + Rust",
+  "Deep Grey + Red + Fog White",
+  "Steel + Dark Blue + Silver",
+  "Black + Neon Red + Shadow Grey"
+],
 
     "background": [
       "transparent",
