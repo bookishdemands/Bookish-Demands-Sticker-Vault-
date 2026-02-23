@@ -286,7 +286,7 @@
     "Read Now, Regret Later"
   ],
 
-  "defaults": {
+    "defaults": {
     "count": "1",
     "product": "IV Drip Bag",
     "genreTone": "urban fiction",
@@ -296,15 +296,16 @@
     "border": "white",
     "outline": "bold_black",
     "spice": "2"
+  },
+
+  "paletteGroups": {
+    "blood": [
+      "Blood Red + Ink Black + Steel",
+      "Oxblood + Matte Black + Bone",
+      "Black + Blood Red + Ash",
+      "Crimson + Gunmetal + Ivory",
+      "Midnight Black + Ruby + Steel",
+      "Oxblood + Matte Black + Antique Gold"
+    ]
   }
-}
-"paletteGroups": {
-  "blood": [
-    "Blood Red + Ink Black + Steel",
-    "Oxblood + Matte Black + Bone",
-    "Black + Blood Red + Ash",
-    "Crimson + Gunmetal + Ivory",
-    "Midnight Black + Ruby + Steel",
-    "Oxblood + Matte Black + Antique Gold"
-  ]
 }
