@@ -262,7 +262,37 @@ function bankKeysFromVibe(vibe) {
   // Your existing vibe boosts (keep these)
   if (s.includes("iykyk")) keys.push("iykyk");
   if (s.includes("kindle")) keys.push("mood_quotes");
+  // ✅ Umbrella vibe routing (NO map needed)
+if (s.includes("elite dominance")) {
+  keys.push("bde_energy", "unhinged_wealthy_dbe");
+}
 
+if (s.includes("dark obsession")) {
+  keys.push("dark_romance");
+}
+
+if (s.includes("urban power")) {
+  keys.push("general_urban_bookish", "urban_power_couple");
+}
+
+if (s.includes("feminine authority")) {
+  keys.push("boss_woman_energy", "urban_femme_fatale");
+}
+
+if (s.includes("soft luxe")) {
+  keys.push("soft_life_self_care", "girly_feminine_energy");
+}
+
+if (s.includes("bookish mood")) {
+  keys.push("general_urban_bookish", "mood_quotes", "iykyk");
+}
+
+if (s.includes("thriller")) {
+  keys.push("thriller");
+}
+if (s.includes("noir")) {
+  keys.push("thriller");
+}
   // ✅ NEW: Unhinged / Wealthy / DBE triggers
   // 🔥 BDE only
 if (s.includes("bde")) {
