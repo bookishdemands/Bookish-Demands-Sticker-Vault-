@@ -540,6 +540,12 @@ function clearAll() {
   if ($("gParanormal")) setC("gParanormal", false);
   if ($("gThriller")) setC("gThriller", false);
   if ($("gSoftLife")) setC("gSoftLife", false);
+
+  // ✅ CLEAR Dialogue Mode controls
+if (s("dialogueMode")) setC("dialogueMode", false);
+if (s("dialoguePairing")) setV("dialoguePairing", "MF");
+if (s("dialogueTone")) setV("dialogueTone", "flirty");
+
 }
 
 async function init() {
