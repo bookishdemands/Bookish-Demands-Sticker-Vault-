@@ -9,6 +9,8 @@
     "5": "maximum spice energy, obsessive devotion tone (non-graphic)"
   },
 
+  "eliteUnlockMinSpice": 4,
+  
   "options": {
     "product": [
       {
@@ -644,6 +646,8 @@
     "Dominant, Diversified, Dangerous"
   ],
 
+  "toneByIndex": ["flirty", "threatening", "soft", "argument"],
+  
   "defaults": {
     "count": "1",
     "product": "IV Drip Bag",
