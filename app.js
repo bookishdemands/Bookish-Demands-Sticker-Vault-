@@ -193,6 +193,41 @@ function chooseQuote() {
   return pool.length ? pick(pool) : "";
 }
 
+function dialogueThemeFromVibe(vibe) {
+  const s = (vibe || "").toLowerCase();
+
+  if (s.includes("elite dominance")) return "elite_dominance";
+  if (s.includes("dark obsession")) return "dark_obsession";
+  if (s.includes("urban power")) return "urban_power";
+  if (s.includes("feminine authority")) return "feminine_authority";
+  if (s.includes("soft luxe")) return "soft_luxe";
+  if (s.includes("bookish mood")) return "bookish_mood";
+  if (s.includes("thriller")) return "thriller_noir";
+
+  return "bookish_mood";
+}
+
+function generateDialogue() {
+  const pairing = v("dialoguePairing") || "MF";
+  const vibeVal = v("vibe");
+
+  const theme = dialogueThemeFromVibe(vibeVal);
+  const bank = (CFG.dialogueBanks || {})[theme] || {};
+
+  const a = pairing[0]; // M or F
+  const b = pairing[1];
+
+  const aPool = bank[a] || [];
+  const bPool = bank[b] || [];
+
+  if (!aPool.length || !bPool.length) return null;
+
+  const aLine = aPool[Math.floor(Math.random() * aPool.length)];
+  const bLine = bPool[Math.floor(Math.random() * bPool.length)];
+
+  return `A: "${aLine}"\nB: "${bLine}"`;
+}
+
 function buildPromptOnce() {
   const palette = v("palette");
   const genre = v("genreTone");
