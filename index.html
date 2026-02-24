@@ -127,6 +127,55 @@
           Use random quote (from quote banks)
         </label>
 
+        <!-- DIALOGUE MODE CONTROLS -->
+<hr style="border:0;border-top:1px solid rgba(255,255,255,.08); margin:14px 0;">
+
+<label style="display:flex; gap:10px; align-items:center; margin:10px 0;">
+  <input type="checkbox" id="useDialogueMode" />
+  Dialogue Mode (4–6 line cinematic exchange)
+</label>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0;">
+  <div>
+    <label for="speakerA" style="opacity:.9;">Speaker A</label>
+    <select id="speakerA">
+      <option value="M">Man</option>
+      <option value="F">Woman</option>
+      <option value="NB">Nonbinary</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="speakerB" style="opacity:.9;">Speaker B</label>
+    <select id="speakerB">
+      <option value="F">Woman</option>
+      <option value="M">Man</option>
+      <option value="NB">Nonbinary</option>
+    </select>
+  </div>
+</div>
+
+<!-- Tone sliders (0–100) -->
+<div style="margin-top:10px;">
+  <label for="toneFlirty">Flirty</label>
+  <input id="toneFlirty" type="range" min="0" max="100" value="55" />
+</div>
+
+<div>
+  <label for="toneThreat">Threatening</label>
+  <input id="toneThreat" type="range" min="0" max="100" value="20" />
+</div>
+
+<div>
+  <label for="toneSoft">Soft</label>
+  <input id="toneSoft" type="range" min="0" max="100" value="35" />
+</div>
+
+<div>
+  <label for="toneArgue">Argument</label>
+  <input id="toneArgue" type="range" min="0" max="100" value="15" />
+</div>
+        
         <label for="quote">Custom quote (overrides random)</label>
         <textarea id="quote" placeholder="Type a custom quote here (optional)..." style="min-height:90px;"></textarea>
 
