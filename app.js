@@ -517,55 +517,39 @@ function randomizeAll() {
   }
 
   // ✅ Randomize Dialogue controls (only if dialogue mode is ON)
-  if ($("useDialogueMode") && $("useDialogueMode").checked) {
+if (s("useDialogueMode") && s("useDialogueMode").checked) {
+  // Random tone 0–3
+  const tone = String(Math.floor(Math.random() * 4));
+  setV("toneSlider", tone);
 
-    // Random pairing
-    if ($("dialoguePairing")) {
-      const pairings = ["MF","FM","MM","FF"];
-      setV("dialoguePairing", pairings[Math.floor(Math.random() * pairings.length)]);
-    }
+  // Update label if you have it
+  const toneNames = ["Flirty", "Threatening", "Soft", "Argument"];
+  if (s("toneLabel")) s("toneLabel").textContent = toneNames[Number(tone)] || "Flirty";
 
-    // Random dialogue tone dropdown
-    if ($("dialogueTone")) {
-      const tones = ["flirty","soft","argument","threatening"];
-      setV("dialogueTone", tones[Math.floor(Math.random() * tones.length)]);
-    }
+  // Random line count 4–6
+  const lines = String(4 + Math.floor(Math.random() * 3));
+  setV("dialogueLines", lines);
 
-    // Random line count 4–6
-    if ($("dialogueLines")) {
-      const lines = String(4 + Math.floor(Math.random() * 3));
-      setV("dialogueLines", lines);
-    }
+  // Optional: sometimes swap speakers
+  if (Math.random() < 0.35 && s("speakerA") && s("speakerB")) {
+    const a = s("speakerA").value;
+    const b = s("speakerB").value;
+    setV("speakerA", b);
+    setV("speakerB", a);
 
-    // Speakers: 35% chance swap
-    if (Math.random() < 0.35 && $("speakerA") && $("speakerB")) {
-      const a = $("speakerA").value;
-      const b = $("speakerB").value;
-      setV("speakerA", b);
-      setV("speakerB", a);
-    }
-
-    // Tone sliders (if you added them)
-    // Keep it simple: pick ONE slider to be “main” based on selected tone
-    const pickedTone = ($("dialogueTone") ? $("dialogueTone").value : "flirty");
-
-    const preset = {
-      flirty:       { toneFlirty: 80, toneThreatening: 10, toneSoft: 25, toneArgument: 10 },
-      soft:         { toneFlirty: 25, toneThreatening:  5, toneSoft: 85, toneArgument:  5 },
-      argument:     { toneFlirty: 10, toneThreatening: 15, toneSoft: 10, toneArgument: 85 },
-      threatening:  { toneFlirty: 10, toneThreatening: 85, toneSoft:  5, toneArgument: 20 }
-    };
-
-    const p = preset[pickedTone] || preset.flirty;
-
-    if ($("toneFlirty")) setV("toneFlirty", p.toneFlirty);
-    if ($("toneThreatening")) setV("toneThreatening", p.toneThreatening);
-    if ($("toneSoft")) setV("toneSoft", p.toneSoft);
-    if ($("toneArgument")) setV("toneArgument", p.toneArgument);
-  }
-
-  generate();
+    // Random pairing + tone
+if (s("dialoguePairing")) {
+  const pairings = ["MF","FM","MM","FF"];
+  setV("dialoguePairing", pairings[Math.floor(Math.random() * pairings.length)]);
 }
+
+if (s("dialogueTone")) {
+  const tones = ["flirty","soft","argument","threatening"];
+  setV("dialogueTone", tones[Math.floor(Math.random() * tones.length)]);
+}
+  }
+}
+
 function clearAll() {
   // reset selects to placeholder
   ["count","product","genreTone","vibe","palette","background","border","outline","spice"]
