@@ -193,20 +193,6 @@ function chooseQuote() {
   return pool.length ? pick(pool) : "";
 }
 
-function dialogueThemeFromVibe(vibe) {
-  const s = (vibe || "").toLowerCase();
-
-  if (s.includes("elite dominance")) return "elite_dominance";
-  if (s.includes("dark obsession")) return "dark_obsession";
-  if (s.includes("urban power")) return "urban_power";
-  if (s.includes("feminine authority")) return "feminine_authority";
-  if (s.includes("soft luxe")) return "soft_luxe";
-  if (s.includes("bookish mood")) return "bookish_mood";
-  if (s.includes("thriller")) return "thriller_noir";
-
-  return "bookish_mood";
-}
-
 function generateDialogue() {
   const pairing = v("dialoguePairing") || "MF";
   const vibeVal = v("vibe");
@@ -347,6 +333,20 @@ function bankKeysFromVibe(vibe) {
 
   // remove duplicates
   return [...new Set(keys)];
+}
+
+function dialogueThemeFromVibe(vibe) {
+  const s = (vibe || "").toLowerCase();
+
+  if (s.includes("elite dominance")) return "elite_dominance";
+  if (s.includes("dark obsession")) return "dark_obsession";
+  if (s.includes("urban power")) return "urban_power";
+  if (s.includes("feminine authority")) return "feminine_authority";
+  if (s.includes("soft luxe")) return "soft_luxe";
+  if (s.includes("bookish mood")) return "bookish_mood";
+  if (s.includes("thriller")) return "thriller_noir";
+
+  return "bookish_mood";
 }
 
 // Map CFG quote bank keys -> your checkbox IDs in HTML
