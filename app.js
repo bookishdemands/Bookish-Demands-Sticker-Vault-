@@ -246,7 +246,7 @@ function buildPromptOnce() {
   const genre = v("genreTone");
   const vibe = v("vibe");
   const mainSubject = getSelectedProductMainSubject();
-  const quote = chooseQuote();
+  const quote = c("dialogueMode") ? (generateDialogue() || chooseQuote()) : chooseQuote();
 
   const cutSafe =
     "Cut-safe die-cut requirement: one continuous closed silhouette outline around the ENTIRE design. " +
