@@ -197,21 +197,48 @@ function generateDialogue() {
   const pairing = v("dialoguePairing") || "MF";
   const vibeVal = v("vibe");
 
+  // UI tone select (if you don't have it yet, this defaults to "flirty")
+  const tone = (v("dialogueTone") || "flirty").toLowerCase(); // flirty | soft | argument | threatening
+
   const theme = dialogueThemeFromVibe(vibeVal);
   const bank = (CFG.dialogueBanks || {})[theme] || {};
 
-  const a = pairing[0]; // M or F
-  const b = pairing[1];
+  const a = pairing[0]; // "M" or "F"
+  const b = pairing[1]; // "M" or "F"
 
-  const aPool = bank[a] || [];
-  const bPool = bank[b] || [];
+  // Pull tone pools (NEW structure)
+  const aPool = (bank[a] && bank[a][tone]) ? bank[a][tone] : [];
+  const bPool = (bank[b] && bank[b][tone]) ? bank[b][tone] : [];
 
-  if (!aPool.length || !bPool.length) return null;
+  // Fallback: if this tone is empty, try any available tone for that speaker
+  const fallbackTone = (speakerObj) => {
+    if (!speakerObj) return [];
+    return (
+      speakerObj.flirty ||
+      speakerObj.soft ||
+      speakerObj.argument ||
+      speakerObj.threatening ||
+      []
+    );
+  };
 
-  const aLine = aPool[Math.floor(Math.random() * aPool.length)];
-  const bLine = bPool[Math.floor(Math.random() * bPool.length)];
+  const finalAPool = aPool.length ? aPool : fallbackTone(bank[a]);
+  const finalBPool = bPool.length ? bPool : fallbackTone(bank[b]);
 
-  return `A: "${aLine}"\nB: "${bLine}"`;
+  if (!finalAPool.length || !finalBPool.length) return null;
+
+  // 4–6 line cinematic exchange (alternating speakers)
+  const linesCount = 4 + Math.floor(Math.random() * 3); // 4,5,6
+  let out = [];
+
+  for (let i = 0; i < linesCount; i++) {
+    const speaker = (i % 2 === 0) ? a : b;
+    const pool = (speaker === a) ? finalAPool : finalBPool;
+    const line = pool[Math.floor(Math.random() * pool.length)];
+    out.push(`${speaker}: "${line}"`);
+  }
+
+  return out.join("\n");
 }
 
 function buildPromptOnce() {
