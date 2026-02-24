@@ -135,6 +135,42 @@
   Dialogue Mode (4–6 line cinematic exchange)
 </label>
 
+<!-- DIALOGUE MODE (paste right under "Use random quote") -->
+<div style="margin:12px 0; padding:10px; border:1px solid rgba(255,255,255,.12); border-radius:12px;">
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+    <label style="display:flex; gap:10px; align-items:center; margin:0;">
+      <input type="checkbox" id="dialogueMode" />
+      <span><b>Dialogue Mode</b> (4–6 line exchange)</span>
+    </label>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+    <div>
+      <label for="dialoguePairing">Pairing</label>
+      <select id="dialoguePairing">
+        <option value="MF">M → F</option>
+        <option value="FM">F → M</option>
+        <option value="MM">M → M</option>
+        <option value="FF">F → F</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="dialogueTone">Dialogue Tone</label>
+      <select id="dialogueTone">
+        <option value="flirty">Flirty</option>
+        <option value="soft">Soft</option>
+        <option value="argument">Argument</option>
+        <option value="threatening">Threatening</option>
+      </select>
+    </div>
+  </div>
+
+  <p class="hint" style="margin:10px 0 0 0;">
+    Tip: Dialogue Mode ignores “Custom quote” and generates a back-and-forth.
+  </p>
+</div>
+        
 <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0;">
   <div>
     <label for="speakerA" style="opacity:.9;">Speaker A</label>
