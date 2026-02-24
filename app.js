@@ -536,10 +536,18 @@ if (s("useDialogueMode") && s("useDialogueMode").checked) {
     const b = s("speakerB").value;
     setV("speakerA", b);
     setV("speakerB", a);
-  }
+
+    // Random pairing + tone
+if (s("dialoguePairing")) {
+  const pairings = ["MF","FM","MM","FF"];
+  setV("dialoguePairing", pairings[Math.floor(Math.random() * pairings.length)]);
 }
 
-  generate();
+if (s("dialogueTone")) {
+  const tones = ["flirty","soft","argument","threatening"];
+  setV("dialogueTone", tones[Math.floor(Math.random() * tones.length)]);
+}
+  }
 }
 
 function clearAll() {
@@ -558,69 +566,42 @@ function clearAll() {
   if ($("bGeneralUrbanBookish")) setC("bGeneralUrbanBookish", false);
   if ($("bMoodQuotes")) setC("bMoodQuotes", false);
   if ($("bIYKYK")) setC("bIYKYK", false);
+
   // clear genre boost checkboxes
   if ($("gDarkRomance")) setC("gDarkRomance", false);
   if ($("gParanormal")) setC("gParanormal", false);
   if ($("gThriller")) setC("gThriller", false);
   if ($("gSoftLife")) setC("gSoftLife", false);
 
-  // ✅ CLEAR Dialogue Mode controls
-if (s("dialogueMode")) setC("dialogueMode", false);
-if (s("dialoguePairing")) setV("dialoguePairing", "MF");
-if (s("dialogueTone")) setV("dialogueTone", "flirty");
+  // ✅ CLEAR Dialogue controls (match index.html IDs)
+  if ($("useDialogueMode")) setC("useDialogueMode", false);
 
-  // ✅ CLEAR Dialogue Mode controls (FULL RESET)
-if (s("dialogueMode")) setC("dialogueMode", false);
+  if ($("dialoguePairing")) setV("dialoguePairing", "MF");   // default: M -> F
+  if ($("dialogueTone")) setV("dialogueTone", "flirty");     // default: Flirty
+  if ($("dialogueLines")) setV("dialogueLines", "5");        // default: 5 lines
 
-// Dropdowns
-if (s("dialoguePairing")) setV("dialoguePairing", "MF");
-if (s("dialogueTone")) setV("dialogueTone", "flirty");
+  // speakers (values are lowercase in your HTML)
+  if ($("speakerA")) setV("speakerA", "woman");
+  if ($("speakerB")) setV("speakerB", "man");
 
-// Speaker selects (if you added them)
-if (s("speakerA")) setV("speakerA", "Man");
-if (s("speakerB")) setV("speakerB", "Woman");
+  // tone sliders (set to your desired defaults)
+  if ($("toneFlirty")) setV("toneFlirty", 0);
+  if ($("toneThreatening")) setV("toneThreatening", 0);
+  if ($("toneSoft")) setV("toneSoft", 0);
+  if ($("toneArgument")) setV("toneArgument", 0);
 
-// Tone sliders (set to your defaults)
-if (s("toneFlirty")) setV("toneFlirty", 50);
-if (s("toneThreatening")) setV("toneThreatening", 0);
-if (s("toneSoft")) setV("toneSoft", 0);
-if (s("toneArgument")) setV("toneArgument", 0);
+  // optional label update
+  if ($("toneLabel")) $("toneLabel").textContent = "Flirty";
 
-// If you have a dialogue-only custom textbox, clear it too
-if (s("dialogueCustomQuote")) setV("dialogueCustomQuote", "");
-
-// ✅ Force the UI to re-sync/collapse if you have a function for it
-if (typeof syncDialogueUI === "function") syncDialogueUI();
-if (typeof updateDialogueUI === "function") updateDialogueUI();
-
-  // ✅ CLEAR Dialogue Mode controls (match index.html IDs)
-if (s("useDialogueMode")) setC("useDialogueMode", false);
-
-// tone slider (0–3)
-if (s("toneSlider")) setV("toneSlider", 0);
-if (s("toneLabel")) s("toneLabel").textContent = "Flirty"; // only if you use this label
-
-// speakers (defaults based on your HTML: A = woman, B = man)
-if (s("speakerA")) setV("speakerA", "woman");
-if (s("speakerB")) setV("speakerB", "man");
-
-// dialogue lines (your HTML default is 5)
-if (s("dialogueLines")) setV("dialogueLines", "5");
-
-  // ✅ CLEAR Dialogue Mode controls (match your index.html IDs)
-if (s("useDialogueMode")) setC("useDialogueMode", false);
-
-// tone slider (0–3)
-if (s("toneSlider")) setV("toneSlider", 0);
-if (s("toneLabel")) s("toneLabel").textContent = "Flirty";
-
-// speakers (your HTML defaults are: A = woman, B = man)
-if (s("speakerA")) setV("speakerA", "woman");
-if (s("speakerB")) setV("speakerB", "man");
-
-// dialogue lines (your HTML default is 5)
-if (s("dialogueLines")) setV("dialogueLines", "5");
+  // optional: if you have a function that hides/shows the dialogue panel
+  if (typeof updateDialogueUI === "function") updateDialogueUI();
+  if (typeof syncDialogueUI === "function") syncDialogueUI();
 }
+  
+  generate();
+}
+
+
 
 async function init() {
   try {
