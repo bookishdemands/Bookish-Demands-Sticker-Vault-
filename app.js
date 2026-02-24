@@ -516,86 +516,79 @@ function randomizeAll() {
     pickedCount++;
   }
 
-  // ✅ Randomize Dialogue controls (only if dialogue mode is ON)
-if (s("useDialogueMode") && s("useDialogueMode").checked) {
-  // Random tone 0–3
-  const tone = String(Math.floor(Math.random() * 4));
-  setV("toneSlider", tone);
+    // ✅ Randomize Dialogue controls (only if dialogue mode is ON)
+  if (s("useDialogueMode") && s("useDialogueMode").checked) {
+    // Random tone 0–3
+    const tone = String(Math.floor(Math.random() * 4));
+    setV("toneSlider", tone);
 
-  // Update label if you have it
-  const toneNames = ["Flirty", "Threatening", "Soft", "Argument"];
-  if (s("toneLabel")) s("toneLabel").textContent = toneNames[Number(tone)] || "Flirty";
+    const toneNames = ["Flirty", "Threatening", "Soft", "Argument"];
+    if (s("toneLabel")) s("toneLabel").textContent = toneNames[Number(tone)] || "Flirty";
 
-  // Random line count 4–6
-  const lines = String(4 + Math.floor(Math.random() * 3));
-  setV("dialogueLines", lines);
+    // Random line count 4–6
+    const lines = String(4 + Math.floor(Math.random() * 3));
+    setV("dialogueLines", lines);
 
-  // Optional: sometimes swap speakers
-  if (Math.random() < 0.35 && s("speakerA") && s("speakerB")) {
-    const a = s("speakerA").value;
-    const b = s("speakerB").value;
-    setV("speakerA", b);
-    setV("speakerB", a);
+    // Random pairing
+    if (s("dialoguePairing")) {
+      const pairings = ["MF","FM","MM","FF"];
+      setV("dialoguePairing", pairings[Math.floor(Math.random() * pairings.length)]);
+    }
 
-    // Random pairing + tone
-if (s("dialoguePairing")) {
-  const pairings = ["MF","FM","MM","FF"];
-  setV("dialoguePairing", pairings[Math.floor(Math.random() * pairings.length)]);
-}
+    // Random dialogue tone dropdown (the words)
+    if (s("dialogueTone")) {
+      const tones = ["flirty","soft","argument","threatening"];
+      setV("dialogueTone", tones[Math.floor(Math.random() * tones.length)]);
+    }
 
-if (s("dialogueTone")) {
-  const tones = ["flirty","soft","argument","threatening"];
-  setV("dialogueTone", tones[Math.floor(Math.random() * tones.length)]);
-}
+    // Optional: sometimes swap speakers
+    if (Math.random() < 0.35 && s("speakerA") && s("speakerB")) {
+      const a = s("speakerA").value;
+      const b = s("speakerB").value;
+      setV("speakerA", b);
+      setV("speakerB", a);
+    }
   }
+
+  generate();
 }
 
-function clearAll() {
+  function clearAll() {
   // reset selects to placeholder
   ["count","product","genreTone","vibe","palette","background","border","outline","spice"]
-    .forEach(id => { if ($(id)) setV(id, ""); });
+    .forEach(id => { if (s(id)) setV(id, ""); });
 
   // clear custom quote + output
-  if ($("quote")) setV("quote", "");
-  if ($("output")) setV("output", "");
+  if (s("quote")) setV("quote", "");
+  if (s("output")) setV("output", "");
 
-  // ✅ CLEAR quote section toggles + bank selections
-  if ($("useRandomQuote")) setC("useRandomQuote", false);
-  if ($("useMicroQuotes")) setC("useMicroQuotes", false);
+  // quote system toggles
+  if (s("useRandomQuote")) setC("useRandomQuote", false);
+  if (s("useMicroQuotes")) setC("useMicroQuotes", false);
 
-  if ($("bGeneralUrbanBookish")) setC("bGeneralUrbanBookish", false);
-  if ($("bMoodQuotes")) setC("bMoodQuotes", false);
-  if ($("bIYKYK")) setC("bIYKYK", false);
+  // bank selections
+  ["bGeneralUrbanBookish","bMoodQuotes","bIYKYK"].forEach(id => { if (s(id)) setC(id, false); });
 
-  // clear genre boost checkboxes
-  if ($("gDarkRomance")) setC("gDarkRomance", false);
-  if ($("gParanormal")) setC("gParanormal", false);
-  if ($("gThriller")) setC("gThriller", false);
-  if ($("gSoftLife")) setC("gSoftLife", false);
+  // genre boost selections
+  ["gDarkRomance","gParanormal","gThriller","gSoftLife"].forEach(id => { if (s(id)) setC(id, false); });
 
-  // ✅ CLEAR Dialogue controls (match index.html IDs)
-  if ($("useDialogueMode")) setC("useDialogueMode", false);
+  // ✅ Dialogue Mode controls (MATCH your index.html IDs)
+  if (s("useDialogueMode")) setC("useDialogueMode", false);
 
-  if ($("dialoguePairing")) setV("dialoguePairing", "MF");   // default: M -> F
-  if ($("dialogueTone")) setV("dialogueTone", "flirty");     // default: Flirty
-  if ($("dialogueLines")) setV("dialogueLines", "5");        // default: 5 lines
+  // pairing + tone dropdowns (your UI shows these)
+  if (s("dialoguePairing")) setV("dialoguePairing", "MF");   // default M -> F
+  if (s("dialogueTone")) setV("dialogueTone", "flirty");     // default Flirty
 
-  // speakers (values are lowercase in your HTML)
-  if ($("speakerA")) setV("speakerA", "woman");
-  if ($("speakerB")) setV("speakerB", "man");
+  // speakers
+  if (s("speakerA")) setV("speakerA", "woman");
+  if (s("speakerB")) setV("speakerB", "man");
 
-  // tone sliders (set to your desired defaults)
-  if ($("toneFlirty")) setV("toneFlirty", 0);
-  if ($("toneThreatening")) setV("toneThreatening", 0);
-  if ($("toneSoft")) setV("toneSoft", 0);
-  if ($("toneArgument")) setV("toneArgument", 0);
+  // tone slider + label
+  if (s("toneSlider")) setV("toneSlider", 0);
+  if (s("toneLabel")) s("toneLabel").textContent = "Flirty";
 
-  // optional label update
-  if ($("toneLabel")) $("toneLabel").textContent = "Flirty";
-
-  // optional: if you have a function that hides/shows the dialogue panel
-  if (typeof updateDialogueUI === "function") updateDialogueUI();
-  if (typeof syncDialogueUI === "function") syncDialogueUI();
+  // dialogue lines dropdown
+  if (s("dialogueLines")) setV("dialogueLines", "5");
 }
   
   generate();
