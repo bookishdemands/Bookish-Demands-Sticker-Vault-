@@ -172,7 +172,6 @@
   "Thriller & Noir"
 ],
 
-    {
   "palette": [
     "Blood Red + Ink Black + Steel",
     "Oxblood + Matte Black + Bone",
@@ -413,8 +412,7 @@
     "Fly Higher": ["pdf_vol2", "curated", "earthy", "warm"],
     "Leave Me Alone": ["pdf_vol2", "curated", "warm", "muted"],
     "The Dark Side": ["pdf_vol2", "curated", "after_hours", "moody"]
-  }
-}
+    ],
 
     "background": ["transparent", "solid_white", "matte_black"],
     "border": ["white", "none"],
