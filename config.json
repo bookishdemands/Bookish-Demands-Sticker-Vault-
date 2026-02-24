@@ -2,12 +2,11 @@
   "meta": { "version": "2.1", "brand": "Bookish Demands" },
 
   "spiceAestheticByLevel": {
-    "1": "soft flirt energy (non-graphic)",
-    "2": "spicy vibes, bold flirting, possessive undertones (non-graphic)",
-    "3": "dark romance heat, intense chemistry, edgy tension (non-graphic)",
-    "4": "unhinged tension, morally gray energy, possessive & protective (non-graphic)",
-    "5": "maximum spice energy, obsessive devotion tone (non-graphic)"
-  },
+  "1": "soft flirt energy (non-graphic)",
+  "2": "spicy vibes, bold flirting, possessive undertones (non-graphic)",
+  "3": "dark romance heat, intense chemistry, edgy tension (non-graphic)",
+  "4": "ultra spicy energy, dangerous devotion, high-stakes obsession (non-graphic)"
+},
 
   "eliteUnlockMinSpice": 4,
   
