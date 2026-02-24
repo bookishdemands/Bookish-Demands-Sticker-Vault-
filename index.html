@@ -75,6 +75,48 @@
           <select id="spice"></select>
         </div>
 
+        <!-- Dialogue Mode -->
+<div class="field">
+  <label>
+    <input type="checkbox" id="useDialogueMode" />
+    Dialogue Mode (Back & Forth)
+  </label>
+</div>
+
+<!-- Tone slider -->
+<div class="field">
+  <label for="toneSlider">Tone</label>
+  <input type="range" id="toneSlider" min="0" max="3" step="1" value="0" />
+  <div id="toneLabel" class="hint">Flirty</div>
+</div>
+
+<!-- Speaker genders -->
+<div class="field">
+  <label for="speakerA">Speaker A</label>
+  <select id="speakerA">
+    <option value="man">Man</option>
+    <option value="woman" selected>Woman</option>
+    <option value="nonbinary">Nonbinary</option>
+  </select>
+</div>
+
+<div class="field">
+  <label for="speakerB">Speaker B</label>
+  <select id="speakerB">
+    <option value="man" selected>Man</option>
+    <option value="woman">Woman</option>
+    <option value="nonbinary">Nonbinary</option>
+  </select>
+</div>
+
+<div class="field">
+  <label for="dialogueLines">Dialogue lines</label>
+  <select id="dialogueLines">
+    <option value="4">4 lines</option>
+    <option value="5" selected>5 lines</option>
+    <option value="6">6 lines</option>
+  </select>
+</div>
         <!-- QUOTES + ADVANCED CONTROLS -->
         <hr style="border:0;border-top:1px solid rgba(255,255,255,.08); margin:18px 0;">
 
