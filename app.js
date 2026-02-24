@@ -601,8 +601,6 @@ function clearAll() {
   generate();
 }
 
-
-
 async function init() {
   try {
     await loadConfig();
