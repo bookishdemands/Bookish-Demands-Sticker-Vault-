@@ -516,6 +516,29 @@ function randomizeAll() {
     pickedCount++;
   }
 
+  // ✅ Randomize Dialogue controls (only if dialogue mode is ON)
+if (s("useDialogueMode") && s("useDialogueMode").checked) {
+  // Random tone 0–3
+  const tone = String(Math.floor(Math.random() * 4));
+  setV("toneSlider", tone);
+
+  // Update label if you have it
+  const toneNames = ["Flirty", "Threatening", "Soft", "Argument"];
+  if (s("toneLabel")) s("toneLabel").textContent = toneNames[Number(tone)] || "Flirty";
+
+  // Random line count 4–6
+  const lines = String(4 + Math.floor(Math.random() * 3));
+  setV("dialogueLines", lines);
+
+  // Optional: sometimes swap speakers
+  if (Math.random() < 0.35 && s("speakerA") && s("speakerB")) {
+    const a = s("speakerA").value;
+    const b = s("speakerB").value;
+    setV("speakerA", b);
+    setV("speakerB", a);
+  }
+}
+
   generate();
 }
 
@@ -569,6 +592,34 @@ if (s("dialogueCustomQuote")) setV("dialogueCustomQuote", "");
 // ✅ Force the UI to re-sync/collapse if you have a function for it
 if (typeof syncDialogueUI === "function") syncDialogueUI();
 if (typeof updateDialogueUI === "function") updateDialogueUI();
+
+  // ✅ CLEAR Dialogue Mode controls (match index.html IDs)
+if (s("useDialogueMode")) setC("useDialogueMode", false);
+
+// tone slider (0–3)
+if (s("toneSlider")) setV("toneSlider", 0);
+if (s("toneLabel")) s("toneLabel").textContent = "Flirty"; // only if you use this label
+
+// speakers (defaults based on your HTML: A = woman, B = man)
+if (s("speakerA")) setV("speakerA", "woman");
+if (s("speakerB")) setV("speakerB", "man");
+
+// dialogue lines (your HTML default is 5)
+if (s("dialogueLines")) setV("dialogueLines", "5");
+
+  // ✅ CLEAR Dialogue Mode controls (match your index.html IDs)
+if (s("useDialogueMode")) setC("useDialogueMode", false);
+
+// tone slider (0–3)
+if (s("toneSlider")) setV("toneSlider", 0);
+if (s("toneLabel")) s("toneLabel").textContent = "Flirty";
+
+// speakers (your HTML defaults are: A = woman, B = man)
+if (s("speakerA")) setV("speakerA", "woman");
+if (s("speakerB")) setV("speakerB", "man");
+
+// dialogue lines (your HTML default is 5)
+if (s("dialogueLines")) setV("dialogueLines", "5");
 }
 
 async function init() {
