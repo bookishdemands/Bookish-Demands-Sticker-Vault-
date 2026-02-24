@@ -461,64 +461,60 @@ function randomizeAll() {
   setSelectToRandom("product");
   setSelectToRandom("genreTone");
   setSelectToRandom("vibe");
-  setSelectToRandom("palette");      // normal random first
-  setPaletteSmartForSelectedProduct(); // then lock it ONLY if product needs it
+  setSelectToRandom("palette");             // normal random first
+  setPaletteSmartForSelectedProduct();      // then lock only if product needs it
   setSelectToRandom("background");
   setSelectToRandom("border");
   setSelectToRandom("outline");
   setSelectToRandom("spice");
 
   // quote system ON for randomize
-  if ($("useRandomQuote")) setC("useRandomQuote", true);
-  if ($("useMicroQuotes")) setC("useMicroQuotes", true);
+  if (s("useRandomQuote")) setC("useRandomQuote", true);
+  if (s("useMicroQuotes")) setC("useMicroQuotes", true);
 
   // clear custom quote
-  if ($("quote")) setV("quote", "");
+  if (s("quote")) setV("quote", "");
 
   // Clear ALL bank checkboxes first
   [
     "bGeneralUrbanBookish","bMoodQuotes","bIYKYK",
     "gDarkRomance","gParanormal","gThriller","gSoftLife"
-  ].forEach(id => { if ($(id)) setC(id, false); });
+  ].forEach(id => { if (s(id)) setC(id, false); });
 
   // SMART PICKS (1–2 banks max total)
   const genreTone = v("genreTone");
-  const vibe = v("vibe");
-  const vibeLower = (vibe || "").toLowerCase();
+  const vibeVal = v("vibe");
+  const vibeLower = (vibeVal || "").toLowerCase();
 
-  // Pick primary CORE bank
-  // Urban -> general; otherwise mood
+  // Primary CORE bank
   let primaryCore = "bMoodQuotes";
   if ((genreTone || "").toLowerCase().includes("urban")) primaryCore = "bGeneralUrbanBookish";
-
   setC(primaryCore, true);
 
-  // Optional GENRE bank (only if genreTone is dark/paranormal/thriller/soft)
-  const genreBox = smartGenreCheckboxFromGenreTone(genreTone);
   let pickedCount = 1;
 
-  // Decide whether to use genre bank as the 2nd pick
-  // (helps make genreTone feel meaningful)
+  // Optional GENRE bank based on genreTone
+  const genreBox = smartGenreCheckboxFromGenreTone(genreTone);
   if (genreBox && pickedCount < 2) {
     setC(genreBox, true);
     pickedCount++;
   }
 
-  // If we still have room for a 2nd pick, vibe can add IYKYK
+  // Optional IYKYK based on vibe
   if (pickedCount < 2 && vibeLower.includes("iykyk")) {
     setC("bIYKYK", true);
     pickedCount++;
   }
 
-  // If nothing vibe-specific, small chance to add mood as a boost (if not already)
+  // Small chance to add mood boost
   if (pickedCount < 2 && primaryCore !== "bMoodQuotes" && Math.random() < 0.35) {
     setC("bMoodQuotes", true);
     pickedCount++;
   }
 
-    // ✅ Randomize Dialogue controls (only if dialogue mode is ON)
+  // ✅ Randomize Dialogue controls (only if dialogue mode is ON)
   if (s("useDialogueMode") && s("useDialogueMode").checked) {
-    // Random tone 0–3
+    // Random tone slider 0–3
     const tone = String(Math.floor(Math.random() * 4));
     setV("toneSlider", tone);
 
@@ -535,7 +531,7 @@ function randomizeAll() {
       setV("dialoguePairing", pairings[Math.floor(Math.random() * pairings.length)]);
     }
 
-    // Random dialogue tone dropdown (the words)
+    // Random dialogue tone dropdown
     if (s("dialogueTone")) {
       const tones = ["flirty","soft","argument","threatening"];
       setV("dialogueTone", tones[Math.floor(Math.random() * tones.length)]);
@@ -562,35 +558,30 @@ function randomizeAll() {
   if (s("quote")) setV("quote", "");
   if (s("output")) setV("output", "");
 
-  // quote system toggles
+  // quote section toggles
   if (s("useRandomQuote")) setC("useRandomQuote", false);
   if (s("useMicroQuotes")) setC("useMicroQuotes", false);
 
-  // bank selections
+  // banks
   ["bGeneralUrbanBookish","bMoodQuotes","bIYKYK"].forEach(id => { if (s(id)) setC(id, false); });
 
-  // genre boost selections
+  // genre boosts
   ["gDarkRomance","gParanormal","gThriller","gSoftLife"].forEach(id => { if (s(id)) setC(id, false); });
 
-  // ✅ Dialogue Mode controls (MATCH your index.html IDs)
+  // ✅ Dialogue Mode reset (MATCH your index.html IDs)
   if (s("useDialogueMode")) setC("useDialogueMode", false);
 
-  // pairing + tone dropdowns (your UI shows these)
-  if (s("dialoguePairing")) setV("dialoguePairing", "MF");   // default M -> F
-  if (s("dialogueTone")) setV("dialogueTone", "flirty");     // default Flirty
+  if (s("dialoguePairing")) setV("dialoguePairing", "MF");
+  if (s("dialogueTone")) setV("dialogueTone", "flirty");
 
-  // speakers
   if (s("speakerA")) setV("speakerA", "woman");
   if (s("speakerB")) setV("speakerB", "man");
 
-  // tone slider + label
-  if (s("toneSlider")) setV("toneSlider", 0);
+  if (s("toneSlider")) setV("toneSlider", "0");
   if (s("toneLabel")) s("toneLabel").textContent = "Flirty";
 
-  // dialogue lines dropdown
   if (s("dialogueLines")) setV("dialogueLines", "5");
-}
-  
+
   generate();
 }
 
