@@ -476,6 +476,129 @@
   ]
 },
 
+"dialogueBanks": {
+
+  "elite_dominance": {
+    "M": [
+      "You don’t compete. You qualify.",
+      "If I claim it, it’s already secured.",
+      "Stay close. I don’t repeat myself.",
+      "Relax. Everything around you is protected.",
+      "You look expensive standing next to me."
+    ],
+    "F": [
+      "Good. Because I don’t do temporary.",
+      "Say it again. Slower.",
+      "If I’m yours, act accordingly.",
+      "Protection looks good on you.",
+      "Don’t promise. Execute."
+    ]
+  },
+
+  "dark_obsession": {
+    "M": [
+      "You knew what this was.",
+      "I don’t share what’s mine.",
+      "If you run, I follow.",
+      "Look at me when I warn you.",
+      "Obsession isn’t a flaw. It’s focus."
+    ],
+    "F": [
+      "Then focus on me.",
+      "I didn’t ask for safe.",
+      "If you’re dangerous, prove it.",
+      "I don’t scare easy.",
+      "Careful. I bite back."
+    ]
+  },
+
+  "urban_power": {
+    "M": [
+      "Say the word.",
+      "I handle pressure quietly.",
+      "You good? That’s all I care about.",
+      "They play. We finish.",
+      "I don’t talk tough. I move."
+    ],
+    "F": [
+      "Then move correctly.",
+      "I’m not hiding behind you.",
+      "We handle it together.",
+      "Don’t start what you can’t control.",
+      "I don’t fold under pressure."
+    ]
+  },
+
+  "feminine_authority": {
+    "F": [
+      "I don’t chase. I choose.",
+      "If I said no, it’s final.",
+      "Soft voice. Hard boundaries.",
+      "I don’t beg. I negotiate.",
+      "Respect is the minimum."
+    ],
+    "M": [
+      "That’s why I’m here.",
+      "I like women who mean it.",
+      "Say it again. I’m listening.",
+      "Handled.",
+      "You don’t have to repeat yourself."
+    ]
+  },
+
+  "soft_luxe": {
+    "M": [
+      "Tell me what you need.",
+      "You don’t have to stress anymore.",
+      "Rest. I’ve got it.",
+      "I like you spoiled.",
+      "Ease looks better on you."
+    ],
+    "F": [
+      "Consistency is attractive.",
+      "Good. I require calm.",
+      "Soft life only.",
+      "Don’t disappoint me.",
+      "I receive."
+    ]
+  },
+
+  "bookish_mood": {
+    "M": [
+      "You’re quiet. That’s dangerous.",
+      "What chapter you on?",
+      "You smiling like the villain won.",
+      "Who’s got your attention?",
+      "Should I be jealous of fictional men?"
+    ],
+    "F": [
+      "Mind your business.",
+      "It’s getting good.",
+      "He breathed and I folded.",
+      "You wouldn’t understand.",
+      "I’m emotionally unavailable until page 400."
+    ]
+  },
+
+  "thriller_noir": {
+    "M": [
+      "Something feels off.",
+      "Don’t trust them.",
+      "You noticed it too, didn’t you?",
+      "We’re not safe yet.",
+      "Stay sharp."
+    ],
+    "F": [
+      "I never trusted them.",
+      "I clocked it earlier.",
+      "You’re late to the suspicion.",
+      "Calm is a setup.",
+      "I’m already three steps ahead."
+    ]
+  }
+
+}
+  
   "microQuotes": [
     "Certified Delulu",
     "Kindle Confidential",
