@@ -546,6 +546,29 @@ if (s("dialogueMode")) setC("dialogueMode", false);
 if (s("dialoguePairing")) setV("dialoguePairing", "MF");
 if (s("dialogueTone")) setV("dialogueTone", "flirty");
 
+  // ✅ CLEAR Dialogue Mode controls (FULL RESET)
+if (s("dialogueMode")) setC("dialogueMode", false);
+
+// Dropdowns
+if (s("dialoguePairing")) setV("dialoguePairing", "MF");
+if (s("dialogueTone")) setV("dialogueTone", "flirty");
+
+// Speaker selects (if you added them)
+if (s("speakerA")) setV("speakerA", "Man");
+if (s("speakerB")) setV("speakerB", "Woman");
+
+// Tone sliders (set to your defaults)
+if (s("toneFlirty")) setV("toneFlirty", 50);
+if (s("toneThreatening")) setV("toneThreatening", 0);
+if (s("toneSoft")) setV("toneSoft", 0);
+if (s("toneArgument")) setV("toneArgument", 0);
+
+// If you have a dialogue-only custom textbox, clear it too
+if (s("dialogueCustomQuote")) setV("dialogueCustomQuote", "");
+
+// ✅ Force the UI to re-sync/collapse if you have a function for it
+if (typeof syncDialogueUI === "function") syncDialogueUI();
+if (typeof updateDialogueUI === "function") updateDialogueUI();
 }
 
 async function init() {
