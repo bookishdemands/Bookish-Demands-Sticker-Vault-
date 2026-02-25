@@ -12,6 +12,59 @@ const rnd = (n) => Math.floor(Math.random() * n);
 const pick = (arr) => arr[rnd(arr.length)];
 const uniq = (arr) => Array.from(new Set(arr));
 
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (m) => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
+
+function getSelectedPaletteObj() {
+  const selected = v("palette");
+  const list = CFG?.options?.palette || [];
+
+  const obj = list.find(p => (p?.name === selected));
+  if (obj) return obj;
+
+  if (typeof selected === "string" && selected) {
+    return { name: selected, label: selected, hex: [] };
+  }
+
+  return null;
+}
+
+function renderPalettePreview() {
+  const box = $("palettePreview");
+  if (!box) return;
+
+  const pal = getSelectedPaletteObj();
+  if (!pal || !pal.name) {
+    box.innerHTML = `<div class="meta">Select a palette to preview.</div>`;
+    return;
+  }
+
+  const hexes = Array.isArray(pal.hex) ? pal.hex : [];
+  const label = pal.label || pal.name;
+
+  const swatchesHtml = hexes.length
+    ? `<div class="swatches">${
+        hexes.map(h => `<div class="swatch" title="${h}" style="background:${h};"></div>`).join("")
+      }</div>`
+    : `<div class="meta">No hex codes found for this palette.</div>`;
+
+  const hexLine = hexes.length ? hexes.join("  ") : "";
+
+  box.innerHTML = `
+    <div class="top">
+      <div>
+        <div class="name">${escapeHtml(label)}</div>
+        ${pal.collection ? `<div class="meta">${escapeHtml(pal.collection)}</div>` : ``}
+      </div>
+      ${hexLine ? `<div class="hex">${escapeHtml(hexLine)}</div>` : ``}
+    </div>
+    ${swatchesHtml}
+  `;
+}
+
 async function loadConfig() {
   const url = "./config.json?v=" + Date.now(); // hard cache-bust
   const res = await fetch(url, { cache: "no-store" });
