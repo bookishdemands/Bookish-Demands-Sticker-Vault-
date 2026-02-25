@@ -20,6 +20,48 @@
     textarea{min-height:220px; resize:vertical; line-height:1.35;}
     .row{display:grid; grid-template-columns:1fr; gap:10px;}
     .hint{opacity:.7; font-size:13px; margin-top:8px;}
+    .palette-preview{
+  margin-top:10px;
+  padding:12px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:12px;
+  background:#0f0f18;
+}
+.palette-preview .top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+  margin-bottom:10px;
+}
+.palette-preview .name{
+  font-weight:700;
+  font-size:14px;
+  line-height:1.2;
+}
+.palette-preview .meta{
+  opacity:.75;
+  font-size:12px;
+  line-height:1.2;
+}
+.palette-preview .swatches{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.palette-preview .swatch{
+  width:28px;
+  height:28px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
+}
+.palette-preview .hex{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size:12px;
+  opacity:.85;
+  word-break:break-word;
+}
   </style>
 </head>
 
@@ -55,6 +97,8 @@
           <select id="palette"></select>
         </div>
 
+        <div id="palettePreview" class="palette-preview" aria-live="polite"></div>
+        
         <div>
           <label for="background">Background</label>
           <select id="background"></select>
