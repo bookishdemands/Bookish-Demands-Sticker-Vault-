@@ -104,6 +104,52 @@ function fillSelect(id, items, placeholder) {
   const sel = $(id);
   if (!sel) return;
 
+  // === PALETTE PREVIEW (reads CFG.paletteData) ===
+function getPaletteEntry(paletteName) {
+  if (!paletteName) return null;
+
+  // Option A: paletteData object (preferred)
+  if (CFG?.paletteData && CFG.paletteData[paletteName]) {
+    return {
+      name: paletteName,
+      hex: CFG.paletteData[paletteName].hex || [],
+      vibe: CFG.paletteData[paletteName].vibe || ""
+    };
+  }
+
+  return null;
+}
+
+function renderPalettePreview() {
+  const preview = $("palettePreview");
+  if (!preview) return;
+
+  const paletteName = v("palette");
+  const entry = getPaletteEntry(paletteName);
+
+  if (!entry) {
+    preview.innerHTML = `<div class="meta">Select a palette to preview.</div>`;
+    return;
+  }
+
+  const swatches = (entry.hex || [])
+    .map(h => `<span class="swatch" title="${h}" style="background:${h}"></span>`)
+    .join("");
+
+  const hexLine = (entry.hex || []).join(" ");
+
+  preview.innerHTML = `
+    <div class="palette-preview top">
+      <div>
+        <div class="name">${entry.name}</div>
+        <div class="meta">${entry.vibe || ""}</div>
+      </div>
+      <div class="swatches">${swatches}</div>
+    </div>
+    <div class="hex">${hexLine}</div>
+  `;
+}
+  
   sel.innerHTML = "";
 
   const o0 = document.createElement("option");
@@ -146,7 +192,11 @@ function populateAllOptionsFromConfig() {
   fillSelect("product", CFG.options.product, "Select product...");
   fillSelect("genreTone", CFG.options.genreTone, "Select genre...");
   fillSelect("vibe", CFG.options.vibe, "Select vibe...");
-  fillSelect("palette", getAllPalettes(), "Select palette...");
+  const paletteItems = CFG?.paletteData
+  ? Object.keys(CFG.paletteData)
+  : getAllPalettes();
+
+  fillSelect("palette", paletteItems, "Select palette...");
   fillSelect("background", CFG.options.background, "Select background...");
   fillSelect("border", CFG.options.border, "Select border...");
   fillSelect("outline", CFG.options.outline, "Select outline...");
