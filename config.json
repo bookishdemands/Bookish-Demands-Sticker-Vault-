@@ -353,7 +353,7 @@
     "Ruby Wine + Burnt Orange + Dark Olive + Champagne Gold + Soft Black": ["dark_romance", "warm", "earthy", "gold_accent"],
     "Signal Red + Metallic Bronze + Cobalt + Jet Black + Ice Grey": ["bold", "urban", "luxe", "high_contrast"],
 
-    "Land of Beauty": ["pdf_vol2", "curated", "warm", "earthy"],
+    "Do Not Disturb: Plotting": ["pdf_vol2", "curated", "warm", "earthy"],
     "Luxury Decor": ["pdf_vol2", "curated", "luxe", "neutral"],
     "Glowy Dreams": ["pdf_vol2", "curated", "soft_glam", "fresh"],
     "Braiden Lane": ["pdf_vol2", "curated", "dark", "warm"],
@@ -427,7 +427,23 @@
       { "value": "5", "label": "5 — maximum spice vibe" }
     ]
   },
+  "paletteData": {
+  "Luxury Decor": {
+    "hex": ["#718D84","#48685C","#344B3E","#C3BCAB","#AB9661"],
+    "vibe": "clean editorial luxury"
+  },
 
+  "Glowy Dreams": {
+    "hex": ["#D8B4A2","#F49C64","#74AAB2","#3CB6C8","#D68664"],
+    "vibe": "soft glam glow"
+  },
+
+  "Braiden Lane": {
+    "hex": ["#C8957B","#9F6B55","#6B351F","#1E1717","#7D0103"],
+    "vibe": "moody urban luxury"
+  }
+},
+ 
   "quoteBanks": {
   "general_urban_bookish": [
     "Booked, Busy, Unavailable.",
