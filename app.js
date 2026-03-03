@@ -160,14 +160,12 @@ function renderPalettePreview() {
   (items || []).forEach((item) => {
     const opt = document.createElement("option");
 
-    if (typeof item === "string") {
-      opt.value = item;
-      opt.textContent = item;
-    } else {
-  // supports: { name, label, hex } OR { value, label }
-  opt.value = item.name ?? item.value ?? "";
-  opt.textContent = item.label ?? item.name ?? item.value ?? "";
-}
+    const isString = (typeof item === "string");
+  const val = isString ? item : (item.value ?? item.name ?? item.label ?? "");
+  const label = isString ? item : (item.label ?? item.name ?? item.value ?? val);
+
+  opt.value = val;
+  opt.textContent = label;
 
     sel.appendChild(opt);
   });
