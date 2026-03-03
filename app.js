@@ -195,7 +195,10 @@ function populateAllOptionsFromConfig() {
   const paletteItems = CFG?.paletteData
   ? Object.keys(CFG.paletteData)
   : getAllPalettes();
-
+  if ($("palette")) {
+  $("palette").addEventListener("change", renderPalettePreview);
+}
+  renderPalettePreview();
   fillSelect("palette", paletteItems, "Select palette...");
   fillSelect("background", CFG.options.background, "Select background...");
   fillSelect("border", CFG.options.border, "Select border...");
