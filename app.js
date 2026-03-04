@@ -20,17 +20,35 @@ function escapeHtml(str) {
 }
 
 /* =========================================================
-   ✅ Palette preview (SINGLE source of truth)
-   - Prefers CFG.paletteData (new system)
-   - Falls back to legacy CFG.options.palette objects
+   ✅ Palette preview + palette name mapping (BOOKISH NAMES)
+   Supports BOTH config styles:
+   A) paletteData keyed by bookish name (ideal)
+   B) paletteData keyed by original name + paletteNameMap mapping
 ========================================================= */
+function resolvePaletteKey(selectedName) {
+  if (!selectedName) return "";
+
+  // If paletteData already contains the selectedName as a key, use it directly.
+  if (CFG?.paletteData && CFG.paletteData[selectedName]) return selectedName;
+
+  // Otherwise map bookish -> original (or alias)
+  const mapped = CFG?.paletteNameMap?.[selectedName];
+  if (mapped && CFG?.paletteData && CFG.paletteData[mapped]) return mapped;
+
+  return selectedName;
+}
+
 function getPaletteEntry(paletteName) {
   if (!paletteName) return null;
 
-  // Preferred: paletteData object (name -> {hex:[], vibe:""})
-  if (CFG?.paletteData && CFG.paletteData[paletteName]) {
-    const p = CFG.paletteData[paletteName];
+  // ✅ Resolve the lookup key (supports bookish name UI + original paletteData keys)
+  const key = resolvePaletteKey(paletteName);
+
+  // Preferred: paletteData object (key -> {hex:[], vibe:""})
+  if (CFG?.paletteData && CFG.paletteData[key]) {
+    const p = CFG.paletteData[key];
     return {
+      // Display the dropdown name (bookish), but pull hex from resolved key
       name: paletteName,
       hex: Array.isArray(p.hex) ? p.hex : [],
       vibe: p.vibe || ""
@@ -65,14 +83,14 @@ function renderPalettePreview() {
     return;
   }
 
-  const swatches = (entry.hex || [])
+  const hexes = Array.isArray(entry.hex) ? entry.hex : [];
+  const swatches = hexes
     .map(h => `<span class="swatch" title="${escapeHtml(h)}" style="background:${escapeHtml(h)}"></span>`)
     .join("");
 
-  const hexLine = (entry.hex || []).join(" ");
+  const hexLine = hexes.join(" ");
 
-  // If no hexes, show message
-  if (!entry.hex || !entry.hex.length) {
+  if (!hexes.length) {
     preview.innerHTML = `
       <div class="palette-preview top">
         <div>
@@ -124,11 +142,21 @@ async function loadConfig() {
     CFG.options.palette = Array.from(new Set(all));
   }
 
+  // ✅ SAFETY: defaults.vibe must exist in options.vibe
+  if (CFG?.defaults?.vibe && Array.isArray(CFG?.options?.vibe)) {
+    const ok = CFG.options.vibe.includes(CFG.defaults.vibe);
+    if (!ok) {
+      // Choose a safe fallback that DOES exist (first vibe), or clear it
+      CFG.defaults.vibe = CFG.options.vibe[0] || "";
+    }
+  }
+
   alert(
     "CFG ✅ " + (CFG?.meta?.version || "?") +
     "\nkeys: " + Object.keys(CFG?.options || {}).join(", ") +
     "\nproduct len: " + (CFG?.options?.product?.length || 0) +
     "\npaletteData len: " + (CFG?.paletteData ? Object.keys(CFG.paletteData).length : 0) +
+    "\npaletteNameMap len: " + (CFG?.paletteNameMap ? Object.keys(CFG.paletteNameMap).length : 0) +
     "\nlegacy palette len: " + (CFG?.options?.palette?.length || 0)
   );
 }
@@ -170,6 +198,12 @@ function getAllPalettes() {
   return uniq(flattened);
 }
 
+/* =========================================================
+   ✅ Palette dropdown source:
+   - If you use bookish names: CFG.options.palette already has bookish
+   - If paletteData keys are original AND you added paletteNameMap,
+     dropdown should still use CFG.options.palette (bookish names)
+========================================================= */
 function populateAllOptionsFromConfig() {
   if (!CFG?.options) return;
 
@@ -178,16 +212,20 @@ function populateAllOptionsFromConfig() {
   fillSelect("genreTone", CFG.options.genreTone, "Select genre...");
   fillSelect("vibe", CFG.options.vibe, "Select vibe...");
 
-  // ✅ Build palette list FIRST, fill the select FIRST, then attach listener, then render preview
-  const paletteItems = CFG?.paletteData
-    ? Object.keys(CFG.paletteData)
-    : getAllPalettes();
+  // ✅ Use options.palette first (this is where your bookish palette names live)
+  const paletteItems = (Array.isArray(CFG?.options?.palette) && CFG.options.palette.length)
+    ? CFG.options.palette
+    : (CFG?.paletteData ? Object.keys(CFG.paletteData) : getAllPalettes());
 
   fillSelect("palette", paletteItems, "Select a palette");
 
   if ($("palette")) {
     $("palette").addEventListener("change", renderPalettePreview);
   }
+
+  // If default palette is empty, try set a safe first palette
+  if (!v("palette") && paletteItems.length) setV("palette", paletteItems[0]);
+
   renderPalettePreview();
 
   fillSelect("background", CFG.options.background, "Select background...");
@@ -390,6 +428,15 @@ function setSelectToRandom(id) {
   sel.value = pick(opts).value;
 }
 
+/* =========================================================
+   ✅ Spice gating: Elite Dominance only unlocked at min spice
+========================================================= */
+function isEliteUnlocked() {
+  const min = Number(CFG?.eliteUnlockMinSpice ?? 4);
+  const cur = Number(v("spice") || 0);
+  return cur >= min;
+}
+
 function bankKeyFromGenre(genre) {
   const g = (genre || "").toLowerCase().trim();
 
@@ -406,10 +453,15 @@ function bankKeysFromVibe(vibe) {
   const s = (vibe || "").toLowerCase();
   const keys = [];
 
-  // 1) Elite Dominance
+  // 1) Elite Dominance (✅ gated by spice)
   if (s.includes("elite dominance")) {
-    if (Math.random() < 0.75) keys.push("elite_dominance_lane");
-    if (Math.random() < 0.25) keys.push("dark_romance");
+    if (isEliteUnlocked()) {
+      if (Math.random() < 0.75) keys.push("elite_dominance_lane");
+      if (Math.random() < 0.25) keys.push("dark_romance");
+    } else {
+      // locked -> safely route to dark_romance + mood
+      keys.push("dark_romance", "mood_quotes");
+    }
   }
 
   // 2) Dark Obsession
@@ -453,7 +505,9 @@ function bankKeysFromVibe(vibe) {
 function dialogueThemeFromVibe(vibe) {
   const s = (vibe || "").toLowerCase();
 
-  if (s.includes("elite dominance")) return "elite_dominance";
+  // ✅ elite dialogue gated too
+  if (s.includes("elite dominance")) return isEliteUnlocked() ? "elite_dominance" : "bookish_mood";
+
   if (s.includes("dark obsession")) return "dark_obsession";
   if (s.includes("urban power")) return "urban_power";
   if (s.includes("feminine authority")) return "feminine_authority";
