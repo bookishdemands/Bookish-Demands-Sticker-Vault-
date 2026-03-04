@@ -1,4 +1,13 @@
-/* app.js */
+/* app.js — Bookish Demands Generator (v2.2)
+   Updates included:
+   ✅ Single palette pipeline (product lock + vibe filter)
+   ✅ AI-smart palette selection (vibe-weighted randomize)
+   ✅ Vibe intensity control (Balanced / On-theme / Super on-theme)
+   ✅ No duplicate event listeners
+   ✅ Safe helpers + consistent option normalization
+*/
+
+/* ===================== Core ===================== */
 
 let CFG = null;
 
@@ -11,6 +20,8 @@ const setC = (id, val) => { const el = $(id); if (el) el.checked = !!val; };
 const rnd = (n) => Math.floor(Math.random() * n);
 const pick = (arr) => arr[rnd(arr.length)];
 
+/* ===================== Vibe → Palette Tag Mapping ===================== */
+
 const vibeTagMap = {
   "Dark Obsession": ["dark_romance","possession_protocol","morally_gray","after_hours","moody","luxe"],
   "Kindle After Dark": ["after_hours","dark_romance","neon","bold"],
@@ -22,10 +33,25 @@ const vibeTagMap = {
   "Thriller & Noir": ["high_contrast","dramatic","cool_tone","dark","minimal","edgy"]
 };
 
+/* ===================== Utilities ===================== */
+
 function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (m) => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
   }[m]));
+}
+
+/**
+ * Ensures options.palette can be either:
+ * - ["A","B"] or
+ * - [{value:"A",label:"A"}, ...]
+ * Returns an array of string values.
+ */
+function normalizeOptItems(items) {
+  if (!Array.isArray(items)) return [];
+  if (!items.length) return [];
+  if (typeof items[0] === "string") return items.slice();
+  return items.map(x => x?.value ?? x?.name ?? x?.label ?? "").filter(Boolean);
 }
 
 /* ===================== Palette helpers ===================== */
@@ -115,6 +141,8 @@ function fillSelect(id, items, placeholder) {
 
 let ALL_PALETTES_CACHE = null;
 
+/* ===================== Product helpers ===================== */
+
 function getSelectedProductObj() {
   const selected = v("product");
   const products = CFG?.options?.product;
@@ -128,19 +156,124 @@ function getSelectedProductSubject() {
   return obj?.mainSubject || v("product") || "";
 }
 
+/* ===================== Palette tags + lists ===================== */
+
 function paletteHasTags(paletteName, requiredTags) {
   const tags = CFG?.options?.paletteTags?.[paletteName] || [];
   if (!requiredTags?.length) return true;
-  // qualifies if ANY of required tags is present
+  // qualifies if ANY required tags is present
   return requiredTags.some(tag => tags.includes(tag));
 }
 
 function getAllPalettes() {
-  const p = CFG?.options?.palette;
-  return (Array.isArray(p) && p.length) ? p : Object.keys(CFG?.paletteData || {});
+  const opt = CFG?.options?.palette;
+  const list = normalizeOptItems(opt);
+  return (list.length) ? list : Object.keys(CFG?.paletteData || {});
 }
 
-/* ===================== ONE pipeline: lock + vibe filter ===================== */
+/* =========================================================
+   VIBE INTENSITY (dropdown id: "vibeIntensity")
+   - "balanced"  : light weighting
+   - "on_theme"  : stronger weighting
+   - "super"     : very strong weighting (feels “AI-smart”)
+========================================================= */
+
+function getVibeIntensity() {
+  const raw = (v("vibeIntensity") || "").trim().toLowerCase();
+  // If you haven't added the UI yet, this safely defaults.
+  if (!raw) return "on_theme";
+  if (raw === "balanced" || raw === "on_theme" || raw === "super") return raw;
+  return "on_theme";
+}
+
+function intensityParams() {
+  const mode = getVibeIntensity();
+  if (mode === "balanced") return { matchMult: 2, zeroPenalty: 0,  hardBiasBonus: 1 };
+  if (mode === "super")    return { matchMult: 6, zeroPenalty: 2,  hardBiasBonus: 4 };
+  return                 { matchMult: 4, zeroPenalty: 1,  hardBiasBonus: 2 }; // on_theme default
+}
+
+/* =========================================================
+   SMART PALETTE ENGINE (lock-aware + vibe-filtered + weighted)
+========================================================= */
+
+function getEligiblePalettes() {
+  let list = getAllPalettes().slice();
+
+  // 1) Product lock
+  const productObj = getSelectedProductObj();
+  const lockGroup = productObj?.paletteLock;
+
+  if (lockGroup && Array.isArray(CFG?.paletteGroups?.[lockGroup]) && CFG.paletteGroups[lockGroup].length) {
+    list = CFG.paletteGroups[lockGroup].slice();
+  }
+
+  // 2) Vibe filter (soft enforce so list doesn't collapse)
+  const vibeName = v("vibe");
+  const requiredTags = vibeTagMap[vibeName] || [];
+  if (requiredTags.length) {
+    const filtered = list.filter(p => paletteHasTags(p, requiredTags));
+    if (filtered.length >= 6) list = filtered;
+  }
+
+  return list;
+}
+
+function getPaletteWeight(paletteName) {
+  const vibeName = v("vibe");
+  const req = vibeTagMap[vibeName] || [];
+  const tags = CFG?.options?.paletteTags?.[paletteName] || [];
+
+  const { matchMult, zeroPenalty, hardBiasBonus } = intensityParams();
+
+  // base
+  let w = 1;
+
+  // count matching vibe tags
+  const matchCount = req.filter(t => tags.includes(t)).length;
+  w += matchCount * matchMult;
+
+  // slight brand core + “smart” boosts
+  if (tags.includes("brand_core")) w += 2;
+
+  // Vibe-specific “hard bias” (makes it feel intentional)
+  if (vibeName === "Elite Dominance" && tags.includes("editorial")) w += hardBiasBonus;
+  if (vibeName === "Dark Obsession" && tags.includes("possession_protocol")) w += hardBiasBonus;
+  if (vibeName === "Kindle After Dark" && tags.includes("after_hours")) w += Math.max(1, Math.floor(hardBiasBonus / 2));
+
+  // penalty if nothing matches
+  if (matchCount === 0 && req.length) w = Math.max(1, w - zeroPenalty);
+
+  return w;
+}
+
+function weightedPick(items, weights) {
+  if (!items?.length) return "";
+  const w = (Array.isArray(weights) && weights.length === items.length)
+    ? weights.map(x => Math.max(0, x))
+    : items.map(() => 1);
+
+  const total = w.reduce((a, b) => a + b, 0);
+  if (!total) return pick(items);
+
+  let r = Math.random() * total;
+  for (let i = 0; i < items.length; i++) {
+    r -= w[i];
+    if (r <= 0) return items[i];
+  }
+  return items[items.length - 1];
+}
+
+function smartPickPalette() {
+  const eligible = getEligiblePalettes();
+  if (!eligible.length) return "";
+  const weights = eligible.map(getPaletteWeight);
+  return weightedPick(eligible, weights);
+}
+
+/* =========================================================
+   ONE PIPELINE: lock + vibe filter (dropdown population)
+========================================================= */
 
 function updatePaletteOptions() {
   let paletteList = getAllPalettes();
@@ -150,14 +283,13 @@ function updatePaletteOptions() {
   const lockGroup = productObj?.paletteLock;
 
   // 1) product lock
-  if (lockGroup && CFG?.paletteGroups?.[lockGroup]) {
-    const locked = CFG.paletteGroups[lockGroup];
-    if (Array.isArray(locked) && locked.length) paletteList = locked.slice();
+  if (lockGroup && Array.isArray(CFG?.paletteGroups?.[lockGroup]) && CFG.paletteGroups[lockGroup].length) {
+    paletteList = CFG.paletteGroups[lockGroup].slice();
   }
 
   // 2) vibe filter (only apply if we keep a decent list)
-  const vibe = v("vibe");
-  const requiredTags = vibeTagMap[vibe] || [];
+  const vibeName = v("vibe");
+  const requiredTags = vibeTagMap[vibeName] || [];
   if (requiredTags.length) {
     const filtered = paletteList.filter(p => paletteHasTags(p, requiredTags));
     if (filtered.length >= 6) paletteList = filtered;
@@ -183,6 +315,18 @@ function populateAllOptionsFromConfig() {
   fillSelect("genreTone", CFG.options.genreTone, "Select genre...");
   fillSelect("vibe", CFG.options.vibe, "Select vibe...");
 
+  // Vibe intensity (optional UI). If you add <select id="vibeIntensity"> this will populate it.
+  if ($("vibeIntensity")) {
+    fillSelect("vibeIntensity",
+      [
+        { value: "balanced", label: "Balanced (more variety)" },
+        { value: "on_theme", label: "On-theme (recommended)" },
+        { value: "super", label: "Super on-theme (AI-smart)" }
+      ],
+      "Vibe intensity..."
+    );
+  }
+
   const paletteItems = getAllPalettes();
   ALL_PALETTES_CACHE = paletteItems.slice();
   fillSelect("palette", paletteItems, "Select a palette");
@@ -192,9 +336,20 @@ function populateAllOptionsFromConfig() {
   fillSelect("outline", CFG.options.outline, "Select outline...");
   fillSelect("spice", CFG.options.spice, "Select spice...");
 
+  // listeners (no duplicates)
   $("palette")?.addEventListener("change", renderPalettePreview);
   $("product")?.addEventListener("change", updatePaletteOptions);
   $("vibe")?.addEventListener("change", updatePaletteOptions);
+
+  // if intensity exists, let it re-smart-pick during randomize; and update palette list (optional)
+  $("vibeIntensity")?.addEventListener("change", () => {
+    // Re-run pipeline (keeps dropdown consistent)
+    updatePaletteOptions();
+    // Optional: auto swap palette to a smarter match when intensity changes
+    const chosen = smartPickPalette();
+    if (chosen) setV("palette", chosen);
+    renderPalettePreview();
+  });
 }
 
 /* ===================== Quotes ===================== */
@@ -252,7 +407,15 @@ function getDialogueExchange(lines, tone, pairing) {
 
     let line = "";
     if (Array.isArray(pool) && pool.length) line = pick(pool);
-    else line = "You look like trouble. I like that.";
+    else {
+      line = (tone === "threatening")
+        ? "Say less. Stay close."
+        : (tone === "argument")
+          ? "Don’t promise. Execute."
+          : (tone === "soft")
+            ? "Relax. You’re safe with me."
+            : "You look like trouble. I like that.";
+    }
 
     out.push(`${who}: ${line}`);
   }
@@ -269,7 +432,7 @@ function spiceAestheticLabel(spiceVal) {
 function buildOnePrompt(seedIdx = 0) {
   const productSubject = getSelectedProductSubject();
   const genre = v("genreTone");
-  const vibe = v("vibe");
+  const vibeName = v("vibe");
   const paletteName = v("palette");
   const palette = getPaletteEntry(paletteName);
 
@@ -320,7 +483,7 @@ function buildOnePrompt(seedIdx = 0) {
 
   return [
     `Sticker design: ${productSubject || "sticker subject"}.`,
-    `Genre vibe: ${genre || "—"}; vibe: ${vibe || "—"}; spice: ${spice || "—"}${spiceLabel ? ` (${spiceLabel})` : ""}.`,
+    `Genre vibe: ${genre || "—"}; vibe: ${vibeName || "—"}; spice: ${spice || "—"}${spiceLabel ? ` (${spiceLabel})` : ""}.`,
     paletteLine,
     palette?.vibe ? `Palette mood: ${palette.vibe}.` : "",
     `Background: ${background || "transparent"}.`,
@@ -347,19 +510,29 @@ function randomizeAll() {
     sel.selectedIndex = 1 + rnd(sel.options.length - 1);
   }
 
+  // pick product/vibe early so palette engine can cooperate
   pickRandomSelect("product");
   pickRandomSelect("genreTone");
   pickRandomSelect("vibe");
 
-  // after product/vibe randomize, refresh palettes using lock+filter
+  // keep intensity as user choice (don’t randomize it)
+  // if you DO want to randomize it occasionally, uncomment:
+  // if ($("vibeIntensity")) pickRandomSelect("vibeIntensity");
+
+  // refresh palette dropdown using lock + vibe filter
   updatePaletteOptions();
 
-  pickRandomSelect("palette");
+  // AI-smart palette pick (weighted)
+  const chosen = smartPickPalette();
+  if (chosen) setV("palette", chosen);
+
+  // randomize rest
   pickRandomSelect("background");
   pickRandomSelect("border");
   pickRandomSelect("outline");
   pickRandomSelect("spice");
 
+  // keep your preferred defaults
   setC("bGeneralUrbanBookish", true);
   setC("bMoodQuotes", true);
 
@@ -372,6 +545,9 @@ function clearAll() {
     const sel = $(id);
     if (sel) sel.selectedIndex = 0;
   });
+
+  // optional: reset intensity if it exists
+  if ($("vibeIntensity")) setV("vibeIntensity", "on_theme");
 
   setV("quote", "");
   setV("output", "");
@@ -422,6 +598,9 @@ function bindButtons() {
 function applyDefaults() {
   const d = CFG?.defaults || {};
   Object.entries(d).forEach(([key, val]) => { if ($(key)) setV(key, val); });
+
+  // set a safe default intensity if UI exists
+  if ($("vibeIntensity") && !v("vibeIntensity")) setV("vibeIntensity", "on_theme");
 
   // after defaults set, apply lock + vibe filter
   updatePaletteOptions();
