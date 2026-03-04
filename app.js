@@ -1,4 +1,9 @@
-/* app.js */
+/* app.js — Bookish Demands Sticker Prompt Generator (fixed + upgraded)
+   - Single palette engine (product lock + vibe filtering)
+   - No duplicate listeners
+   - Stable defaults + randomize that respects locks/filters
+   - Palette preview always accurate
+*/
 
 let CFG = null;
 
@@ -10,12 +15,16 @@ const setC = (id, val) => { const el = $(id); if (el) el.checked = !!val; };
 
 const rnd = (n) => Math.floor(Math.random() * n);
 const pick = (arr) => arr[rnd(arr.length)];
-const uniq = (arr) => Array.from(new Set(arr));
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (m) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+  }[m]));
+}
 
 /* =========================================================
    Vibe → Palette Tag Mapping
 ========================================================= */
-
 const vibeTagMap = {
   "Dark Obsession": ["dark_romance","possession_protocol","morally_gray","after_hours","moody","luxe"],
   "Kindle After Dark": ["after_hours","dark_romance","neon","bold"],
@@ -27,15 +36,12 @@ const vibeTagMap = {
   "Thriller & Noir": ["high_contrast","dramatic","cool_tone","dark","minimal","edgy"]
 };
 
-function escapeHtml(str) {
-  return String(str).replace(/[&<>"']/g, (m) => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  }[m]));
-}
-
 /* =========================================================
    Palette helpers
 ========================================================= */
+let ALL_PALETTES_CACHE = [];
+let LAST_PALETTE_LIST = [];
+
 function resolvePaletteKey(paletteName) {
   if (!paletteName) return "";
   // paletteNameMap is bookish -> original (optional)
@@ -45,21 +51,15 @@ function resolvePaletteKey(paletteName) {
 
 function getPaletteEntry(paletteName) {
   if (!paletteName) return null;
-
   const originalKey = resolvePaletteKey(paletteName);
-
-  // paletteData may be keyed by bookish OR original — support both
   const p = CFG?.paletteData?.[paletteName] || CFG?.paletteData?.[originalKey];
+  if (!p) return null;
 
-  if (p) {
-    return {
-      name: paletteName,
-      hex: Array.isArray(p.hex) ? p.hex : [],
-      vibe: p.vibe || ""
-    };
-  }
-
-  return null;
+  return {
+    name: paletteName,
+    hex: Array.isArray(p.hex) ? p.hex : [],
+    vibe: p.vibe || ""
+  };
 }
 
 function renderPalettePreview() {
@@ -97,13 +97,13 @@ function renderPalettePreview() {
 async function loadConfig() {
   const url = "./config.json?v=" + Date.now();
   const res = await fetch(url, { cache: "no-store" });
-
   const text = await res.text();
+
   if (!res.ok) throw new Error(`config.json fetch failed (${res.status})`);
 
   try {
     CFG = JSON.parse(text);
-  } catch (e) {
+  } catch {
     throw new Error(
       `config.json JSON parse failed.\n` +
       `Common causes: trailing commas, smart quotes, hidden characters.\n\n` +
@@ -112,6 +112,9 @@ async function loadConfig() {
   }
 
   CFG.options = CFG.options || {};
+  CFG.options.paletteTags = CFG.options.paletteTags || {};
+  CFG.paletteGroups = CFG.paletteGroups || {};
+  CFG.paletteData = CFG.paletteData || {};
 }
 
 /* =========================================================
@@ -141,54 +144,95 @@ function fillSelect(id, items, placeholder) {
   });
 }
 
-let ALL_PALETTES_CACHE = null;
-
-function getProductConfig(value) {
+function getSelectedProductObj() {
+  const selected = v("product");
   const products = CFG?.options?.product;
-  if (!Array.isArray(products)) return null;
-  if (products.length && typeof products[0] === "object") {
-    return products.find(p => p?.value === value) || null;
-  }
-  return null;
+  if (!Array.isArray(products) || !products.length) return null;
+  if (typeof products[0] !== "object") return null;
+
+  return products.find(p => p?.value === selected)
+    || products.find(p => p?.name === selected)
+    || null;
+}
+
+function getSelectedProductSubject() {
+  const obj = getSelectedProductObj();
+  return obj?.mainSubject || v("product") || "";
 }
 
 function getAllPalettesList() {
-  // uses config list first, otherwise paletteData keys
+  // Use config list first, else fallback to paletteData keys
   const list =
     (Array.isArray(CFG?.options?.palette) && CFG.options.palette.length)
       ? CFG.options.palette
       : Object.keys(CFG?.paletteData || {});
-  return list;
+  return Array.isArray(list) ? list.slice() : [];
 }
 
 function populateAllOptionsFromConfig() {
-  fillSelect("count", ["1","2","3","4","5"], "How many prompts?");
+  fillSelect("count", ["1","2","3","4","5","6","7","8","9","10"], "How many prompts?");
   fillSelect("product", CFG.options.product, "Select product...");
   fillSelect("genreTone", CFG.options.genreTone, "Select genre...");
   fillSelect("vibe", CFG.options.vibe, "Select vibe...");
 
-  // Palette list: prefer options.palette, else paletteData keys
-  const paletteItems =
-    (Array.isArray(CFG?.options?.palette) && CFG.options.palette.length)
-      ? CFG.options.palette
-      : Object.keys(CFG?.paletteData || {});
-
-  ALL_PALETTES_CACHE = paletteItems.slice(); // for paletteLock filtering later
-  fillSelect("palette", paletteItems, "Select a palette");
+  ALL_PALETTES_CACHE = getAllPalettesList();
+  fillSelect("palette", ALL_PALETTES_CACHE, "Select a palette");
 
   fillSelect("background", CFG.options.background, "Select background...");
   fillSelect("border", CFG.options.border, "Select border...");
   fillSelect("outline", CFG.options.outline, "Select outline...");
   fillSelect("spice", CFG.options.spice, "Select spice...");
+}
 
-  // listeners
-  $("palette")?.addEventListener("change", renderPalettePreview);
-  $("product")?.addEventListener("change", updatePaletteOptions);
-  $("vibe")?.addEventListener("change", updatePaletteOptions);
-  $("product")?.addEventListener("change", handleProductPaletteLock);
+/* =========================================================
+   Palette smart filtering (Product lock + Vibe tags)
+========================================================= */
+function paletteHasTags(paletteName, requiredTags) {
+  if (!requiredTags?.length) return true;
+  const tags = CFG?.options?.paletteTags?.[paletteName] || [];
+  // keep palettes that match ANY required tag
+  return requiredTags.some(tag => tags.includes(tag));
+}
 
-  $("product")?.addEventListener("change", updatePaletteOptions);
-$("vibe")?.addEventListener("change", updatePaletteOptions);
+function computePaletteList() {
+  // base list
+  let paletteList = ALL_PALETTES_CACHE.length ? ALL_PALETTES_CACHE.slice() : getAllPalettesList();
+
+  // PRODUCT PALETTE LOCK (e.g., Blood Oath Vial -> paletteLock: "blood")
+  const productObj = getSelectedProductObj();
+  const lockGroup = productObj?.paletteLock;
+  if (lockGroup && Array.isArray(CFG?.paletteGroups?.[lockGroup]) && CFG.paletteGroups[lockGroup].length) {
+    paletteList = CFG.paletteGroups[lockGroup].slice();
+  }
+
+  // VIBE FILTER
+  const vibe = v("vibe");
+  const requiredTags = vibeTagMap[vibe] || [];
+
+  if (requiredTags.length) {
+    const filtered = paletteList.filter(p => paletteHasTags(p, requiredTags));
+    // Only apply if we still have a healthy selection (prevents empty dropdowns)
+    if (filtered.length >= 6) paletteList = filtered;
+  }
+
+  return paletteList;
+}
+
+function updatePaletteOptions() {
+  const current = v("palette");
+  const paletteList = computePaletteList();
+
+  LAST_PALETTE_LIST = paletteList.slice();
+  fillSelect("palette", paletteList, "Select a palette");
+
+  // Keep selection if still valid, otherwise auto-pick first real option
+  if (current && paletteList.includes(current)) {
+    setV("palette", current);
+  } else if (paletteList.length) {
+    setV("palette", paletteList[0]); // first real palette
+  }
+
+  renderPalettePreview();
 }
 
 /* =========================================================
@@ -233,111 +277,15 @@ function getMicroQuoteMaybe() {
 }
 
 /* =========================================================
-   Product subject + paletteLock
-========================================================= */
-function getSelectedProductObj() {
-  const selected = v("product");
-  const products = CFG?.options?.product;
-  if (!Array.isArray(products)) return null;
-  if (!products.length) return null;
-  if (typeof products[0] !== "object") return null;
-
-  return products.find(p => p?.value === selected) || products.find(p => p?.name === selected) || null;
-}
-
-function getSelectedProductSubject() {
-  const obj = getSelectedProductObj();
-  return obj?.mainSubject || v("product") || "";
-}
-
-function paletteHasTags(paletteName, requiredTags) {
-  const tags = CFG?.options?.paletteTags?.[paletteName] || [];
-  if (!requiredTags?.length) return true;
-
-  return requiredTags.some(tag => tags.includes(tag));
-}
-
-function updatePaletteOptions() {
-  const allPalettes =
-    (Array.isArray(CFG?.options?.palette) && CFG.options.palette.length)
-      ? CFG.options.palette
-      : Object.keys(CFG?.paletteData || {});
-
-  const selectedProduct = v("product");
-  const products = CFG?.options?.product || [];
-
-  let paletteList = allPalettes;
-
-  /* PRODUCT PALETTE LOCK */
-  const productConfig =
-    Array.isArray(products) && typeof products[0] === "object"
-      ? products.find(p => p.value === selectedProduct)
-      : null;
-
-  const lockGroup = productConfig?.paletteLock;
-
-  if (lockGroup && CFG?.paletteGroups?.[lockGroup]) {
-    paletteList = CFG.paletteGroups[lockGroup];
-  }
-
-  /* VIBE FILTER */
-  const vibe = v("vibe");
-  const requiredTags = vibeTagMap[vibe] || [];
-
-  if (requiredTags.length) {
-    const filtered = paletteList.filter(p => paletteHasTags(p, requiredTags));
-    if (filtered.length >= 6) paletteList = filtered;
-  }
-
-  const current = v("palette");
-
-  fillSelect("palette", paletteList, "Select a palette");
-
-  if (paletteList.includes(current)) {
-    setV("palette", current);
-  }
-
-  renderPalettePreview();
-}
-
-function handleProductPaletteLock() {
-  // If product has paletteLock: "blood" etc, filter palette dropdown to that group
-  const obj = getSelectedProductObj();
-  const lock = obj?.paletteLock;
-  const palSel = $("palette");
-  if (!palSel) return;
-
-  // restore full list if no lock
-  if (!lock) {
-    if (ALL_PALETTES_CACHE) fillSelect("palette", ALL_PALETTES_CACHE, "Select a palette");
-    // keep current if possible
-    renderPalettePreview();
-    return;
-  }
-
-  const group = CFG?.paletteGroups?.[lock];
-  if (!Array.isArray(group) || !group.length) return;
-
-  fillSelect("palette", group, "Select a palette (locked)");
-  // auto-select first locked palette
-  palSel.selectedIndex = 1;
-  renderPalettePreview();
-}
-
-/* =========================================================
    Dialogue Mode generator
 ========================================================= */
 function getDialogueExchange(lines, tone, pairing) {
-  const bank = CFG?.dialogueBanks?.elite_dominance; // ✅ matches your JSON
+  const bank = CFG?.dialogueBanks?.elite_dominance; // matches JSON
 
   const a = pairing?.[0] || "M";
   const b = pairing?.[1] || "F";
 
-  function roleToKey(r) {
-    // your JSON sample has only M/F; NB will fallback to F
-    return (r === "M") ? "M" : "F";
-  }
-
+  function roleToKey(r) { return (r === "M") ? "M" : "F"; } // NB falls back to F
   const A = roleToKey(a);
   const B = roleToKey(b);
 
@@ -367,11 +315,10 @@ function getDialogueExchange(lines, tone, pairing) {
 }
 
 /* =========================================================
-   Prompt builder
+   Prompt builder (Ideogram format)
 ========================================================= */
 function spiceAestheticLabel(spiceVal) {
   const s = String(spiceVal || "");
-  // if config only has 1-4, treat 5 as 4/“max”
   return (
     CFG?.spiceAestheticByLevel?.[s] ||
     (s === "5" ? "maximum spice vibe (non-graphic)" : "") ||
@@ -410,49 +357,43 @@ function buildOnePrompt(seedIdx = 0) {
   const micro = getMicroQuoteMaybe();
   const microLine = micro ? `MICRO-QUOTE: ${micro}` : "";
 
-  const hexLine = palette?.hex?.length ? `PALETTE HEX: ${palette.hex.join(", ")}` : "";
-  const paletteVibe = palette?.vibe ? `PALETTE VIBE: ${palette.vibe}` : "";
-
   const spiceLabel = spiceAestheticLabel(spice);
-  const eliteUnlocked = (parseInt(spice || "0", 10) >= (CFG?.eliteUnlockMinSpice || 999));
-
-  // small seed variation so multiple prompts don't feel copy/paste
-  const variationNote = seedIdx ? `VARIATION SEED: ${seedIdx + 1}` : "";
 
   const textBlock = quoteText
-  ? (useDialogue
-      ? `Text (stacked cinematic exchange, keep line breaks):\n${quoteText}`
-      : `Text to render (exact wording): "${quoteText}"`)
-  : `Text: none`;
+    ? (useDialogue
+        ? `Text (stacked cinematic exchange, keep line breaks):\n${quoteText}`
+        : `Text to render (exact wording): "${quoteText}"`)
+    : `Text: none`;
 
-const styleNotes = [
-  "die-cut sticker design",
-  "bold clean composition",
-  "high contrast",
-  "crisp edges",
-  "print-ready",
-  "no real brand logos",
-  "no copyrighted characters",
-  "no watermark",
-].join(", ");
+  const styleNotes = [
+    "die-cut sticker design",
+    "bold clean composition",
+    "high contrast",
+    "crisp edges",
+    "print-ready",
+    "no real brand logos",
+    "no copyrighted characters",
+    "no watermark",
+  ].join(", ");
 
-const paletteLine = palette?.hex?.length
-  ? `Color palette: ${palette.hex.join(", ")}`
-  : (paletteName ? `Color palette name: ${paletteName}` : "");
+  const paletteLine = palette?.hex?.length
+    ? `Color palette: ${palette.hex.join(", ")}`
+    : (paletteName ? `Color palette name: ${paletteName}` : "");
 
-const ideogramPrompt = [
-  `Sticker design: ${productSubject || "sticker subject"}.`,
-  `Genre vibe: ${genre || "—"}; vibe: ${vibe || "—"}; spice: ${spice || "—"}${spiceLabel ? ` (${spiceLabel})` : ""}.`,
-  paletteLine,
-  palette?.vibe ? `Palette mood: ${palette.vibe}.` : "",
-  `Background: ${background || "transparent"}.`,
-  `Border: ${border || "white border"}; Outline: ${outline || "bold outline"}.`,
-  textBlock,
-  `Typography: bold centered sticker lettering, highly readable.`,
-  `Style: ${styleNotes}.`,
-].filter(Boolean).join("\n");
+  const ideogramPrompt = [
+    `Sticker design: ${productSubject || "sticker subject"}.`,
+    `Genre vibe: ${genre || "—"}; vibe: ${vibe || "—"}; spice: ${spice || "—"}${spiceLabel ? ` (${spiceLabel})` : ""}.`,
+    paletteLine,
+    palette?.vibe ? `Palette mood: ${palette.vibe}.` : "",
+    microLine,
+    `Background: ${background || "transparent"}.`,
+    `Border: ${border || "white border"}; Outline: ${outline || "bold outline"}.`,
+    textBlock,
+    `Typography: bold centered sticker lettering, highly readable.`,
+    `Style: ${styleNotes}.`,
+  ].filter(Boolean).join("\n");
 
-return ideogramPrompt;
+  return ideogramPrompt;
 }
 
 /* =========================================================
@@ -465,18 +406,18 @@ function generate() {
   setV("output", prompts.join("\n\n---\n\n"));
 }
 
-function randomizeAll() {
-  function pickRandomSelect(id) {
-    const sel = $(id);
-    if (!sel || !sel.options || sel.options.length < 2) return;
-    const idx = 1 + rnd(sel.options.length - 1);
-    sel.selectedIndex = idx;
-  }
+function pickRandomSelect(id) {
+  const sel = $(id);
+  if (!sel || !sel.options || sel.options.length < 2) return;
+  const idx = 1 + rnd(sel.options.length - 1);
+  sel.selectedIndex = idx;
+}
 
+function randomizeAll() {
+  // randomize the drivers first
   pickRandomSelect("product");
   pickRandomSelect("genreTone");
   pickRandomSelect("vibe");
-  pickRandomSelect("palette");
   pickRandomSelect("background");
   pickRandomSelect("border");
   pickRandomSelect("outline");
@@ -486,8 +427,12 @@ function randomizeAll() {
   setC("bGeneralUrbanBookish", true);
   setC("bMoodQuotes", true);
 
-  // apply any paletteLock after product randomize
-  handleProductPaletteLock();
+  // now apply palette lock + vibe filtering, then choose a random palette from the filtered list
+  updatePaletteOptions();
+  const paletteSel = $("palette");
+  if (paletteSel && paletteSel.options && paletteSel.options.length > 1) {
+    paletteSel.selectedIndex = 1 + rnd(paletteSel.options.length - 1);
+  }
 
   renderPalettePreview();
   generate();
@@ -515,9 +460,8 @@ function clearAll() {
   setC("gThriller", false);
   setC("gSoftLife", false);
 
-  // restore full palette list
-  if (ALL_PALETTES_CACHE) fillSelect("palette", ALL_PALETTES_CACHE, "Select a palette");
-
+  // restore palette list + preview
+  fillSelect("palette", ALL_PALETTES_CACHE, "Select a palette");
   renderPalettePreview();
 }
 
@@ -540,7 +484,7 @@ async function copyOutput() {
 }
 
 /* =========================================================
-   Init (reliable)
+   Init
 ========================================================= */
 function bindButtons() {
   $("generateBtn")?.addEventListener("click", generate);
@@ -549,17 +493,23 @@ function bindButtons() {
   $("copyBtn")?.addEventListener("click", copyOutput);
 }
 
+function bindSmartListeners() {
+  $("palette")?.addEventListener("change", renderPalettePreview);
+
+  // One palette engine: updates on product/vibe changes
+  $("product")?.addEventListener("change", updatePaletteOptions);
+  $("vibe")?.addEventListener("change", updatePaletteOptions);
+}
+
 function applyDefaults() {
   const d = CFG?.defaults || {};
   Object.entries(d).forEach(([key, val]) => {
     if ($(key)) setV(key, val);
   });
 
-  // apply paletteLock if default product demands it
-  handleProductPaletteLock();
-
+  // apply locks/filters based on defaults
+  updatePaletteOptions();
   renderPalettePreview();
-   updatePaletteOptions();
 }
 
 async function init() {
@@ -567,6 +517,7 @@ async function init() {
     await loadConfig();
     populateAllOptionsFromConfig();
     bindButtons();
+    bindSmartListeners();
     applyDefaults();
   } catch (e) {
     console.error(e);
