@@ -124,7 +124,7 @@ function renderPalettePreview() {
   const preview = $("palettePreview");
   if (!preview) return;
 
-  const paletteName = v("palette");
+  const paletteName = $("palette")?.value;
   const entry = getPaletteEntry(paletteName);
 
   if (!entry) {
