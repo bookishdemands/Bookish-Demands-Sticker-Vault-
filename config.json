@@ -10,7 +10,6 @@
 
   "eliteUnlockMinSpice": 4,
 
- {
   "paletteNameMap": {
     "Garden of Plot Twists": "Land of Beauty",
     "Private Library Society": "Luxury Decor",
@@ -346,8 +345,7 @@
     "hex": ["#FF1B2D", "#8B623A", "#154398", "#0A0A0D", "#D7DBE0"],
     "vibe": "urban luxe high contrast"
   }
-}
-
+},
   "options": {
     "product": [
       {
@@ -501,6 +499,7 @@
 
     "vibe": [
       "Elite Dominance",
+      "Kindle After Dark",
       "Dark Obsession",
       "Urban Power",
       "Feminine Authority",
@@ -1136,26 +1135,7 @@
       "Sage + Cream + Soft Brown",
       "Peach Nude + Beige + Light Gold"
     ],
-    "royal_energy": [
-      "Royal Purple + Gold + Black",
-      "Emerald + Gold + Charcoal",
-      "Sapphire + Silver + Midnight",
-      "Plum + Antique Gold + Ink",
-      "Deep Teal + Gold + Onyx"
-    ],
-    "urban_matte": [
-      "Concrete Grey + Black + White",
-      "Ash Grey + Bone + Charcoal",
-      "Steel + Black + Soft White",
-      "Smoked Brown + Matte Black + Cream",
-      "Muted Olive + Black + Sand"
-    ],
-    "chrome_gloss": [
-      "Silver Chrome + Black + White",
-      "Gunmetal + Steel + Ice Grey",
-      "Chrome + Oxblood + Black",
-      "Polished Silver + Ink + Bone",
-      "Liquid Metal + Midnight + Smoke"
+  
     ]
   }
 }
