@@ -41,21 +41,26 @@ function resolvePaletteKey(selectedName) {
 function getPaletteEntry(paletteName) {
   if (!paletteName) return null;
 
-  // ✅ Resolve the lookup key (supports bookish name UI + original paletteData keys)
-  const key = resolvePaletteKey(paletteName);
+  // ✅ Try: direct key (bookish OR original)
+  let key = paletteName;
+
+  // ✅ If you keep a map in config.json, use it
+  // Example: paletteNameMap: { "Dream Big Chapters": "Fly Higher" }
+  if (CFG?.paletteNameMap && CFG.paletteNameMap[paletteName]) {
+    key = CFG.paletteNameMap[paletteName];
+  }
 
   // Preferred: paletteData object (key -> {hex:[], vibe:""})
   if (CFG?.paletteData && CFG.paletteData[key]) {
     const p = CFG.paletteData[key];
     return {
-      // Display the dropdown name (bookish), but pull hex from resolved key
-      name: paletteName,
+      name: paletteName, // show whatever the user selected
       hex: Array.isArray(p.hex) ? p.hex : [],
       vibe: p.vibe || ""
     };
   }
 
-  // Fallback: legacy options.palette as array of objects with .name/.hex
+  // Fallback: legacy options.palette objects (rare)
   const list = CFG?.options?.palette || [];
   if (Array.isArray(list)) {
     const obj = list.find(x => (x?.name === paletteName));
@@ -67,6 +72,12 @@ function getPaletteEntry(paletteName) {
       };
     }
   }
+
+  // ✅ If palette exists in dropdown but has no data, show "No hex codes…"
+  const inDropdown =
+    Array.isArray(CFG?.options?.palette) && CFG.options.palette.includes(paletteName);
+
+  if (inDropdown) return { name: paletteName, hex: [], vibe: "" };
 
   return null;
 }
