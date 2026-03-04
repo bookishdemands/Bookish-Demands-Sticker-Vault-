@@ -89,6 +89,8 @@ function renderPalettePreview() {
   const paletteName = v("palette");
   const entry = getPaletteEntry(paletteName);
 
+  alert("palette=" + paletteName + "\nfound=" + (!!entry) + "\nhex=" + (entry?.hex?.length || 0));
+  
   if (!entry) {
     preview.innerHTML = `<div class="meta">Select a palette to preview.</div>`;
     return;
