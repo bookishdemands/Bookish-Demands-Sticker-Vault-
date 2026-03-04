@@ -748,8 +748,8 @@
 "Dream Big Chapters": ["pdf_vol2","curated","earthy","warm","inspiring"],
 "Do Not Disturb: Plotting": ["pdf_vol2","curated","moody","muted","calm"],
 "Morally Grey Kingdom": ["pdf_vol2","curated","dark_romance","morally_gray","after_hours","moody","luxe"]
-
-    "background": ["transparent", "solid_white", "matte_black"],
+},
+"background": ["transparent", "solid_white", "matte_black"],
     "border": ["white", "none"],
     "outline": ["bold_black", "no_outline"],
 
@@ -1101,7 +1101,7 @@
     "colorA": "",
     "colorB": "",
     "useGradient": false,
-    "gradientAngle": "90"
+    "gradientAngle": "90",
     "background": "transparent",
     "border": "white",
     "outline": "bold_black",
