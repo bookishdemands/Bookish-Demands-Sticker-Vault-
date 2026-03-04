@@ -1,25 +1,12 @@
-/* app.js — Bookish Demands Sticker Prompt Generator (vNext)
-   Fixes + upgrades:
-   ✅ fixes generate not firing (guarantees functions exist + binds once)
-   ✅ spice label mapping supports spice "5" gracefully
-   ✅ dialogue mode supports your UI + defaults
-   ✅ palette lock (product.paletteLock) + eliteUnlockMinSpice
-   ✅ optional: “No repeats” + “Prompt style” hooks (safe if UI not added yet)
-   ✅ avoids duplicate listeners + safer null checks
-*/
-
-console.log("app.js loaded ✅");
+/* app.js */
 
 let CFG = null;
 
-/* =========================================================
-   Helpers
-========================================================= */
 const $ = (id) => document.getElementById(id);
 const v = (id) => ($(id)?.value ?? "");
-const setV = (id, val) => { const el = $(id); if (el != null) el.value = val; };
+const setV = (id, val) => { const el = $(id); if (el) el.value = val; };
 const c = (id) => !!($(id)?.checked);
-const setC = (id, val) => { const el = $(id); if (el != null) el.checked = !!val; };
+const setC = (id, val) => { const el = $(id); if (el) el.checked = !!val; };
 
 const rnd = (n) => Math.floor(Math.random() * n);
 const pick = (arr) => arr[rnd(arr.length)];
@@ -32,25 +19,32 @@ function escapeHtml(str) {
 }
 
 /* =========================================================
-   Palette preview + palette name mapping
+   Palette helpers
 ========================================================= */
 function resolvePaletteKey(paletteName) {
   if (!paletteName) return "";
-  const mapped = CFG?.paletteNameMap?.[paletteName]; // bookish -> original
+  // paletteNameMap is bookish -> original (optional)
+  const mapped = CFG?.paletteNameMap?.[paletteName];
   return mapped || paletteName;
 }
 
 function getPaletteEntry(paletteName) {
   if (!paletteName) return null;
-  const originalKey = resolvePaletteKey(paletteName);
-  const p = CFG?.paletteData?.[paletteName] || CFG?.paletteData?.[originalKey];
-  if (!p) return null;
 
-  return {
-    name: paletteName, // show what user selected
-    hex: Array.isArray(p.hex) ? p.hex : [],
-    vibe: p.vibe || ""
-  };
+  const originalKey = resolvePaletteKey(paletteName);
+
+  // paletteData may be keyed by bookish OR original — support both
+  const p = CFG?.paletteData?.[paletteName] || CFG?.paletteData?.[originalKey];
+
+  if (p) {
+    return {
+      name: paletteName,
+      hex: Array.isArray(p.hex) ? p.hex : [],
+      vibe: p.vibe || ""
+    };
+  }
+
+  return null;
 }
 
 function renderPalettePreview() {
@@ -83,17 +77,23 @@ function renderPalettePreview() {
 }
 
 /* =========================================================
-   Config loading
+   Config load
 ========================================================= */
 async function loadConfig() {
   const url = "./config.json?v=" + Date.now();
   const res = await fetch(url, { cache: "no-store" });
+
   const text = await res.text();
   if (!res.ok) throw new Error(`config.json fetch failed (${res.status})`);
 
-  try { CFG = JSON.parse(text); }
-  catch {
-    throw new Error(`config.json JSON parse failed\nPreview:\n${text.slice(0, 300)}`);
+  try {
+    CFG = JSON.parse(text);
+  } catch (e) {
+    throw new Error(
+      `config.json JSON parse failed.\n` +
+      `Common causes: trailing commas, smart quotes, hidden characters.\n\n` +
+      `Preview:\n${text.slice(0, 450)}`
+    );
   }
 
   CFG.options = CFG.options || {};
@@ -116,13 +116,17 @@ function fillSelect(id, items, placeholder) {
   (items || []).forEach((item) => {
     const opt = document.createElement("option");
     const isString = (typeof item === "string");
+
     const val = isString ? item : (item.value ?? item.name ?? item.label ?? "");
     const label = isString ? item : (item.label ?? item.name ?? item.value ?? val);
+
     opt.value = val;
     opt.textContent = label;
     sel.appendChild(opt);
   });
 }
+
+let ALL_PALETTES_CACHE = null;
 
 function populateAllOptionsFromConfig() {
   fillSelect("count", ["1","2","3","4","5"], "How many prompts?");
@@ -130,19 +134,23 @@ function populateAllOptionsFromConfig() {
   fillSelect("genreTone", CFG.options.genreTone, "Select genre...");
   fillSelect("vibe", CFG.options.vibe, "Select vibe...");
 
+  // Palette list: prefer options.palette, else paletteData keys
   const paletteItems =
     (Array.isArray(CFG?.options?.palette) && CFG.options.palette.length)
       ? CFG.options.palette
       : Object.keys(CFG?.paletteData || {});
 
+  ALL_PALETTES_CACHE = paletteItems.slice(); // for paletteLock filtering later
   fillSelect("palette", paletteItems, "Select a palette");
+
   fillSelect("background", CFG.options.background, "Select background...");
   fillSelect("border", CFG.options.border, "Select border...");
   fillSelect("outline", CFG.options.outline, "Select outline...");
   fillSelect("spice", CFG.options.spice, "Select spice...");
 
-  // bind once
-  $("palette")?.addEventListener("change", renderPalettePreview, { passive: true });
+  // listeners
+  $("palette")?.addEventListener("change", renderPalettePreview);
+  $("product")?.addEventListener("change", handleProductPaletteLock);
 }
 
 /* =========================================================
@@ -160,7 +168,9 @@ function selectedBanks() {
   ];
 
   const banks = [];
-  map.forEach(([chkId, key]) => { if (c(chkId)) banks.push(key); });
+  map.forEach(([chkId, key]) => {
+    if (c(chkId)) banks.push(key);
+  });
 
   return banks.length ? banks : ["general_urban_bookish"];
 }
@@ -185,73 +195,66 @@ function getMicroQuoteMaybe() {
 }
 
 /* =========================================================
-   Product subject lookup + palette lock support
+   Product subject + paletteLock
 ========================================================= */
-function getProductObject() {
+function getSelectedProductObj() {
   const selected = v("product");
   const products = CFG?.options?.product;
+  if (!Array.isArray(products)) return null;
+  if (!products.length) return null;
+  if (typeof products[0] !== "object") return null;
 
-  if (Array.isArray(products) && products.length && typeof products[0] === "object") {
-    return products.find(p => p?.value === selected) || products.find(p => p?.name === selected) || null;
-  }
-  return null;
+  return products.find(p => p?.value === selected) || products.find(p => p?.name === selected) || null;
 }
 
 function getSelectedProductSubject() {
-  const selected = v("product");
-  const obj = getProductObject();
-  return obj?.mainSubject || selected || "";
+  const obj = getSelectedProductObj();
+  return obj?.mainSubject || v("product") || "";
 }
 
-function enforceProductPaletteLockIfNeeded() {
-  const obj = getProductObject();
-  const lock = obj?.paletteLock; // e.g. "blood"
-  if (!lock) return;
+function handleProductPaletteLock() {
+  // If product has paletteLock: "blood" etc, filter palette dropdown to that group
+  const obj = getSelectedProductObj();
+  const lock = obj?.paletteLock;
+  const palSel = $("palette");
+  if (!palSel) return;
+
+  // restore full list if no lock
+  if (!lock) {
+    if (ALL_PALETTES_CACHE) fillSelect("palette", ALL_PALETTES_CACHE, "Select a palette");
+    // keep current if possible
+    renderPalettePreview();
+    return;
+  }
 
   const group = CFG?.paletteGroups?.[lock];
   if (!Array.isArray(group) || !group.length) return;
 
-  // If current palette not in allowed group, set a valid one.
-  const current = v("palette");
-  if (!group.includes(current)) {
-    setV("palette", group[0]);
-    renderPalettePreview();
-  }
+  fillSelect("palette", group, "Select a palette (locked)");
+  // auto-select first locked palette
+  palSel.selectedIndex = 1;
+  renderPalettePreview();
 }
 
 /* =========================================================
    Dialogue Mode generator
 ========================================================= */
-function clampInt(n, lo, hi) {
-  const x = parseInt(String(n ?? ""), 10);
-  if (Number.isNaN(x)) return lo;
-  return Math.max(lo, Math.min(hi, x));
-}
-
-function roleToKey(r) {
-  // Your sample CFG.dialogueBanks only has M and F
-  if (r === "M" || r === "F") return r;
-  // NB fallback: treat as F for bank lookup, but label still prints NB if you want later
-  return "F";
-}
-
 function getDialogueExchange(lines, tone, pairing) {
-  const bank = CFG?.dialogueBanks?.elite_dominance;
+  const bank = CFG?.dialogueBanks?.elite_dominance; // ✅ matches your JSON
 
-  const aRole = pairing?.[0] || "M";
-  const bRole = pairing?.[1] || "F";
-  const A = roleToKey(aRole);
-  const B = roleToKey(bRole);
+  const a = pairing?.[0] || "M";
+  const b = pairing?.[1] || "F";
+
+  function roleToKey(r) {
+    // your JSON sample has only M/F; NB will fallback to F
+    return (r === "M") ? "M" : "F";
+  }
+
+  const A = roleToKey(a);
+  const B = roleToKey(b);
 
   const aLines = bank?.[A]?.[tone];
   const bLines = bank?.[B]?.[tone];
-
-  const fallbackByTone = {
-    threatening: ["Touch what’s mine and we escalate.", "Say less. Stay close.", "Try me."],
-    argument: ["Don’t promise. Execute.", "I’m not repeating myself.", "Stand on it."],
-    soft: ["Relax. You’re safe.", "Protection looks good on you.", "I got you."],
-    flirty: ["You look like trouble. I like that.", "Say it again. Slower.", "Good. Because I don’t do temporary."]
-  };
 
   const out = [];
   for (let i = 0; i < lines; i++) {
@@ -260,7 +263,15 @@ function getDialogueExchange(lines, tone, pairing) {
 
     let line = "";
     if (Array.isArray(pool) && pool.length) line = pick(pool);
-    else line = pick(fallbackByTone[tone] || fallbackByTone.flirty);
+    else {
+      line = (tone === "threatening")
+        ? "Say less. Stay close."
+        : (tone === "argument")
+          ? "Don’t promise. Execute."
+          : (tone === "soft")
+            ? "Relax. You’re safe with me."
+            : "You look like trouble. I like that.";
+    }
 
     out.push(`${who}: ${line}`);
   }
@@ -268,36 +279,19 @@ function getDialogueExchange(lines, tone, pairing) {
 }
 
 /* =========================================================
-   Spice label handling (supports 1–4 map, and 5 gracefully)
+   Prompt builder
 ========================================================= */
-function getSpiceLabel(spiceValue) {
-  const sVal = String(spiceValue || "").trim();
-  const map = CFG?.spiceAestheticByLevel || {};
-
-  // direct
-  if (map[sVal]) return map[sVal];
-
-  // if spice "5" exists in UI but map only 1–4, treat 5 as 4+
-  if (sVal === "5") return map["4"] ? `${map["4"]} (max)` : "maximum spice vibe (non-graphic)";
-
-  // numeric fallback
-  const n = clampInt(sVal, 1, 5);
-  if (map[String(n)]) return map[String(n)];
-  if (n > 4 && map["4"]) return `${map["4"]} (max)`;
-  return "";
+function spiceAestheticLabel(spiceVal) {
+  const s = String(spiceVal || "");
+  // if config only has 1-4, treat 5 as 4/“max”
+  return (
+    CFG?.spiceAestheticByLevel?.[s] ||
+    (s === "5" ? "maximum spice vibe (non-graphic)" : "") ||
+    ""
+  );
 }
 
-/* =========================================================
-   Prompt builder (with safe “Prompt Style” hooks)
-   Optional upgrades:
-   - if you later add <select id="promptStyle"> minimal|detailed|cinematic
-   - and <input id="noRepeats" type="checkbox">
-   This code won’t break if they don’t exist.
-========================================================= */
-function buildOnePrompt() {
-  // Enforce product palette locks before building
-  enforceProductPaletteLockIfNeeded();
-
+function buildOnePrompt(seedIdx = 0) {
   const productSubject = getSelectedProductSubject();
   const genre = v("genreTone");
   const vibe = v("vibe");
@@ -312,14 +306,10 @@ function buildOnePrompt() {
   const useRandom = c("useRandomQuote");
   const useDialogue = c("dialogueMode");
 
-  // Elite unlock gate (optional): if spice below eliteUnlockMinSpice, don’t use elite-only banks.
-  const eliteMin = clampInt(CFG?.eliteUnlockMinSpice ?? 0, 0, 10);
-  const spiceNum = clampInt(spice || "1", 1, 5);
-
   let quoteText = "";
 
   if (useDialogue) {
-    const lines = clampInt(v("dialogueLines") || "5", 4, 6);
+    const lines = parseInt(v("dialogueLines") || "5", 10);
     const tone = v("dialogueTone") || "flirty";
     const pairing = v("dialoguePairing") || "MF";
     quoteText = getDialogueExchange(lines, tone, pairing);
@@ -330,16 +320,18 @@ function buildOnePrompt() {
   }
 
   const micro = getMicroQuoteMaybe();
-  const microLine = micro ? `Micro-quote: ${micro}` : "";
+  const microLine = micro ? `MICRO-QUOTE: ${micro}` : "";
 
-  const hexLine = palette?.hex?.length ? `Palette hex: ${palette.hex.join(", ")}` : "";
-  const paletteVibe = palette?.vibe ? `Palette vibe: ${palette.vibe}` : "";
-  const spiceLabel = getSpiceLabel(spice);
+  const hexLine = palette?.hex?.length ? `PALETTE HEX: ${palette.hex.join(", ")}` : "";
+  const paletteVibe = palette?.vibe ? `PALETTE VIBE: ${palette.vibe}` : "";
 
-  // Prompt style (optional UI hook)
-  const style = (v("promptStyle") || "detailed").toLowerCase();
+  const spiceLabel = spiceAestheticLabel(spice);
+  const eliteUnlocked = (parseInt(spice || "0", 10) >= (CFG?.eliteUnlockMinSpice || 999));
 
-  const baseLines = [
+  // small seed variation so multiple prompts don't feel copy/paste
+  const variationNote = seedIdx ? `VARIATION SEED: ${seedIdx + 1}` : "";
+
+  return [
     `MAIN SUBJECT: ${productSubject || "sticker subject (choose a product)"}`,
     quoteText ? `QUOTE:\n${quoteText}` : `QUOTE: (none)`,
     microLine,
@@ -351,62 +343,21 @@ function buildOnePrompt() {
     `BACKGROUND: ${background || "—"}`,
     `BORDER: ${border || "—"}`,
     `OUTLINE: ${outline || "—"}`,
-    `SPICE: ${spice || "—"}${spiceLabel ? ` (${spiceLabel})` : ""}`
-  ].filter(Boolean);
-
-  const styleNotesMinimal = [
-    `STYLE NOTES: clean sticker-ready design, bold readable composition, crisp edges, print-friendly, no real brand logos, no copyrighted characters.`
-  ];
-
-  const styleNotesDetailed = [
-    `STYLE NOTES: clean sticker-ready design; bold readable composition; crisp vector-like linework; high-contrast; subtle gloss highlights; balanced whitespace for quote legibility; no real brand logos; no copyrighted characters; print-friendly (300dpi feel).`
-  ];
-
-  const styleNotesCinematic = [
-    `STYLE NOTES: sticker-ready but cinematic; dramatic lighting cues; bold typographic hierarchy; premium “urban luxe” polish; crisp die-cut edge; strong silhouette; no real brand logos; no copyrighted characters; print-friendly.`
-  ];
-
-  const notes =
-    style === "minimal" ? styleNotesMinimal :
-    style === "cinematic" ? styleNotesCinematic :
-    styleNotesDetailed;
-
-  // Optional: elite hint (only if user picked elite vibe but spice too low)
-  const eliteHint =
-    (eliteMin > 0 && spiceNum < eliteMin && /elite|dominance|penthouse|morally/i.test(String(vibe || "")))
-      ? [`NOTE: Elite energy selected. For full “Elite” unlock, set spice ≥ ${eliteMin}.`]
-      : [];
-
-  return [...baseLines, "", ...eliteHint, ...notes].filter(Boolean).join("\n");
+    `SPICE: ${spice || "—"}${spiceLabel ? ` (${spiceLabel})` : ""}`,
+    eliteUnlocked ? `ELITE UNLOCK: enabled (extra luxe polish, premium composition, editorial finish)` : "",
+    variationNote,
+    ``,
+    `STYLE NOTES: clean sticker-ready design, bold readable composition, no real brand logos, no copyrighted characters, crisp edges, print-friendly, high contrast, vector-clean where possible.`,
+  ].filter(Boolean).join("\n");
 }
 
 /* =========================================================
    Buttons
 ========================================================= */
 function generate() {
-  const count = clampInt(v("count") || "1", 1, 20);
+  const count = parseInt(v("count") || "1", 10) || 1;
   const prompts = [];
-
-  // Optional “no repeats” hook
-  const noRepeats = c("noRepeats");
-  const seen = new Set();
-
-  for (let i = 0; i < count; i++) {
-    let p = buildOnePrompt();
-
-    if (noRepeats) {
-      // try a few times to avoid duplicates
-      let tries = 0;
-      while (seen.has(p) && tries < 8) {
-        p = buildOnePrompt();
-        tries++;
-      }
-      seen.add(p);
-    }
-
-    prompts.push(p);
-  }
-
+  for (let i = 0; i < count; i++) prompts.push(buildOnePrompt(i));
   setV("output", prompts.join("\n\n---\n\n"));
 }
 
@@ -427,9 +378,12 @@ function randomizeAll() {
   pickRandomSelect("outline");
   pickRandomSelect("spice");
 
-  // Keep core banks on by default
+  // keep your preferred defaults
   setC("bGeneralUrbanBookish", true);
   setC("bMoodQuotes", true);
+
+  // apply any paletteLock after product randomize
+  handleProductPaletteLock();
 
   renderPalettePreview();
   generate();
@@ -457,65 +411,63 @@ function clearAll() {
   setC("gThriller", false);
   setC("gSoftLife", false);
 
+  // restore full palette list
+  if (ALL_PALETTES_CACHE) fillSelect("palette", ALL_PALETTES_CACHE, "Select a palette");
+
   renderPalettePreview();
 }
 
-function copyOutput() {
+async function copyOutput() {
   const txt = v("output");
   if (!txt) return;
-  navigator.clipboard.writeText(txt)
-    .then(() => alert("Copied ✅"))
-    .catch(() => alert("Copy failed ❌"));
+
+  try {
+    await navigator.clipboard.writeText(txt);
+    alert("Copied ✅");
+  } catch {
+    // fallback for older Safari
+    const out = $("output");
+    if (!out) return alert("Copy failed ❌");
+    out.focus();
+    out.select();
+    const ok = document.execCommand("copy");
+    alert(ok ? "Copied ✅" : "Copy failed ❌");
+  }
 }
 
 /* =========================================================
-   Init (bind ONCE)
+   Init (reliable)
 ========================================================= */
-let __bound = false;
+function bindButtons() {
+  $("generateBtn")?.addEventListener("click", generate);
+  $("randomizeBtn")?.addEventListener("click", randomizeAll);
+  $("clearBtn")?.addEventListener("click", clearAll);
+  $("copyBtn")?.addEventListener("click", copyOutput);
+}
+
+function applyDefaults() {
+  const d = CFG?.defaults || {};
+  Object.entries(d).forEach(([key, val]) => {
+    if ($(key)) setV(key, val);
+  });
+
+  // apply paletteLock if default product demands it
+  handleProductPaletteLock();
+
+  renderPalettePreview();
+}
 
 async function init() {
   try {
     await loadConfig();
     populateAllOptionsFromConfig();
-
-    // Apply defaults AFTER options exist
-    const d = CFG?.defaults || {};
-    Object.entries(d).forEach(([key, val]) => { if ($(key)) setV(key, val); });
-
-    // Enforce palette locks after defaults too
-    enforceProductPaletteLockIfNeeded();
-
-    // Render after defaults
-    renderPalettePreview();
-
-    // Bind buttons once
-    if (!__bound) {
-      __bound = true;
-
-      $("generateBtn")?.addEventListener("click", generate);
-      $("randomizeBtn")?.addEventListener("click", randomizeAll);
-      $("clearBtn")?.addEventListener("click", clearAll);
-      $("copyBtn")?.addEventListener("click", copyOutput);
-
-      // Quality of life: if user changes product, enforce paletteLock instantly
-      $("product")?.addEventListener("change", () => {
-        enforceProductPaletteLockIfNeeded();
-        renderPalettePreview();
-      });
-
-      // Auto-regenerate on key changes (optional; safe)
-      ["genreTone","vibe","palette","background","border","outline","spice"].forEach(id => {
-        $(id)?.addEventListener("change", () => {
-          renderPalettePreview();
-          // don’t auto-generate if output is empty and user hasn’t asked; comment out if you prefer
-          // if (v("output")) generate();
-        });
-      });
-    }
+    bindButtons();
+    applyDefaults();
   } catch (e) {
     console.error(e);
+    setV("output", "INIT ERROR ❌\n\n" + (e?.message || e));
     alert("Init error ❌ " + (e?.message || e));
   }
 }
 
-window.addEventListener("load", init);
+document.addEventListener("DOMContentLoaded", init);
