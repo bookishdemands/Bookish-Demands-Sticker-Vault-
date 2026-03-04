@@ -1,15 +1,24 @@
-/* app.js — Bookish Demands Generator (v2.2)
-   Updates included:
+/* app.js — Bookish Demands Generator (v2.2.1)
+   Includes your v2.2 upgrades + the missing Color A/Color B + Gradient fixes.
+
    ✅ Single palette pipeline (product lock + vibe filter)
    ✅ AI-smart palette selection (vibe-weighted randomize)
    ✅ Vibe intensity control (Balanced / On-theme / Super on-theme)
    ✅ No duplicate event listeners
    ✅ Safe helpers + consistent option normalization
+   ✅ Color A / Color B populated from selected palette hex
+   ✅ Gradient toggle (A → B) + angle + UI show/hide
+   ✅ Prompt output reflects gradient + color overrides
+
+   NOTE (important):
+   If you still see “JSON Parse error: Expected '}'” — that is config.json being invalid JSON.
+   The most common cause (in your pasted config) is:
+   defaults.gradientAngle missing a comma before "background".
 */
 
-/* ===================== Core ===================== */
-
 let CFG = null;
+
+/* ===================== Core ===================== */
 
 const $ = (id) => document.getElementById(id);
 const v = (id) => ($(id)?.value ?? "");
@@ -42,16 +51,17 @@ function escapeHtml(str) {
 }
 
 /**
- * Ensures options.palette can be either:
+ * Ensures options arrays can be either:
  * - ["A","B"] or
  * - [{value:"A",label:"A"}, ...]
  * Returns an array of string values.
  */
 function normalizeOptItems(items) {
-  if (!Array.isArray(items)) return [];
-  if (!items.length) return [];
+  if (!Array.isArray(items) || !items.length) return [];
   if (typeof items[0] === "string") return items.slice();
-  return items.map(x => x?.value ?? x?.name ?? x?.label ?? "").filter(Boolean);
+  return items
+    .map(x => x?.value ?? x?.name ?? x?.label ?? "")
+    .filter(Boolean);
 }
 
 /* ===================== Palette helpers ===================== */
@@ -110,7 +120,17 @@ async function loadConfig() {
   const text = await res.text();
   if (!res.ok) throw new Error(`config.json fetch failed (${res.status})`);
 
-  CFG = JSON.parse(text);
+  try {
+    CFG = JSON.parse(text);
+  } catch (err) {
+    // Helpful debug hint (does not “fix” JSON, but makes it obvious what to check)
+    throw new Error(
+      `config.json JSON Parse error: ${err?.message || err}\n\n` +
+      `Common cause: missing comma in defaults (ex: gradientAngle "90" needs a comma before background).\n` +
+      `Open config.json and validate it with a JSON validator.`
+    );
+  }
+
   CFG.options = CFG.options || {};
 }
 
@@ -173,14 +193,10 @@ function getAllPalettes() {
 
 /* =========================================================
    VIBE INTENSITY (dropdown id: "vibeIntensity")
-   - "balanced"  : light weighting
-   - "on_theme"  : stronger weighting
-   - "super"     : very strong weighting (feels “AI-smart”)
 ========================================================= */
 
 function getVibeIntensity() {
   const raw = (v("vibeIntensity") || "").trim().toLowerCase();
-  // If you haven't added the UI yet, this safely defaults.
   if (!raw) return "on_theme";
   if (raw === "balanced" || raw === "on_theme" || raw === "super") return raw;
   return "on_theme";
@@ -188,9 +204,9 @@ function getVibeIntensity() {
 
 function intensityParams() {
   const mode = getVibeIntensity();
-  if (mode === "balanced") return { matchMult: 2, zeroPenalty: 0,  hardBiasBonus: 1 };
-  if (mode === "super")    return { matchMult: 6, zeroPenalty: 2,  hardBiasBonus: 4 };
-  return                 { matchMult: 4, zeroPenalty: 1,  hardBiasBonus: 2 }; // on_theme default
+  if (mode === "balanced") return { matchMult: 2, zeroPenalty: 0, hardBiasBonus: 1 };
+  if (mode === "super")    return { matchMult: 6, zeroPenalty: 2, hardBiasBonus: 4 };
+  return                   { matchMult: 4, zeroPenalty: 1, hardBiasBonus: 2 };
 }
 
 /* =========================================================
@@ -208,7 +224,7 @@ function getEligiblePalettes() {
     list = CFG.paletteGroups[lockGroup].slice();
   }
 
-  // 2) Vibe filter (soft enforce so list doesn't collapse)
+  // 2) Vibe filter (soft enforce)
   const vibeName = v("vibe");
   const requiredTags = vibeTagMap[vibeName] || [];
   if (requiredTags.length) {
@@ -226,22 +242,17 @@ function getPaletteWeight(paletteName) {
 
   const { matchMult, zeroPenalty, hardBiasBonus } = intensityParams();
 
-  // base
   let w = 1;
 
-  // count matching vibe tags
   const matchCount = req.filter(t => tags.includes(t)).length;
   w += matchCount * matchMult;
 
-  // slight brand core + “smart” boosts
   if (tags.includes("brand_core")) w += 2;
 
-  // Vibe-specific “hard bias” (makes it feel intentional)
   if (vibeName === "Elite Dominance" && tags.includes("editorial")) w += hardBiasBonus;
   if (vibeName === "Dark Obsession" && tags.includes("possession_protocol")) w += hardBiasBonus;
   if (vibeName === "Kindle After Dark" && tags.includes("after_hours")) w += Math.max(1, Math.floor(hardBiasBonus / 2));
 
-  // penalty if nothing matches
   if (matchCount === 0 && req.length) w = Math.max(1, w - zeroPenalty);
 
   return w;
@@ -305,6 +316,51 @@ function updatePaletteOptions() {
   }
 
   renderPalettePreview();
+  updateColorOptions(); // ✅ keep Color A/B synced to palette
+}
+
+/* =========================================================
+   COLOR A / COLOR B + GRADIENT
+   - expects IDs: colorA, colorB, useGradient, gradientAngle
+========================================================= */
+
+function updateGradientUI() {
+  const on = c("useGradient");
+
+  const bWrap = $("colorB")?.closest(".field") || $("colorB");
+  const angWrap = $("gradientAngle")?.closest(".field") || $("gradientAngle");
+
+  // If your markup doesn't have .field wrappers, this still works (it will just show/hide the select itself)
+  if (bWrap) bWrap.style.display = on ? "" : "none";
+  if (angWrap) angWrap.style.display = on ? "" : "none";
+}
+
+function updateColorOptions() {
+  const paletteName = v("palette");
+  const entry = getPaletteEntry(paletteName);
+  const hexes = entry?.hex || [];
+
+  // If these controls don't exist in your HTML, safely exit.
+  if (!$("colorA") && !$("colorB")) return;
+
+  fillSelect("colorA", hexes, hexes.length ? "Pick Color A…" : "Pick a palette first…");
+  fillSelect("colorB", ["", ...hexes], "None / optional");
+
+  // preserve current selections if still valid
+  const a = v("colorA");
+  const b = v("colorB");
+  if (a && !hexes.includes(a)) setV("colorA", "");
+  if (b && b !== "" && !hexes.includes(b)) setV("colorB", "");
+
+  // If gradient is ON, ensure B is set and different from A if possible
+  if (c("useGradient")) {
+    const A = v("colorA");
+    let B = v("colorB");
+    if (A && (!B || B === A)) {
+      const alt = hexes.find(h => h !== A);
+      if (alt) setV("colorB", alt);
+    }
+  }
 }
 
 /* ===================== Populate options ===================== */
@@ -315,7 +371,7 @@ function populateAllOptionsFromConfig() {
   fillSelect("genreTone", CFG.options.genreTone, "Select genre...");
   fillSelect("vibe", CFG.options.vibe, "Select vibe...");
 
-  // Vibe intensity (optional UI). If you add <select id="vibeIntensity"> this will populate it.
+  // Vibe intensity (optional UI)
   if ($("vibeIntensity")) {
     fillSelect("vibeIntensity",
       [
@@ -336,19 +392,30 @@ function populateAllOptionsFromConfig() {
   fillSelect("outline", CFG.options.outline, "Select outline...");
   fillSelect("spice", CFG.options.spice, "Select spice...");
 
+  // Color controls (will be populated once a palette exists)
+  if ($("colorA")) fillSelect("colorA", [], "Pick a palette first…");
+  if ($("colorB")) fillSelect("colorB", [""], "None / optional");
+
   // listeners (no duplicates)
-  $("palette")?.addEventListener("change", renderPalettePreview);
+  $("palette")?.addEventListener("change", () => {
+    renderPalettePreview();
+    updateColorOptions();
+  });
+
   $("product")?.addEventListener("change", updatePaletteOptions);
   $("vibe")?.addEventListener("change", updatePaletteOptions);
 
-  // if intensity exists, let it re-smart-pick during randomize; and update palette list (optional)
+  $("useGradient")?.addEventListener("change", () => {
+    updateGradientUI();
+    updateColorOptions();
+  });
+
   $("vibeIntensity")?.addEventListener("change", () => {
-    // Re-run pipeline (keeps dropdown consistent)
     updatePaletteOptions();
-    // Optional: auto swap palette to a smarter match when intensity changes
     const chosen = smartPickPalette();
     if (chosen) setV("palette", chosen);
     renderPalettePreview();
+    updateColorOptions();
   });
 }
 
@@ -441,6 +508,12 @@ function buildOnePrompt(seedIdx = 0) {
   const outline = v("outline");
   const spice = v("spice");
 
+  // Color overrides
+  const colorA = v("colorA");
+  const colorB = v("colorB");
+  const useGradient = c("useGradient");
+  const gradientAngle = v("gradientAngle") || "90";
+
   const customQuote = (v("quote") || "").trim();
   const useRandom = c("useRandomQuote");
   const useDialogue = c("dialogueMode");
@@ -481,12 +554,24 @@ function buildOnePrompt(seedIdx = 0) {
     ? `Color palette: ${palette.hex.join(", ")}`
     : (paletteName ? `Color palette name: ${paletteName}` : "");
 
+  // Output lines for color overrides
+  const colorLine = colorA
+    ? (useGradient && colorB
+        ? `Color Options: A=${colorA}, B=${colorB}; Gradient: ON (${gradientAngle}°).`
+        : `Color Options: A=${colorA}${colorB ? `, B=${colorB}` : ""}; Gradient: OFF.`)
+    : `Color Options: none.`;
+
+  const backgroundLine = (useGradient && colorA && colorB)
+    ? `Background: gradient (${gradientAngle}°) from ${colorA} → ${colorB}.`
+    : `Background: ${background || "transparent"}.`;
+
   return [
     `Sticker design: ${productSubject || "sticker subject"}.`,
     `Genre vibe: ${genre || "—"}; vibe: ${vibeName || "—"}; spice: ${spice || "—"}${spiceLabel ? ` (${spiceLabel})` : ""}.`,
     paletteLine,
     palette?.vibe ? `Palette mood: ${palette.vibe}.` : "",
-    `Background: ${background || "transparent"}.`,
+    colorLine,
+    backgroundLine,
     `Border: ${border || "white border"}; Outline: ${outline || "bold outline"}.`,
     textBlock,
     `Typography: bold centered sticker lettering, highly readable.`,
@@ -515,10 +600,6 @@ function randomizeAll() {
   pickRandomSelect("genreTone");
   pickRandomSelect("vibe");
 
-  // keep intensity as user choice (don’t randomize it)
-  // if you DO want to randomize it occasionally, uncomment:
-  // if ($("vibeIntensity")) pickRandomSelect("vibeIntensity");
-
   // refresh palette dropdown using lock + vibe filter
   updatePaletteOptions();
 
@@ -526,17 +607,35 @@ function randomizeAll() {
   const chosen = smartPickPalette();
   if (chosen) setV("palette", chosen);
 
+  // sync preview + colors with final palette
+  renderPalettePreview();
+  updateColorOptions();
+
   // randomize rest
   pickRandomSelect("background");
   pickRandomSelect("border");
   pickRandomSelect("outline");
   pickRandomSelect("spice");
 
+  // Optional: randomize colorA/B from palette
+  // (keeps it feeling “AI-smart” when Color Options are used)
+  const entry = getPaletteEntry(v("palette"));
+  const hexes = entry?.hex || [];
+  if (hexes.length && $("colorA")) {
+    setV("colorA", pick(hexes));
+    if ($("colorB")) {
+      // keep B different if possible
+      const A = v("colorA");
+      const alt = hexes.find(h => h !== A);
+      setV("colorB", alt || "");
+    }
+  }
+
   // keep your preferred defaults
   setC("bGeneralUrbanBookish", true);
   setC("bMoodQuotes", true);
 
-  renderPalettePreview();
+  updateGradientUI();
   generate();
 }
 
@@ -548,6 +647,13 @@ function clearAll() {
 
   // optional: reset intensity if it exists
   if ($("vibeIntensity")) setV("vibeIntensity", "on_theme");
+
+  // reset colors + gradient
+  if ($("colorA")) setV("colorA", "");
+  if ($("colorB")) setV("colorB", "");
+  if ($("useGradient")) setC("useGradient", false);
+  if ($("gradientAngle")) setV("gradientAngle", "90");
+  updateGradientUI();
 
   setV("quote", "");
   setV("output", "");
@@ -566,7 +672,9 @@ function clearAll() {
   setC("gSoftLife", false);
 
   if (ALL_PALETTES_CACHE) fillSelect("palette", ALL_PALETTES_CACHE, "Select a palette");
+
   renderPalettePreview();
+  updateColorOptions();
 }
 
 async function copyOutput() {
@@ -604,7 +712,11 @@ function applyDefaults() {
 
   // after defaults set, apply lock + vibe filter
   updatePaletteOptions();
+
+  // sync UI pieces
   renderPalettePreview();
+  updateColorOptions();
+  updateGradientUI();
 }
 
 async function init() {
