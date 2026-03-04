@@ -10,20 +10,344 @@
 
   "eliteUnlockMinSpice": 4,
 
-  "paletteData": {
-    "Private Library Society": {
-      "hex": ["#718D84", "#48685C", "#344B3E", "#C3BCAB", "#AB9661"],
-      "vibe": "clean editorial luxury"
-    },
-    "Neon Bookmark Fever": {
-      "hex": ["#D8B4A2", "#F49C64", "#74AAB2", "#3CB6C8", "#D68664"],
-      "vibe": "soft glam glow"
-    },
-    "Back Alley Paperbacks": {
-      "hex": ["#C8957B", "#9F6B55", "#6B351F", "#1E1717", "#7D0103"],
-      "vibe": "moody urban luxury"
-    }
+ {
+  "paletteNameMap": {
+    "Garden of Plot Twists": "Land of Beauty",
+    "Private Library Society": "Luxury Decor",
+    "Neon Bookmark Fever": "Glowy Dreams",
+    "Back Alley Paperbacks": "Braiden Lane",
+    "Spicy Chapter Energy": "Orange Bliss",
+    "Urban Reader Royalty": "Bantu Babe",
+    "Romance Tropes Bloom": "Floral Looks",
+    "Penthouse Reading Room": "Blue Interior",
+    "Midnight Plot Twist": "Bombshell Blues",
+    "Main Character Energy": "Isn't She Lovely",
+    "Soft Girl Book Club": "Peonies Please",
+    "Feral Romance Reader": "Lady Leopard",
+    "Outside But Reading": "Sunglass Era",
+    "Vacation TBR Stack": "Palmy Paradise",
+    "Plot Glow-Up": "Her Makeover",
+    "Black Spine Collection": "Monotone",
+    "Penthouse Dark Romance": "Highrise Vibes",
+    "Melanated Main Character": "Nubian Queen",
+    "Midnight Snack & Chapters": "Cookie Monster",
+    "Bookmark Seduction": "Magenta Magic",
+    "Forbidden Chapter": "Purple Passion",
+    "Sunlit Love Story": "Sunflow Her",
+    "Plot Twist Prism": "Iridescence",
+    "Sweet Chaos Romance": "Pretty Paradise",
+    "Forest Chapter Escape": "Nature Lovin",
+    "Runway Reader": "Model Walk",
+    "Makeup & Manuscripts": "Eyeshadow Love",
+    "Delicate Plot Threads": "Petal Pieces",
+    "Villain Era Energy": "Vivacious Vixen",
+    "Soft Romance Bouquet": "Beauty Bouquet",
+    "Vintage Paperback Energy": "Reppin Retro",
+    "Spicy FMC Energy": "Fierce + Feisty",
+    "Minimalist Reading Loft": "Modern Home",
+    "Sweet Sin Romance": "Chocolate Drop",
+    "Coming-of-Age Chapters": "Wonder Years",
+    "Gilded Romance": "Golden Glam",
+    "Money & Power Tropes": "Green Machine",
+    "Crimson Love Story": "Rosy Romance",
+    "Chaos Highlight Pack": "Color Me Badd",
+    "Soft Blossom Romance": "Cherry Blossom",
+    "Street Myth MMC": "Urban Legend",
+    "Quiet Luxury Reader": "Beauty Is Serene",
+    "Ocean Chapter Escape": "Calming Seas",
+    "Flirty Romance Energy": "Pink Panther",
+    "Melanin Chapter Palette": "Skin Tones",
+    "Seaside Romance": "Shore Pastels",
+    "Billionaire MMC Energy": "Money Talks",
+    "Marble Throne Romance": "Grand Marble",
+    "Gym Crush Chapters": "Work It Out",
+    "Neon Nights Romance": "Miami Vice",
+    "Dark Past MMC": "Checkered Past",
+    "Sassy FMC Palette": "Pop of Pink",
+    "Fantasy Realm Glow": "Holographic",
+    "Morning Chapters": "Good Morning",
+    "Ancient Queen Energy": "Egyptian Eye",
+    "High Stakes Thriller": "Vantage Point",
+    "Sweet Love Tropes": "Cotton Candy",
+    "Dream Big Chapters": "Fly Higher",
+    "Do Not Disturb: Plotting": "Leave Me Alone",
+    "Morally Grey Kingdom": "The Dark Side"
   },
+
+  "paletteData": {
+    "Garden of Plot Twists": { "hex": ["#F1927D","#C04A30","#642B19","#433B01","#879229"], "vibe": "earthy" },
+    "Private Library Society": { "hex": ["#718D84","#48685C","#344B3E","#C3BCAB","#AB9661"], "vibe": "luxe" },
+    "Neon Bookmark Fever": { "hex": ["#D8B4A2","#F49C64","#74AAB2","#3CB6C8","#D68664"], "vibe": "bright" },
+    "Back Alley Paperbacks": { "hex": ["#C8957B","#9F6B55","#6B351F","#1E1717","#7D0103"], "vibe": "urban" },
+    "Spicy Chapter Energy": { "hex": ["#1E240E","#F36905","#494D26","#FCA417","#862D0A"], "vibe": "bold" },
+    "Urban Reader Royalty": { "hex": ["#2E3934","#4CB3B9","#BD795B","#DC36B5","#2553B6"], "vibe": "urban" },
+    "Romance Tropes Bloom": { "hex": ["#E7A188","#CB6A5A","#FA8FC5","#FF50A1","#FFBFEB"], "vibe": "romantic" },
+    "Penthouse Reading Room": { "hex": ["#CAC5C1","#619BA6","#2E656F","#192526","#0C434D"], "vibe": "cool" },
+    "Midnight Plot Twist": { "hex": ["#11151C","#8A635A","#099DCD","#021E43","#064A85"], "vibe": "moody" },
+    "Main Character Energy": { "hex": ["#F6579A","#F00086","#AA0157","#64724E","#B66554"], "vibe": "bold" },
+    "Soft Girl Book Club": { "hex": ["#D3C7BA","#A89D93","#EDC7BE","#80726B","#DA9087"], "vibe": "soft" },
+    "Feral Romance Reader": { "hex": ["#D2B2AD","#FA8B62","#EC4F2C","#821F13","#2B100F"], "vibe": "bold" },
+    "Outside But Reading": { "hex": ["#789D64","#9DA0A1","#41722B","#906949","#82C265"], "vibe": "fresh" },
+    "Vacation TBR Stack": { "hex": ["#D498A7","#FACEDE","#FDB3CA","#85733C","#473B27"], "vibe": "tropical" },
+    "Plot Glow-Up": { "hex": ["#F4C9A9","#E5855B","#965F4B","#FE9C52","#ED8474"], "vibe": "warm" },
+    "Black Spine Collection": { "hex": ["#949597","#E7E8EA","#5C5D5F","#37383A","#191A1B"], "vibe": "minimal" },
+    "Penthouse Dark Romance": { "hex": ["#E4D8CF","#1A2627","#6B7874","#BF5D30","#5B2D16"], "vibe": "urban" },
+    "Melanated Main Character": { "hex": ["#0E2125","#159F7B","#A96A51","#A97127","#592D1C"], "vibe": "royal" },
+    "Midnight Snack & Chapters": { "hex": ["#D9975B","#AB5E2F","#E99991","#5F301B","#240E07"], "vibe": "warm" },
+    "Bookmark Seduction": { "hex": ["#CEB081","#946645","#CF2F4B","#431A0F","#AB9661"], "vibe": "dramatic" },
+    "Forbidden Chapter": { "hex": ["#4F1863","#7B40A6","#340D2F","#974165","#C7A0C4"], "vibe": "dark romance" },
+    "Sunlit Love Story": { "hex": ["#BC785D","#EEB215","#F08C00","#DBAA9D","#FEDBB8"], "vibe": "bright" },
+    "Plot Twist Prism": { "hex": ["#D0C4AB","#EA8921","#684735","#E86075","#82B651"], "vibe": "playful" },
+    "Sweet Chaos Romance": { "hex": ["#F86CB9","#FF7F40","#FDA961","#ED6F5F","#671B31"], "vibe": "fun" },
+    "Forest Chapter Escape": { "hex": ["#14130B","#2E2B18","#694B28","#9F825D","#545840"], "vibe": "earthy" },
+    "Runway Reader": { "hex": ["#658F85","#C7C6C0","#A29276","#9E6B46","#61B4AC"], "vibe": "editorial" },
+    "Makeup & Manuscripts": { "hex": ["#C6534F","#FF5947","#784E59","#DFC3A2","#522F1D"], "vibe": "beauty" },
+    "Delicate Plot Threads": { "hex": ["#CDD9CF","#ABB5AF","#737A82","#2E2A42","#4D3468"], "vibe": "soft" },
+    "Villain Era Energy": { "hex": ["#AC020A","#8A080B","#A57155","#3B2319","#C1B1A6"], "vibe": "dark" },
+    "Soft Romance Bouquet": { "hex": ["#D3B5B4","#A77570","#9C3D3B","#4E2C2C","#25242E"], "vibe": "romantic" },
+    "Vintage Paperback Energy": { "hex": ["#5E91B0","#BBCDC3","#6FB7AC","#C4785C","#DF72AC"], "vibe": "retro" },
+    "Spicy FMC Energy": { "hex": ["#FED2D8","#FD8DB1","#FF548A","#FDA977","#EF904E"], "vibe": "bold" },
+    "Minimalist Reading Loft": { "hex": ["#2C2B24","#7990AB","#DCAD79","#92877E","#855F37"], "vibe": "modern" },
+    "Sweet Sin Romance": { "hex": ["#170D08","#D68369","#BD6547","#42271D","#7A3018"], "vibe": "rich" },
+    "Coming-of-Age Chapters": { "hex": ["#C6BB9C","#AF8D61","#E75D38","#225C5D","#52909C"], "vibe": "nostalgic" },
+    "Gilded Romance": { "hex": ["#926E58","#291511","#522512","#8B4C25","#D49866"], "vibe": "luxury" },
+    "Money & Power Tropes": { "hex": ["#292727","#867B6B","#544D3F","#7CAF30","#CECBB1"], "vibe": "wealth" },
+    "Crimson Love Story": { "hex": ["#8F000A","#E11022","#AC5B3C","#545107","#2F3101"], "vibe": "romantic" },
+    "Chaos Highlight Pack": { "hex": ["#E971BC","#8869B0","#8E47F6","#E9C883","#FDE53E"], "vibe": "playful" },
+    "Soft Blossom Romance": { "hex": ["#D5DCE8","#F2D3D3","#EEB0B2","#E77E80","#ED6180"], "vibe": "soft" },
+    "Street Myth MMC": { "hex": ["#FBC8D4","#23AE3F","#FE0171","#DB7277","#7569B5"], "vibe": "urban" },
+    "Quiet Luxury Reader": { "hex": ["#C58FAA","#DDBCC2","#925C75","#C0948E","#3E212D"], "vibe": "calm" },
+    "Ocean Chapter Escape": { "hex": ["#F37F84","#FF5477","#85A7BE","#2581CA","#399FB5"], "vibe": "coastal" },
+    "Flirty Romance Energy": { "hex": ["#C60270","#F662BC","#B40E68","#F97CC5","#FAB7D3"], "vibe": "playful" },
+    "Melanin Chapter Palette": { "hex": ["#AC8165","#C7A58A","#8C4B2E","#82553B","#54311D"], "vibe": "natural" },
+    "Seaside Romance": { "hex": ["#ECCAC8","#EBB5B8","#D2CED0","#A7C3C7","#E49496"], "vibe": "pastel" },
+    "Billionaire MMC Energy": { "hex": ["#EFE2D7","#CCBCB1","#518967","#9F9188","#756760"], "vibe": "wealth" },
+    "Marble Throne Romance": { "hex": ["#110A0A","#D9D3D5","#7E4B26","#D5A56B","#898183"], "vibe": "luxury" },
+    "Gym Crush Chapters": { "hex": ["#AF6443","#2F8A77","#72B2A5","#ED906C","#8A411F"], "vibe": "active" },
+    "Neon Nights Romance": { "hex": ["#4593B6","#17BAC4","#AD77B4","#E661CA","#CFC8EE"], "vibe": "neon" },
+    "Dark Past MMC": { "hex": ["#8C402D","#ED7C41","#271319","#E76F2F","#AF7551"], "vibe": "moody" },
+    "Sassy FMC Palette": { "hex": ["#24252E","#19181A","#DCCAC8","#EF6AC5","#6E2C52"], "vibe": "bold" },
+    "Fantasy Realm Glow": { "hex": ["#7396CF","#93BFDD","#C69ECA","#5067AE","#9EE1CE"], "vibe": "dreamy" },
+    "Morning Chapters": { "hex": ["#EDD9E7","#F599A7","#3F313A","#DF865D","#E96071"], "vibe": "fresh" },
+    "Ancient Queen Energy": { "hex": ["#284E5D","#3B251A","#AD8872","#613A29","#8F523B"], "vibe": "royal" },
+    "High Stakes Thriller": { "hex": ["#222425","#C4C4C4","#727373","#122441","#154398"], "vibe": "dramatic" },
+    "Sweet Love Tropes": { "hex": ["#8E8381","#C5CDE6","#DF9AAF","#38909F","#83ACDA"], "vibe": "soft" },
+    "Dream Big Chapters": { "hex": ["#296B6E","#1F1816","#EBBDB1","#8B9493","#EB8465"], "vibe": "inspiring" },
+    "Do Not Disturb: Plotting": { "hex": ["#D16443","#F3A778","#A15E5B","#4E4855","#A1A09A"], "vibe": "moody" },
+    "Morally Grey Kingdom": { "hex": ["#03030E","#0E153C","#2A2578","#5F21B9","#401490"], "vibe": "dark" },
+
+   {
+  "Blood Red + Ink Black + Steel": {
+    "hex": ["#7D0103", "#0B0B10", "#2C3138", "#C9CDD3", "#7A8794"],
+    "vibe": "high contrast noir"
+  },
+  "Oxblood + Matte Black + Bone": {
+    "hex": ["#4A0D12", "#0E0E11", "#1B1B1F", "#E7DCCB", "#BFAF9A"],
+    "vibe": "old money dark romance"
+  },
+  "Black + Blood Red + Ash": {
+    "hex": ["#0A0A0C", "#7A0B12", "#3B3B40", "#B7B0A8", "#E6E6E6"],
+    "vibe": "minimal + edgy"
+  },
+  "Crimson + Gunmetal + Ivory": {
+    "hex": ["#8F000A", "#2B2F36", "#5D6670", "#F3EDE3", "#CDBFB2"],
+    "vibe": "executive romance"
+  },
+  "Midnight Black + Ruby + Steel": {
+    "hex": ["#07070A", "#7B1E3A", "#B23A5C", "#8B949E", "#D7DBE0"],
+    "vibe": "after hours luxe"
+  },
+  "Oxblood + Matte Black + Antique Gold": {
+    "hex": ["#4A0D12", "#0E0E10", "#1A1A1D", "#C2A24A", "#E6D8A8"],
+    "vibe": "gold-accent obsession"
+  },
+
+  "Hot Pink + Electric Blue + Black": {
+    "hex": ["#FF2DAA", "#157CFF", "#0A0A0D", "#F2F2F4", "#2B2B33"],
+    "vibe": "bold neon nightlife"
+  },
+  "Neon Purple + Acid Green + Black": {
+    "hex": ["#9B2CFF", "#B7FF1A", "#0A0A0D", "#EDEDF0", "#2A2A32"],
+    "vibe": "high-energy neon chaos"
+  },
+  "Cyber Teal + Magenta + Charcoal": {
+    "hex": ["#19D3C5", "#E0009A", "#1A1D22", "#D7DADE", "#5E6670"],
+    "vibe": "cyber club noir"
+  },
+  "Lime Pop + Jet Black + Silver": {
+    "hex": ["#B8FF24", "#0B0B0E", "#BFC6CF", "#6E7680", "#F3F4F6"],
+    "vibe": "chrome-lime contrast"
+  },
+  "Violet Glow + Chrome + Ink Black": {
+    "hex": ["#7A3CFF", "#C9D0D8", "#0B0B10", "#3A3F48", "#F5F6F8"],
+    "vibe": "violet chrome editorial"
+  },
+
+  "Matte Black + Antique Gold + Bone": {
+    "hex": ["#0E0E10", "#1B1B1F", "#C2A24A", "#E7DCCB", "#BFAF9A"],
+    "vibe": "old money minimal"
+  },
+  "Espresso + Gold Foil + Cream": {
+    "hex": ["#2B1913", "#4A2A1D", "#D1B15A", "#F2E6D7", "#CDB9A3"],
+    "vibe": "warm luxe cafe"
+  },
+  "Deep Plum + Champagne + Black": {
+    "hex": ["#2B0F2A", "#4A1A4B", "#E2C6A6", "#0B0B0E", "#B89AA8"],
+    "vibe": "velvet romance"
+  },
+  "Charcoal + Rose Gold + Ivory": {
+    "hex": ["#26272B", "#3C3F46", "#C79B9A", "#F3EEE6", "#9B7D7C"],
+    "vibe": "soft glam luxe"
+  },
+  "Midnight Blue + Gold + Smoke": {
+    "hex": ["#0B1B33", "#142B52", "#C7A54A", "#6F7782", "#E6E8EC"],
+    "vibe": "after-hours executive"
+  },
+
+  "Blush Pink + Champagne Gold + Warm Brown": {
+    "hex": ["#F0B7C4", "#E6C9A8", "#B88A6A", "#6B3F2B", "#F6EFE7"],
+    "vibe": "soft glam romance"
+  },
+  "Cream + Mocha + Soft Gold": {
+    "hex": ["#F4EBDD", "#CBB6A0", "#7B5641", "#D8C07A", "#2F1E17"],
+    "vibe": "cozy luxe neutrals"
+  },
+  "Muted Taupe + Ivory + Dusty Rose": {
+    "hex": ["#A89486", "#F3EEE6", "#CDA1A0", "#6E5B52", "#D9D1C7"],
+    "vibe": "quiet romantic neutral"
+  },
+  "Sage + Cream + Soft Brown": {
+    "hex": ["#7C9B8A", "#F4EBDD", "#A27B62", "#3A2A22", "#D3C7BA"],
+    "vibe": "calm earthy softness"
+  },
+  "Peach Nude + Beige + Light Gold": {
+    "hex": ["#F0B39A", "#D7C2AB", "#F4EBDD", "#D7C07A", "#8A6A55"],
+    "vibe": "warm soft glow"
+  },
+
+  "Obsidian + Smoked Plum + Deep Oxblood + Tarnished Gold + Bone Smoke": {
+    "hex": ["#0B0B10", "#3A1F3E", "#4A0D12", "#B08C3A", "#D8CCBC"],
+    "vibe": "possession protocol noir"
+  },
+  "Midnight Wine + Mulberry + Antique Rose + Cream Silk + Gunmetal": {
+    "hex": ["#2A0B16", "#5B1E3A", "#B07A86", "#F3EDE3", "#3A3F48"],
+    "vibe": "velvet midnight romance"
+  },
+  "Pitch Black + Blood Crimson + Steel Gray + Pale Ash + Chrome Edge": {
+    "hex": ["#07070A", "#7D0103", "#6E7680", "#D7DBE0", "#BFC6CF"],
+    "vibe": "high-contrast chrome noir"
+  },
+  "Ink Navy + Deep Emerald Shadow + Burnished Bronze + Ivory Veil + Shadow Charcoal": {
+    "hex": ["#0B1B33", "#0E2B22", "#8B623A", "#F3EEE6", "#1A1D22"],
+    "vibe": "lounge luxury noir"
+  },
+  "Dark Ruby + Blush Smoke + Matte Black + Antique Brass + Cocoa Depth": {
+    "hex": ["#5A1020", "#C79B9A", "#0E0E10", "#9A7A3A", "#3A2017"],
+    "vibe": "dangerous soft luxe"
+  },
+  "Deep Espresso + Muted Mauve + Warm Taupe + Soft Cream + Faded Gold": {
+    "hex": ["#2B1913", "#9B6F7A", "#A89486", "#F4EBDD", "#C9B06A"],
+    "vibe": "soft dominance warmth"
+  },
+  "Iron Black + Slate Smoke + Dusty Silver + Bone White + Oxblood Accent": {
+    "hex": ["#0B0B0E", "#5E6670", "#BFC6CF", "#F3EEE6", "#4A0D12"],
+    "vibe": "editorial morally gray"
+  },
+  "Midnight Graphite + Sapphire Ink + Burgundy Silk + Champagne Glow + Polished Gold": {
+    "hex": ["#1A1D22", "#123A66", "#5B1E3A", "#E2C6A6", "#D1B15A"],
+    "vibe": "executive obsession"
+  },
+  "Charcoal Veil + Deep Violet + Rosewood + Antique Cream + Brushed Bronze": {
+    "hex": ["#26272B", "#3C1A5B", "#5A2A2A", "#F2E6D7", "#8B623A"],
+    "vibe": "moody luxe romance"
+  },
+  "Blackout + Signature Oxblood + Muted Bone + Brushed Gold + Cool Steel": {
+    "hex": ["#07070A", "#4A0D12", "#D8CCBC", "#C2A24A", "#7A8794"],
+    "vibe": "brand-core dark luxe"
+  },
+
+  "Sandstone Glow + Terracotta Silk + Olive Smoke + Charred Cocoa + Soft Brass": {
+    "hex": ["#E2C6A6", "#B55A3A", "#6A7B4B", "#3A2017", "#B08C3A"],
+    "vibe": "earthy editorial luxe"
+  },
+  "Misty Aqua + Slate Teal + Driftwood Beige + Storm Navy + Coral Whisper": {
+    "hex": ["#BFE6E3", "#2E6F72", "#D7C2AB", "#0B1B33", "#F0A3A0"],
+    "vibe": "coastal noir soft glam"
+  },
+  "Dusty Rosewood + Mauve Clay + Deep Plum Bark + Warm Almond + Espresso Ink": {
+    "hex": ["#8A4A4A", "#9B6F7A", "#2B0F2A", "#D8CCBC", "#1F1816"],
+    "vibe": "moody romance clay"
+  },
+  "Burnt Crimson + Smoked Copper + Iron Black + Desert Sand + Moss Shadow": {
+    "hex": ["#8F000A", "#8B4C25", "#0B0B0E", "#D7C2AB", "#545840"],
+    "vibe": "grit + heat"
+  },
+  "Petal Pink + Neon Berry + Dusty Lavender + Cloud Cream + Graphite Grey": {
+    "hex": ["#F0B7C4", "#FF2DAA", "#B8A0D8", "#F4EBDD", "#3A3F48"],
+    "vibe": "trendy editorial pop"
+  },
+  "Inky Midnight + Mulberry Luxe + Antique Gold Light + Blush Smoke + Porcelain": {
+    "hex": ["#070D1A", "#5B1E3A", "#D8C07A", "#C79B9A", "#F6F7F9"],
+    "vibe": "old money midnight glow"
+  },
+  "Blood Orange + Soft Apricot + Sage Tint + Charcoal Ash + Cream Silk": {
+    "hex": ["#F36905", "#F0B39A", "#7C9B8A", "#3B3B40", "#F3EDE3"],
+    "vibe": "warm modern contrast"
+  },
+  "Amethyst Glow + Emerald Depth + Champagne Sheen + Deep Ink + Rosy Bronze": {
+    "hex": ["#7A3CFF", "#0E2B22", "#E2C6A6", "#0B0B10", "#B07A86"],
+    "vibe": "jewel tone luxe"
+  },
+  "Warm Clay + Muted Sage + Cocoa Bean + Bone Linen + Smoky Taupe": {
+    "hex": ["#B88A6A", "#6A7B4B", "#3A2017", "#E7DCCB", "#A89486"],
+    "vibe": "earthy calm luxury"
+  },
+  "Electric Fuchsia + Deep Indigo + Midnight Plum + Chrome Grey + Shadow Black": {
+    "hex": ["#FF2DAA", "#1B2B6B", "#2B0F2A", "#BFC6CF", "#0A0A0D"],
+    "vibe": "after-hours neon noir"
+  },
+
+  "Fuchsia Shock + Royal Purple + Tangerine Blaze + Jet Black + Chrome Silver": {
+    "hex": ["#FF2DAA", "#6B2CFF", "#FF6A00", "#0A0A0D", "#BFC6CF"],
+    "vibe": "loud pop-art contrast"
+  },
+  "Sapphire Blue + Emerald Flash + Rich Gold + Midnight Navy + Pearl Cream": {
+    "hex": ["#123A66", "#19B37A", "#D1B15A", "#0B1B33", "#F4EBDD"],
+    "vibe": "luxury jewel tones"
+  },
+  "Magenta Heat + Electric Teal + Acid Lime + Deep Plum + Charcoal Smoke": {
+    "hex": ["#E0009A", "#19D3C5", "#B7FF1A", "#2B0F2A", "#2A2A32"],
+    "vibe": "club-coded chaos"
+  },
+  "Oxblood + Aubergine + Antique Gold + Bone + Matte Black": {
+    "hex": ["#4A0D12", "#2B0F2A", "#C2A24A", "#E7DCCB", "#0E0E10"],
+    "vibe": "dark luxe old money"
+  },
+  "Cyber Blue + Hot Coral + Neon Violet + Toxic Green + Pitch Black": {
+    "hex": ["#157CFF", "#FF4D6D", "#9B2CFF", "#B7FF1A", "#07070A"],
+    "vibe": "hyper neon y2k"
+  },
+  "Blush Pop + Rose Gold + Warm Caramel + Deep Espresso + Ivory Glow": {
+    "hex": ["#F0B7C4", "#C79B9A", "#B88A6A", "#2B1913", "#F3EEE6"],
+    "vibe": "soft glam warmth"
+  },
+  "Crimson Fire + Electric Cyan + Canary Yellow + Graphite + White": {
+    "hex": ["#E11022", "#19D3FF", "#FFD633", "#3A3F48", "#FFFFFF"],
+    "vibe": "graphic pop-art"
+  },
+  "Galaxy Purple + Cosmic Pink + Indigo Night + Stardust Silver + Deep Navy": {
+    "hex": ["#6B2CFF", "#E0009A", "#1B2B6B", "#BFC6CF", "#0B1B33"],
+    "vibe": "cosmic neon noir"
+  },
+  "Ruby Wine + Burnt Orange + Dark Olive + Champagne Gold + Soft Black": {
+    "hex": ["#7B1E3A", "#F36905", "#545840", "#E2C6A6", "#0E0E10"],
+    "vibe": "warm dark romance"
+  },
+  "Signal Red + Metallic Bronze + Cobalt + Jet Black + Ice Grey": {
+    "hex": ["#FF1B2D", "#8B623A", "#154398", "#0A0A0D", "#D7DBE0"],
+    "vibe": "urban luxe high contrast"
+  }
+}
 
   "options": {
     "product": [
