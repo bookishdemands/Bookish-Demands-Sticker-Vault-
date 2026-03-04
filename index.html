@@ -105,6 +105,32 @@
 
         <div id="palettePreview" class="palette-preview" aria-live="polite"></div>
 
+        <!-- Color options (from selected palette) -->
+<div class="row">
+  <label><strong>Color Options</strong></label>
+  <div class="inline">
+    <label for="colorA">Color A</label>
+    <select id="colorA"></select>
+
+    <label for="colorB">Color B (optional)</label>
+    <select id="colorB"></select>
+  </div>
+
+  <div class="inline">
+    <label class="toggle">
+      <input type="checkbox" id="useGradient" />
+      Gradient background (A → B)
+    </label>
+
+    <label for="gradientAngle">Angle</label>
+    <select id="gradientAngle">
+      <option value="90">90°</option>
+      <option value="45">45°</option>
+      <option value="135">135°</option>
+      <option value="180">180°</option>
+    </select>
+  </div>
+</div>
         <div>
           <label for="background">Background</label>
           <select id="background"></select>
