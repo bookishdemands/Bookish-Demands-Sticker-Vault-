@@ -20,48 +20,54 @@
     textarea{min-height:220px; resize:vertical; line-height:1.35;}
     .row{display:grid; grid-template-columns:1fr; gap:10px;}
     .hint{opacity:.7; font-size:13px; margin-top:8px;}
+
     .palette-preview{
-  margin-top:10px;
-  padding:12px;
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:12px;
-  background:#0f0f18;
-}
-.palette-preview .top{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  align-items:flex-start;
-  margin-bottom:10px;
-}
-.palette-preview .name{
-  font-weight:700;
-  font-size:14px;
-  line-height:1.2;
-}
-.palette-preview .meta{
-  opacity:.75;
-  font-size:12px;
-  line-height:1.2;
-}
-.palette-preview .swatches{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-.palette-preview .swatch{
-  width:28px;
-  height:28px;
-  border-radius:8px;
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
-}
-.palette-preview .hex{
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size:12px;
-  opacity:.85;
-  word-break:break-word;
-}
+      margin-top:10px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:12px;
+      background:#0f0f18;
+    }
+    .palette-preview .top{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+    .palette-preview .name{
+      font-weight:700;
+      font-size:14px;
+      line-height:1.2;
+    }
+    .palette-preview .meta{
+      opacity:.75;
+      font-size:12px;
+      line-height:1.2;
+    }
+    .palette-preview .swatches{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .palette-preview .swatch{
+      width:28px;
+      height:28px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
+    }
+    .palette-preview .hex{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+      opacity:.85;
+      word-break:break-word;
+    }
+
+    /* Optional: make checkbox rows align nicely */
+    .checkline{display:flex; gap:10px; align-items:center; margin:10px 0;}
+    .panel{margin:12px 0; padding:10px; border:1px solid rgba(255,255,255,.12); border-radius:12px;}
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
   </style>
 </head>
 
@@ -98,7 +104,7 @@
         </div>
 
         <div id="palettePreview" class="palette-preview" aria-live="polite"></div>
-        
+
         <div>
           <label for="background">Background</label>
           <select id="background"></select>
@@ -119,201 +125,163 @@
           <select id="spice"></select>
         </div>
 
-        <!-- Dialogue Mode -->
-<div class="field">
-  <label>
-    <input type="checkbox" id="useDialogueMode" />
-    Dialogue Mode (Back & Forth)
-  </label>
-</div>
+        <!-- DIALOGUE MODE (single, non-duplicated IDs) -->
+        <hr style="border:0;border-top:1px solid rgba(255,255,255,.08); margin:18px 0;">
 
-<!-- Tone slider -->
-<div class="field">
-  <label for="toneSlider">Tone</label>
-  <input type="range" id="toneSlider" min="0" max="3" step="1" value="0" />
-  <div id="toneLabel" class="hint">Flirty</div>
-</div>
+        <div class="checkline">
+          <input type="checkbox" id="dialogueMode" />
+          <label for="dialogueMode" style="margin:0; opacity:.95;">
+            <b>Dialogue Mode</b> (4–6 line cinematic exchange)
+          </label>
+        </div>
 
-<!-- Speaker genders -->
-<div class="field">
-  <label for="speakerA">Speaker A</label>
-  <select id="speakerA">
-    <option value="man">Man</option>
-    <option value="woman" selected>Woman</option>
-    <option value="nonbinary">Nonbinary</option>
-  </select>
-</div>
+        <div class="grid2">
+          <div>
+            <label for="dialoguePairing">Pairing</label>
+            <select id="dialoguePairing">
+              <option value="MF">M → F</option>
+              <option value="FM">F → M</option>
+              <option value="MM">M → M</option>
+              <option value="FF">F → F</option>
+            </select>
+          </div>
 
-<div class="field">
-  <label for="speakerB">Speaker B</label>
-  <select id="speakerB">
-    <option value="man" selected>Man</option>
-    <option value="woman">Woman</option>
-    <option value="nonbinary">Nonbinary</option>
-  </select>
-</div>
+          <div>
+            <label for="dialogueTone">Dialogue Tone</label>
+            <select id="dialogueTone">
+              <option value="flirty">Flirty</option>
+              <option value="soft">Soft</option>
+              <option value="argument">Argument</option>
+              <option value="threatening">Threatening</option>
+            </select>
+          </div>
+        </div>
 
-<div class="field">
-  <label for="dialogueLines">Dialogue lines</label>
-  <select id="dialogueLines">
-    <option value="4">4 lines</option>
-    <option value="5" selected>5 lines</option>
-    <option value="6">6 lines</option>
-  </select>
-</div>
-        <!-- QUOTES + ADVANCED CONTROLS -->
+        <div class="grid2">
+          <div>
+            <label for="speakerA">Speaker A</label>
+            <select id="speakerA">
+              <option value="M">Man</option>
+              <option value="F" selected>Woman</option>
+              <option value="NB">Nonbinary</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="speakerB">Speaker B</label>
+            <select id="speakerB">
+              <option value="M" selected>Man</option>
+              <option value="F">Woman</option>
+              <option value="NB">Nonbinary</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="dialogueLines">Dialogue lines</label>
+          <select id="dialogueLines">
+            <option value="4">4 lines</option>
+            <option value="5" selected>5 lines</option>
+            <option value="6">6 lines</option>
+          </select>
+          <p class="hint" style="margin:8px 0 0 0;">
+            Tip: Dialogue Mode ignores “Custom quote” and generates a back-and-forth.
+          </p>
+        </div>
+
+        <!-- OPTIONAL: tone weights (kept, but unique IDs) -->
+        <div class="panel">
+          <div class="hint" style="margin:0 0 8px 0;"><b>Dialogue Tone Weights</b> (optional)</div>
+
+          <div>
+            <label for="toneFlirty">Flirty</label>
+            <input id="toneFlirty" type="range" min="0" max="100" value="55" />
+          </div>
+
+          <div>
+            <label for="toneThreat">Threatening</label>
+            <input id="toneThreat" type="range" min="0" max="100" value="20" />
+          </div>
+
+          <div>
+            <label for="toneSoft">Soft</label>
+            <input id="toneSoft" type="range" min="0" max="100" value="35" />
+          </div>
+
+          <div>
+            <label for="toneArgue">Argument</label>
+            <input id="toneArgue" type="range" min="0" max="100" value="15" />
+          </div>
+        </div>
+
+        <!-- QUOTES -->
         <hr style="border:0;border-top:1px solid rgba(255,255,255,.08); margin:18px 0;">
 
         <h3 style="margin:0 0 8px 0; font-size:16px; opacity:.9;">Quotes</h3>
 
-        <label style="display:flex; gap:10px; align-items:center; margin:10px 0;">
+        <label class="checkline">
           <input type="checkbox" id="useRandomQuote" checked />
-          Use random quote (from quote banks)
+          <span>Use random quote (from quote banks)</span>
         </label>
 
-        <!-- DIALOGUE MODE CONTROLS -->
-<hr style="border:0;border-top:1px solid rgba(255,255,255,.08); margin:14px 0;">
-
-<label style="display:flex; gap:10px; align-items:center; margin:10px 0;">
-  <input type="checkbox" id="useDialogueMode" />
-  Dialogue Mode (4–6 line cinematic exchange)
-</label>
-
-<!-- DIALOGUE MODE (paste right under "Use random quote") -->
-<div style="margin:12px 0; padding:10px; border:1px solid rgba(255,255,255,.12); border-radius:12px;">
-  <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
-    <label style="display:flex; gap:10px; align-items:center; margin:0;">
-      <input type="checkbox" id="dialogueMode" />
-      <span><b>Dialogue Mode</b> (4–6 line exchange)</span>
-    </label>
-  </div>
-
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
-    <div>
-      <label for="dialoguePairing">Pairing</label>
-      <select id="dialoguePairing">
-        <option value="MF">M → F</option>
-        <option value="FM">F → M</option>
-        <option value="MM">M → M</option>
-        <option value="FF">F → F</option>
-      </select>
-    </div>
-
-    <div>
-      <label for="dialogueTone">Dialogue Tone</label>
-      <select id="dialogueTone">
-        <option value="flirty">Flirty</option>
-        <option value="soft">Soft</option>
-        <option value="argument">Argument</option>
-        <option value="threatening">Threatening</option>
-      </select>
-    </div>
-  </div>
-
-  <p class="hint" style="margin:10px 0 0 0;">
-    Tip: Dialogue Mode ignores “Custom quote” and generates a back-and-forth.
-  </p>
-</div>
-        
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0;">
-  <div>
-    <label for="speakerA" style="opacity:.9;">Speaker A</label>
-    <select id="speakerA">
-      <option value="M">Man</option>
-      <option value="F">Woman</option>
-      <option value="NB">Nonbinary</option>
-    </select>
-  </div>
-
-  <div>
-    <label for="speakerB" style="opacity:.9;">Speaker B</label>
-    <select id="speakerB">
-      <option value="F">Woman</option>
-      <option value="M">Man</option>
-      <option value="NB">Nonbinary</option>
-    </select>
-  </div>
-</div>
-
-<!-- Tone sliders (0–100) -->
-<div style="margin-top:10px;">
-  <label for="toneFlirty">Flirty</label>
-  <input id="toneFlirty" type="range" min="0" max="100" value="55" />
-</div>
-
-<div>
-  <label for="toneThreat">Threatening</label>
-  <input id="toneThreat" type="range" min="0" max="100" value="20" />
-</div>
-
-<div>
-  <label for="toneSoft">Soft</label>
-  <input id="toneSoft" type="range" min="0" max="100" value="35" />
-</div>
-
-<div>
-  <label for="toneArgue">Argument</label>
-  <input id="toneArgue" type="range" min="0" max="100" value="15" />
-</div>
-        
         <label for="quote">Custom quote (overrides random)</label>
         <textarea id="quote" placeholder="Type a custom quote here (optional)..." style="min-height:90px;"></textarea>
 
-        <label style="display:flex; gap:10px; align-items:center; margin:10px 0;">
+        <label class="checkline">
           <input type="checkbox" id="useMicroQuotes" checked />
-          Include Micro Quotes
+          <span>Include Micro Quotes</span>
         </label>
 
         <label style="margin-top:14px;">Choose which Quote Banks to pull from:</label>
 
-<!-- CORE BANKS -->
-<div style="margin-top:8px; padding:10px; border:1px solid rgba(255,255,255,.10); border-radius:12px;">
-  <div style="font-size:13px; opacity:.85; margin-bottom:8px;"><b>CORE</b> (pick 1–2 max)</div>
+        <!-- CORE BANKS -->
+        <div style="margin-top:8px; padding:10px; border:1px solid rgba(255,255,255,.10); border-radius:12px;">
+          <div style="font-size:13px; opacity:.85; margin-bottom:8px;"><b>CORE</b> (pick 1–2 max)</div>
 
-  <div style="display:grid; grid-template-columns:1fr; gap:8px;">
-    <label style="display:flex; gap:10px; align-items:center;">
-      <input type="checkbox" id="bGeneralUrbanBookish" checked />
-      General Urban Bookish
-    </label>
+          <div style="display:grid; grid-template-columns:1fr; gap:8px;">
+            <label class="checkline" style="margin:0;">
+              <input type="checkbox" id="bGeneralUrbanBookish" checked />
+              <span>General Urban Bookish</span>
+            </label>
 
-    <label style="display:flex; gap:10px; align-items:center;">
-      <input type="checkbox" id="bMoodQuotes" checked />
-      Mood Quotes
-    </label>
+            <label class="checkline" style="margin:0;">
+              <input type="checkbox" id="bMoodQuotes" checked />
+              <span>Mood Quotes</span>
+            </label>
 
-    <label style="display:flex; gap:10px; align-items:center;">
-      <input type="checkbox" id="bIYKYK" />
-      IYKYK
-    </label>
-  </div>
-</div>
+            <label class="checkline" style="margin:0;">
+              <input type="checkbox" id="bIYKYK" />
+              <span>IYKYK</span>
+            </label>
+          </div>
+        </div>
 
-<!-- GENRE BANKS -->
-<div style="margin-top:10px; padding:10px; border:1px solid rgba(255,255,255,.10); border-radius:12px;">
-  <div style="font-size:13px; opacity:.85; margin-bottom:8px;"><b>GENRE</b> (optional boost)</div>
+        <!-- GENRE BANKS -->
+        <div style="margin-top:10px; padding:10px; border:1px solid rgba(255,255,255,.10); border-radius:12px;">
+          <div style="font-size:13px; opacity:.85; margin-bottom:8px;"><b>GENRE</b> (optional boost)</div>
 
-  <div style="display:grid; grid-template-columns:1fr; gap:8px;">
-    <label style="display:flex; gap:10px; align-items:center;">
-      <input type="checkbox" id="gDarkRomance" />
-      Dark Romance
-    </label>
+          <div style="display:grid; grid-template-columns:1fr; gap:8px;">
+            <label class="checkline" style="margin:0;">
+              <input type="checkbox" id="gDarkRomance" />
+              <span>Dark Romance</span>
+            </label>
 
-    <label style="display:flex; gap:10px; align-items:center;">
-      <input type="checkbox" id="gParanormal" />
-      Paranormal Romance
-    </label>
+            <label class="checkline" style="margin:0;">
+              <input type="checkbox" id="gParanormal" />
+              <span>Paranormal Romance</span>
+            </label>
 
-    <label style="display:flex; gap:10px; align-items:center;">
-      <input type="checkbox" id="gThriller" />
-      Thriller / Suspense
-    </label>
+            <label class="checkline" style="margin:0;">
+              <input type="checkbox" id="gThriller" />
+              <span>Thriller / Suspense</span>
+            </label>
 
-    <label style="display:flex; gap:10px; align-items:center;">
-      <input type="checkbox" id="gSoftLife" />
-      Soft Life / Self Care
-    </label>
-  </div>
-</div>
+            <label class="checkline" style="margin:0;">
+              <input type="checkbox" id="gSoftLife" />
+              <span>Soft Life / Self Care</span>
+            </label>
+          </div>
+        </div>
 
         <!-- ACTION BUTTONS -->
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px;">
@@ -333,6 +301,7 @@
     </div>
   </div>
 
+  <!-- IMPORTANT: defer prevents Safari init timing issues -->
   <script src="./app.js?v=1002" defer></script>
 </body>
 </html>
