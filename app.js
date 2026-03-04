@@ -12,6 +12,21 @@ const rnd = (n) => Math.floor(Math.random() * n);
 const pick = (arr) => arr[rnd(arr.length)];
 const uniq = (arr) => Array.from(new Set(arr));
 
+/* =========================================================
+   Vibe → Palette Tag Mapping
+========================================================= */
+
+const vibeTagMap = {
+  "Dark Obsession": ["dark_romance","possession_protocol","morally_gray","after_hours","moody","luxe"],
+  "Kindle After Dark": ["after_hours","dark_romance","neon","bold"],
+  "Elite Dominance": ["luxe","executive","old_money","gold_accent","brand_core","editorial"],
+  "Urban Power": ["urban","gritty","high_contrast","bold"],
+  "Feminine Authority": ["soft_glam","romantic","editorial","pink","bold"],
+  "Soft Luxe": ["soft_glam","neutral","warm","gold_accent","calm"],
+  "Bookish Mood": ["neutral","soft_glam","pastel","calm","minimal"],
+  "Thriller & Noir": ["high_contrast","dramatic","cool_tone","dark","minimal","edgy"]
+};
+
 function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (m) => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
@@ -128,6 +143,24 @@ function fillSelect(id, items, placeholder) {
 
 let ALL_PALETTES_CACHE = null;
 
+function getProductConfig(value) {
+  const products = CFG?.options?.product;
+  if (!Array.isArray(products)) return null;
+  if (products.length && typeof products[0] === "object") {
+    return products.find(p => p?.value === value) || null;
+  }
+  return null;
+}
+
+function getAllPalettesList() {
+  // uses config list first, otherwise paletteData keys
+  const list =
+    (Array.isArray(CFG?.options?.palette) && CFG.options.palette.length)
+      ? CFG.options.palette
+      : Object.keys(CFG?.paletteData || {});
+  return list;
+}
+
 function populateAllOptionsFromConfig() {
   fillSelect("count", ["1","2","3","4","5"], "How many prompts?");
   fillSelect("product", CFG.options.product, "Select product...");
@@ -150,7 +183,12 @@ function populateAllOptionsFromConfig() {
 
   // listeners
   $("palette")?.addEventListener("change", renderPalettePreview);
+  $("product")?.addEventListener("change", updatePaletteOptions);
+  $("vibe")?.addEventListener("change", updatePaletteOptions);
   $("product")?.addEventListener("change", handleProductPaletteLock);
+
+  $("product")?.addEventListener("change", updatePaletteOptions);
+$("vibe")?.addEventListener("change", updatePaletteOptions);
 }
 
 /* =========================================================
@@ -210,6 +248,56 @@ function getSelectedProductObj() {
 function getSelectedProductSubject() {
   const obj = getSelectedProductObj();
   return obj?.mainSubject || v("product") || "";
+}
+
+function paletteHasTags(paletteName, requiredTags) {
+  const tags = CFG?.options?.paletteTags?.[paletteName] || [];
+  if (!requiredTags?.length) return true;
+
+  return requiredTags.some(tag => tags.includes(tag));
+}
+
+function updatePaletteOptions() {
+  const allPalettes =
+    (Array.isArray(CFG?.options?.palette) && CFG.options.palette.length)
+      ? CFG.options.palette
+      : Object.keys(CFG?.paletteData || {});
+
+  const selectedProduct = v("product");
+  const products = CFG?.options?.product || [];
+
+  let paletteList = allPalettes;
+
+  /* PRODUCT PALETTE LOCK */
+  const productConfig =
+    Array.isArray(products) && typeof products[0] === "object"
+      ? products.find(p => p.value === selectedProduct)
+      : null;
+
+  const lockGroup = productConfig?.paletteLock;
+
+  if (lockGroup && CFG?.paletteGroups?.[lockGroup]) {
+    paletteList = CFG.paletteGroups[lockGroup];
+  }
+
+  /* VIBE FILTER */
+  const vibe = v("vibe");
+  const requiredTags = vibeTagMap[vibe] || [];
+
+  if (requiredTags.length) {
+    const filtered = paletteList.filter(p => paletteHasTags(p, requiredTags));
+    if (filtered.length >= 6) paletteList = filtered;
+  }
+
+  const current = v("palette");
+
+  fillSelect("palette", paletteList, "Select a palette");
+
+  if (paletteList.includes(current)) {
+    setV("palette", current);
+  }
+
+  renderPalettePreview();
 }
 
 function handleProductPaletteLock() {
@@ -331,24 +419,40 @@ function buildOnePrompt(seedIdx = 0) {
   // small seed variation so multiple prompts don't feel copy/paste
   const variationNote = seedIdx ? `VARIATION SEED: ${seedIdx + 1}` : "";
 
-  return [
-    `MAIN SUBJECT: ${productSubject || "sticker subject (choose a product)"}`,
-    quoteText ? `QUOTE:\n${quoteText}` : `QUOTE: (none)`,
-    microLine,
-    `GENRE TONE: ${genre || "—"}`,
-    `VIBE: ${vibe || "—"}`,
-    `PALETTE: ${paletteName || "—"}`,
-    paletteVibe,
-    hexLine,
-    `BACKGROUND: ${background || "—"}`,
-    `BORDER: ${border || "—"}`,
-    `OUTLINE: ${outline || "—"}`,
-    `SPICE: ${spice || "—"}${spiceLabel ? ` (${spiceLabel})` : ""}`,
-    eliteUnlocked ? `ELITE UNLOCK: enabled (extra luxe polish, premium composition, editorial finish)` : "",
-    variationNote,
-    ``,
-    `STYLE NOTES: clean sticker-ready design, bold readable composition, no real brand logos, no copyrighted characters, crisp edges, print-friendly, high contrast, vector-clean where possible.`,
-  ].filter(Boolean).join("\n");
+  const textBlock = quoteText
+  ? (useDialogue
+      ? `Text (stacked cinematic exchange, keep line breaks):\n${quoteText}`
+      : `Text to render (exact wording): "${quoteText}"`)
+  : `Text: none`;
+
+const styleNotes = [
+  "die-cut sticker design",
+  "bold clean composition",
+  "high contrast",
+  "crisp edges",
+  "print-ready",
+  "no real brand logos",
+  "no copyrighted characters",
+  "no watermark",
+].join(", ");
+
+const paletteLine = palette?.hex?.length
+  ? `Color palette: ${palette.hex.join(", ")}`
+  : (paletteName ? `Color palette name: ${paletteName}` : "");
+
+const ideogramPrompt = [
+  `Sticker design: ${productSubject || "sticker subject"}.`,
+  `Genre vibe: ${genre || "—"}; vibe: ${vibe || "—"}; spice: ${spice || "—"}${spiceLabel ? ` (${spiceLabel})` : ""}.`,
+  paletteLine,
+  palette?.vibe ? `Palette mood: ${palette.vibe}.` : "",
+  `Background: ${background || "transparent"}.`,
+  `Border: ${border || "white border"}; Outline: ${outline || "bold outline"}.`,
+  textBlock,
+  `Typography: bold centered sticker lettering, highly readable.`,
+  `Style: ${styleNotes}.`,
+].filter(Boolean).join("\n");
+
+return ideogramPrompt;
 }
 
 /* =========================================================
