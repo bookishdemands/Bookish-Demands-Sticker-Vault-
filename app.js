@@ -197,7 +197,7 @@ function populateAllOptionsFromConfig() {
   $("palette").addEventListener("change", renderPalettePreview);
 }
   renderPalettePreview();
-  fillSelect("palette", paletteItems, "Select palette...");
+  fillSelect("palette", paletteItems, "Select a palette");
   fillSelect("background", CFG.options.background, "Select background...");
   fillSelect("border", CFG.options.border, "Select border...");
   fillSelect("outline", CFG.options.outline, "Select outline...");
