@@ -3,6 +3,7 @@ alert("app.js loaded ✅");
 let CFG = null;
 
 const $ = (id) => document.getElementById(id);
+const s = $; // ✅ alias because the rest of this file uses s("id")
 const v = (id) => ($(id)?.value ?? "");
 const setV = (id, val) => { const el = $(id); if (el) el.value = val; };
 const c = (id) => !!($(id)?.checked);
@@ -18,50 +19,81 @@ function escapeHtml(str) {
   }[m]));
 }
 
-function getSelectedPaletteObj() {
-  const selected = v("palette");
+/* =========================================================
+   ✅ Palette preview (SINGLE source of truth)
+   - Prefers CFG.paletteData (new system)
+   - Falls back to legacy CFG.options.palette objects
+========================================================= */
+function getPaletteEntry(paletteName) {
+  if (!paletteName) return null;
+
+  // Preferred: paletteData object (name -> {hex:[], vibe:""})
+  if (CFG?.paletteData && CFG.paletteData[paletteName]) {
+    const p = CFG.paletteData[paletteName];
+    return {
+      name: paletteName,
+      hex: Array.isArray(p.hex) ? p.hex : [],
+      vibe: p.vibe || ""
+    };
+  }
+
+  // Fallback: legacy options.palette as array of objects with .name/.hex
   const list = CFG?.options?.palette || [];
-
-  const obj = list.find(p => (p?.name === selected));
-  if (obj) return obj;
-
-  if (typeof selected === "string" && selected) {
-    return { name: selected, label: selected, hex: [] };
+  if (Array.isArray(list)) {
+    const obj = list.find(x => (x?.name === paletteName));
+    if (obj) {
+      return {
+        name: obj.label || obj.name || paletteName,
+        hex: Array.isArray(obj.hex) ? obj.hex : [],
+        vibe: obj.vibe || obj.collection || ""
+      };
+    }
   }
 
   return null;
 }
 
 function renderPalettePreview() {
-  const box = $("palettePreview");
-  if (!box) return;
+  const preview = $("palettePreview");
+  if (!preview) return;
 
-  const pal = getSelectedPaletteObj();
-  if (!pal || !pal.name) {
-    box.innerHTML = `<div class="meta">Select a palette to preview.</div>`;
+  const paletteName = v("palette");
+  const entry = getPaletteEntry(paletteName);
+
+  if (!entry) {
+    preview.innerHTML = `<div class="meta">Select a palette to preview.</div>`;
     return;
   }
 
-  const hexes = Array.isArray(pal.hex) ? pal.hex : [];
-  const label = pal.label || pal.name;
+  const swatches = (entry.hex || [])
+    .map(h => `<span class="swatch" title="${escapeHtml(h)}" style="background:${escapeHtml(h)}"></span>`)
+    .join("");
 
-  const swatchesHtml = hexes.length
-    ? `<div class="swatches">${
-        hexes.map(h => `<div class="swatch" title="${h}" style="background:${h};"></div>`).join("")
-      }</div>`
-    : `<div class="meta">No hex codes found for this palette.</div>`;
+  const hexLine = (entry.hex || []).join(" ");
 
-  const hexLine = hexes.length ? hexes.join("  ") : "";
-
-  box.innerHTML = `
-    <div class="top">
-      <div>
-        <div class="name">${escapeHtml(label)}</div>
-        ${pal.collection ? `<div class="meta">${escapeHtml(pal.collection)}</div>` : ``}
+  // If no hexes, show message
+  if (!entry.hex || !entry.hex.length) {
+    preview.innerHTML = `
+      <div class="palette-preview top">
+        <div>
+          <div class="name">${escapeHtml(entry.name)}</div>
+          <div class="meta">${escapeHtml(entry.vibe || "")}</div>
+        </div>
       </div>
-      ${hexLine ? `<div class="hex">${escapeHtml(hexLine)}</div>` : ``}
+      <div class="meta">No hex codes found for this palette.</div>
+    `;
+    return;
+  }
+
+  preview.innerHTML = `
+    <div class="palette-preview top">
+      <div>
+        <div class="name">${escapeHtml(entry.name)}</div>
+        <div class="meta">${escapeHtml(entry.vibe || "")}</div>
+      </div>
+      <div class="swatches">${swatches}</div>
     </div>
-    ${swatchesHtml}
+    <div class="hex">${escapeHtml(hexLine)}</div>
   `;
 }
 
@@ -85,7 +117,7 @@ async function loadConfig() {
     );
   }
 
-  // SAFETY: If you moved palettes into paletteGroups, rebuild options.palette automatically
+  // SAFETY: If you moved palettes into paletteGroups, rebuild options.palette automatically (legacy support)
   if (CFG?.paletteGroups && (!CFG?.options?.palette || !CFG.options.palette.length)) {
     const all = Object.values(CFG.paletteGroups).flat().filter(Boolean);
     CFG.options = CFG.options || {};
@@ -96,7 +128,8 @@ async function loadConfig() {
     "CFG ✅ " + (CFG?.meta?.version || "?") +
     "\nkeys: " + Object.keys(CFG?.options || {}).join(", ") +
     "\nproduct len: " + (CFG?.options?.product?.length || 0) +
-    "\npalette len: " + (CFG?.options?.palette?.length || 0)
+    "\npaletteData len: " + (CFG?.paletteData ? Object.keys(CFG.paletteData).length : 0) +
+    "\nlegacy palette len: " + (CFG?.options?.palette?.length || 0)
   );
 }
 
@@ -104,68 +137,22 @@ function fillSelect(id, items, placeholder) {
   const sel = $(id);
   if (!sel) return;
 
-  // === PALETTE PREVIEW (reads CFG.paletteData) ===
-function getPaletteEntry(paletteName) {
-  if (!paletteName) return null;
-
-  // Option A: paletteData object (preferred)
-  if (CFG?.paletteData && CFG.paletteData[paletteName]) {
-    return {
-      name: paletteName,
-      hex: CFG.paletteData[paletteName].hex || [],
-      vibe: CFG.paletteData[paletteName].vibe || ""
-    };
-  }
-
-  return null;
-}
-
-function renderPalettePreview() {
-  const preview = $("palettePreview");
-  if (!preview) return;
-
-  const paletteName = $("palette")?.value;
-  const entry = getPaletteEntry(paletteName);
-
-  if (!entry) {
-    preview.innerHTML = `<div class="meta">Select a palette to preview.</div>`;
-    return;
-  }
-
-  const swatches = (entry.hex || [])
-    .map(h => `<span class="swatch" title="${h}" style="background:${h}"></span>`)
-    .join("");
-
-  const hexLine = (entry.hex || []).join(" ");
-
-  preview.innerHTML = `
-    <div class="palette-preview top">
-      <div>
-        <div class="name">${entry.name}</div>
-        <div class="meta">${entry.vibe || ""}</div>
-      </div>
-      <div class="swatches">${swatches}</div>
-    </div>
-    <div class="hex">${hexLine}</div>
-  `;
-}
-  
   sel.innerHTML = "";
 
   const o0 = document.createElement("option");
   o0.value = "";
-  o0.textContent = placeholder;
+  o0.textContent = placeholder || "Select…";
   sel.appendChild(o0);
 
   (items || []).forEach((item) => {
     const opt = document.createElement("option");
 
     const isString = (typeof item === "string");
-  const val = isString ? item : (item.value ?? item.name ?? item.label ?? "");
-  const label = isString ? item : (item.label ?? item.name ?? item.value ?? val);
+    const val = isString ? item : (item.value ?? item.name ?? item.label ?? "");
+    const label = isString ? item : (item.label ?? item.name ?? item.value ?? val);
 
-  opt.value = val;
-  opt.textContent = label;
+    opt.value = val;
+    opt.textContent = label;
 
     sel.appendChild(opt);
   });
@@ -190,14 +177,19 @@ function populateAllOptionsFromConfig() {
   fillSelect("product", CFG.options.product, "Select product...");
   fillSelect("genreTone", CFG.options.genreTone, "Select genre...");
   fillSelect("vibe", CFG.options.vibe, "Select vibe...");
+
+  // ✅ Build palette list FIRST, fill the select FIRST, then attach listener, then render preview
   const paletteItems = CFG?.paletteData
-  ? Object.keys(CFG.paletteData)
-  : getAllPalettes();
-  if ($("palette")) {
-  $("palette").addEventListener("change", renderPalettePreview);
-}
-  renderPalettePreview();
+    ? Object.keys(CFG.paletteData)
+    : getAllPalettes();
+
   fillSelect("palette", paletteItems, "Select a palette");
+
+  if ($("palette")) {
+    $("palette").addEventListener("change", renderPalettePreview);
+  }
+  renderPalettePreview();
+
   fillSelect("background", CFG.options.background, "Select background...");
   fillSelect("border", CFG.options.border, "Select border...");
   fillSelect("outline", CFG.options.outline, "Select outline...");
@@ -211,6 +203,9 @@ function applyDefaults() {
   Object.entries(d).forEach(([key, val]) => {
     if ($(key)) setV(key, val);
   });
+
+  // After defaults apply, refresh preview (in case palette default exists)
+  renderPalettePreview();
 }
 
 function getSelectedProductMainSubject() {
@@ -261,15 +256,15 @@ function buildQuotePool() {
     if ($("bMoodQuotes") && c("bMoodQuotes")) pool.push(...(banks.mood_quotes || []));
     if ($("bIYKYK") && c("bIYKYK")) pool.push(...(banks.iykyk || []));
 
-    // ✅ Even in checkbox mode, we still allow vibe-based boosts (so DBE triggers work)
+    // ✅ Even in checkbox mode, we still allow vibe-based boosts
     bankKeysFromVibe(vibe).forEach(k => pool.push(...(banks[k] || [])));
 
   } else {
-    // No bank UI? Then we do smart automatic pooling:
+    // Smart automatic pooling
     const genreKey = bankKeyFromGenre(genre);
     pool.push(...(banks[genreKey] || []));
 
-    // ✅ Vibe boosts (includes DBE)
+    // ✅ Vibe boosts
     bankKeysFromVibe(vibe).forEach(k => pool.push(...(banks[k] || [])));
   }
 
@@ -302,7 +297,7 @@ function generateDialogue() {
   const pairing = v("dialoguePairing") || "MF";
   const vibeVal = v("vibe");
 
-  // UI tone select (if you don't have it yet, this defaults to "flirty")
+  // UI tone select
   const tone = (v("dialogueTone") || "flirty").toLowerCase(); // flirty | soft | argument | threatening
 
   const theme = dialogueThemeFromVibe(vibeVal);
@@ -311,7 +306,7 @@ function generateDialogue() {
   const a = pairing[0]; // "M" or "F"
   const b = pairing[1]; // "M" or "F"
 
-  // Pull tone pools (NEW structure)
+  // Pull tone pools
   const aPool = (bank[a] && bank[a][tone]) ? bank[a][tone] : [];
   const bPool = (bank[b] && bank[b][tone]) ? bank[b][tone] : [];
 
@@ -372,8 +367,8 @@ function buildPromptOnce() {
     spice ? `Spice aesthetic: ${spice}.` : "",
     mainSubject ? `Main subject: ${mainSubject}.` : "Main subject: simple iconic bookish symbol.",
     quote
-  ? `Text requirement: Print the quote EXACTLY as written ON the product itself (on the main label panel of the main subject). The quote must be integrated into the product design — NOT on a separate banner, ribbon, plaque, or floating below the product. Quote text: “${quote}”.`
-  : "",
+      ? `Text requirement: Print the quote EXACTLY as written ON the product itself (on the main label panel of the main subject). The quote must be integrated into the product design — NOT on a separate banner, ribbon, plaque, or floating below the product. Quote text: “${quote}”.`
+      : "",
     "Typography: clear legible typography, centered composition, bold high-contrast text, no distorted letters.",
     "Original design, no trademarks, no brand logos, no watermark."
   ].filter(Boolean).join(" ");
@@ -411,59 +406,47 @@ function bankKeysFromVibe(vibe) {
   const s = (vibe || "").toLowerCase();
   const keys = [];
 
-  // --- Condensed vibe routing (uses YOUR quoteBanks names) ---
-
-  // 1) Elite Dominance = wealthy/unhinged/DBE lane
+  // 1) Elite Dominance
   if (s.includes("elite dominance")) {
-  // 75% chance to activate elite dominance
-  if (Math.random() < 0.75) {
-    keys.push("elite_dominance_lane");
+    if (Math.random() < 0.75) keys.push("elite_dominance_lane");
+    if (Math.random() < 0.25) keys.push("dark_romance");
   }
 
-  // 25% subtle unpredictability (optional luxury chaos)
-  if (Math.random() < 0.25) {
-    keys.push("dark_romance");
-  }
-}
-
-  // 2) Dark Obsession = dark romance + mood (heavy tension)
+  // 2) Dark Obsession
   if (s.includes("dark obsession")) {
     keys.push("dark_romance", "mood_quotes");
   }
 
-  // 3) Urban Power = power couple + (optional) mood
+  // 3) Urban Power
   if (s.includes("urban power")) {
     keys.push("urban_power_couple");
   }
 
-  // 4) Feminine Authority = boss woman + girly feminine (both)
+  // 4) Feminine Authority
   if (s.includes("feminine authority")) {
     keys.push("boss_woman_energy", "girly_feminine_energy");
   }
 
-  // 5) Soft Luxe = self care + general bookish calm
+  // 5) Soft Luxe
   if (s.includes("soft luxe")) {
     keys.push("soft_life_self_care", "general_urban_bookish");
   }
 
-  // 6) Bookish Mood = general + mood + iykyk (viral sticker energy)
+  // 6) Bookish Mood
   if (s.includes("bookish mood")) {
     keys.push("general_urban_bookish", "mood_quotes", "iykyk");
   }
 
-  // 7) Thriller & Noir = thriller + mood (suspensey)
+  // 7) Thriller & Noir
   if (s.includes("thriller") || s.includes("noir")) {
     keys.push("thriller", "mood_quotes");
   }
 
-  // --- OPTIONAL: if you still want BDE as a “hidden add-on” when needed ---
-  // If you want BDE to ONLY show when you explicitly select “BDE Energy”,
-  // keep BDE as its own vibe in the dropdown instead of this.
+  // Optional: BDE
   if (s.includes("bde")) {
     keys.push("bde_energy");
   }
 
-  // remove duplicates
   return [...new Set(keys)];
 }
 
@@ -487,54 +470,41 @@ function bankKeyToCheckboxId(bankKey) {
     general_urban_bookish: "bGeneralUrbanBookish",
     mood_quotes: "bMoodQuotes",
     iykyk: "bIYKYK"
-    // NOTE: you don't currently have checkboxes for dark_romance/paranormal/etc
-    // so we route those through mood/general depending on your UI.
   };
   return map[bankKey] || null;
 }
 
-// Pick 1–2 banks, smarter, without checking everything
 function smartPickBanksFromSelections() {
   const genre = v("genreTone");
   const vibe = v("vibe");
 
-  // Start with genre-based intent
   const genreKey = bankKeyFromGenre(genre);
 
-  // Because your UI only has 3 bank checkboxes, “route” genre intent:
-  // - dark/paranormal/thriller → Mood Quotes (best “genre-ish” you have)
-  // - urban → General Urban Bookish
-  // - soft → Mood Quotes (until you add a soft-life checkbox)
   let primaryBankCheckbox = null;
-
   if (genreKey === "general_urban_bookish") primaryBankCheckbox = "bGeneralUrbanBookish";
   else primaryBankCheckbox = "bMoodQuotes";
 
-  // Secondary bank based on vibe
   let secondaryBankCheckbox = null;
   const vibeLower = (vibe || "").toLowerCase();
 
   if (vibeLower.includes("iykyk")) secondaryBankCheckbox = "bIYKYK";
   else if (vibeLower.includes("kindle")) secondaryBankCheckbox = "bMoodQuotes";
   else {
-    // optional: small chance to add Mood as a spice booster if primary isn't mood
     if (primaryBankCheckbox !== "bMoodQuotes" && Math.random() < 0.35) secondaryBankCheckbox = "bMoodQuotes";
   }
 
-  // Deduplicate
   const picked = [primaryBankCheckbox, secondaryBankCheckbox].filter(Boolean);
   return Array.from(new Set(picked));
 }
 
 function smartGenreCheckboxFromGenreTone(genreTone) {
   const key = bankKeyFromGenre(genreTone);
-  // Map genre bank key -> checkbox id
   const map = {
     dark_romance: "gDarkRomance",
     paranormal: "gParanormal",
     thriller: "gThriller",
     soft_life_self_care: "gSoftLife",
-    general_urban_bookish: null, // genreTone=urban handled by CORE
+    general_urban_bookish: null,
     mood_quotes: null
   };
   return map[key] || null;
@@ -550,14 +520,13 @@ function setPaletteSmartForSelectedProduct() {
   const p = getSelectedProductObj();
   const lock = p?.paletteLock;
 
-  // If no lock, do nothing (palette stays random as usual)
   if (!lock) return;
 
   const group = CFG?.paletteGroups?.[lock];
   if (!Array.isArray(group) || !group.length) return;
 
-  // Pick from the locked group only
   setV("palette", pick(group));
+  renderPalettePreview(); // ✅ refresh preview after forced palette pick
 }
 
 function randomizeAll() {
@@ -572,6 +541,9 @@ function randomizeAll() {
   setSelectToRandom("border");
   setSelectToRandom("outline");
   setSelectToRandom("spice");
+
+  // refresh palette preview after random changes
+  renderPalettePreview();
 
   // quote system ON for randomize
   if (s("useRandomQuote")) setC("useRandomQuote", true);
@@ -619,30 +591,25 @@ function randomizeAll() {
 
   // ✅ Randomize Dialogue controls (only if dialogue mode is ON)
   if (s("useDialogueMode") && s("useDialogueMode").checked) {
-    // Random tone slider 0–3
     const tone = String(Math.floor(Math.random() * 4));
     setV("toneSlider", tone);
 
     const toneNames = ["Flirty", "Threatening", "Soft", "Argument"];
     if (s("toneLabel")) s("toneLabel").textContent = toneNames[Number(tone)] || "Flirty";
 
-    // Random line count 4–6
     const lines = String(4 + Math.floor(Math.random() * 3));
     setV("dialogueLines", lines);
 
-    // Random pairing
     if (s("dialoguePairing")) {
       const pairings = ["MF","FM","MM","FF"];
       setV("dialoguePairing", pairings[Math.floor(Math.random() * pairings.length)]);
     }
 
-    // Random dialogue tone dropdown
     if (s("dialogueTone")) {
       const tones = ["flirty","soft","argument","threatening"];
       setV("dialogueTone", tones[Math.floor(Math.random() * tones.length)]);
     }
 
-    // Optional: sometimes swap speakers
     if (Math.random() < 0.35 && s("speakerA") && s("speakerB")) {
       const a = s("speakerA").value;
       const b = s("speakerB").value;
@@ -654,7 +621,7 @@ function randomizeAll() {
   generate();
 }
 
-  function clearAll() {
+function clearAll() {
   // reset selects to placeholder
   ["count","product","genreTone","vibe","palette","background","border","outline","spice"]
     .forEach(id => { if (s(id)) setV(id, ""); });
@@ -673,7 +640,7 @@ function randomizeAll() {
   // genre boosts
   ["gDarkRomance","gParanormal","gThriller","gSoftLife"].forEach(id => { if (s(id)) setC(id, false); });
 
-  // ✅ Dialogue Mode reset (MATCH your index.html IDs)
+  // Dialogue Mode reset
   if (s("useDialogueMode")) setC("useDialogueMode", false);
 
   if (s("dialoguePairing")) setV("dialoguePairing", "MF");
@@ -687,6 +654,7 @@ function randomizeAll() {
 
   if (s("dialogueLines")) setV("dialogueLines", "5");
 
+  renderPalettePreview();
   generate();
 }
 
