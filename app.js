@@ -146,6 +146,36 @@ async function loadConfig() {
     );
   }
 
+    // ✅ If you provided paletteCatalog (array of {bookishName, hex, vibe...}),
+  // auto-build paletteData + options.palette from it.
+  if (Array.isArray(CFG?.paletteCatalog) && CFG.paletteCatalog.length) {
+    CFG.paletteData = CFG.paletteData || {};
+    CFG.paletteNameMap = CFG.paletteNameMap || {};
+    CFG.options = CFG.options || {};
+    CFG.options.palette = CFG.options.palette || [];
+
+    for (const p of CFG.paletteCatalog) {
+      const bookish = (p.bookishName || "").trim();
+      const original = (p.originalName || "").trim();
+      const hex = Array.isArray(p.hex) ? p.hex : [];
+      const vibe = p.vibe || "";
+
+      if (bookish) {
+        // paletteData keyed by bookish name (best)
+        CFG.paletteData[bookish] = { hex, vibe };
+
+        // optional mapping bookish -> original (helps if you still reference originals anywhere)
+        if (original) CFG.paletteNameMap[bookish] = original;
+
+        // ensure dropdown includes bookish name
+        CFG.options.palette.push(bookish);
+      }
+    }
+
+    // de-dupe dropdown palette list
+    CFG.options.palette = Array.from(new Set(CFG.options.palette));
+  }
+  
   // SAFETY: If you moved palettes into paletteGroups, rebuild options.palette automatically (legacy support)
   if (CFG?.paletteGroups && (!CFG?.options?.palette || !CFG.options.palette.length)) {
     const all = Object.values(CFG.paletteGroups).flat().filter(Boolean);
@@ -223,21 +253,19 @@ function populateAllOptionsFromConfig() {
   fillSelect("genreTone", CFG.options.genreTone, "Select genre...");
   fillSelect("vibe", CFG.options.vibe, "Select vibe...");
 
-  // ✅ Use options.palette first (this is where your bookish palette names live)
-  const paletteItems = (Array.isArray(CFG?.options?.palette) && CFG.options.palette.length)
+ // ✅ Palette dropdown should use options.palette (bookish list)
+const paletteItems =
+  (Array.isArray(CFG?.options?.palette) && CFG.options.palette.length)
     ? CFG.options.palette
     : (CFG?.paletteData ? Object.keys(CFG.paletteData) : getAllPalettes());
 
-  fillSelect("palette", paletteItems, "Select a palette");
+fillSelect("palette", paletteItems, "Select a palette");
 
-  if ($("palette")) {
-    $("palette").addEventListener("change", renderPalettePreview);
-  }
+// ✅ Ensure preview updates on change
+$("palette")?.addEventListener("change", renderPalettePreview);
 
-  // If default palette is empty, try set a safe first palette
-  if (!v("palette") && paletteItems.length) setV("palette", paletteItems[0]);
-
-  renderPalettePreview();
+// ✅ Render once immediately (after fill + listener)
+renderPalettePreview();
 
   fillSelect("background", CFG.options.background, "Select background...");
   fillSelect("border", CFG.options.border, "Select border...");
