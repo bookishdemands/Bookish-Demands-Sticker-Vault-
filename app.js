@@ -559,6 +559,7 @@ function applyDefaults() {
   handleProductPaletteLock();
 
   renderPalettePreview();
+   updatePaletteOptions();
 }
 
 async function init() {
