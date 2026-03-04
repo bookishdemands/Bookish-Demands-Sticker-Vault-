@@ -136,7 +136,6 @@
     "Do Not Disturb: Plotting": { "hex": ["#D16443","#F3A778","#A15E5B","#4E4855","#A1A09A"], "vibe": "moody" },
     "Morally Grey Kingdom": { "hex": ["#03030E","#0E153C","#2A2578","#5F21B9","#401490"], "vibe": "dark" },
 
-   {
   "Blood Red + Ink Black + Steel": {
     "hex": ["#7D0103", "#0B0B10", "#2C3138", "#C9CDD3", "#7A8794"],
     "vibe": "high contrast noir"
